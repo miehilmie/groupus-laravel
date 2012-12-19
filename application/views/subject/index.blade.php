@@ -1,0 +1,1 @@
+This is the F:\Apache24\vhost\groupus.dev\application\views/subject/index.blade.php view
