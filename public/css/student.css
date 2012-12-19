@@ -1,0 +1,52 @@
+
+.lecturer-announcement, .student-update {
+    width:800px;
+    margin-bottom: 30px;
+}
+.lecturer-announcement .header, .student-update .header {
+    font-weight: bold;
+    line-height: 30px;
+    color:#fff;
+    background:#4466B0;
+    padding:0 15px;
+}
+
+.lecturer-announcement .body, .student-update .body {
+    padding:5px;
+    border:1px solid #909090;
+    height:230px;
+    border-top:none;
+    overflow: auto;
+}
+.announcement-item {
+}
+.announcement-item .item-1 {
+    font-weight: bold;
+    background:#ccccff;
+    line-height: 23px;
+}
+.announcement-item .item-1 .cls {
+    float:left;
+    padding:0 1.2em;
+}
+.announcement-item .item-1 .poster {
+    display:block;
+    padding:0 1.2em;
+    text-align: center;
+}
+.announcement-item .item-1 .time {
+    float:right;
+    padding: 0 1.2em;
+}
+.announcement-item .item-2 {
+    padding:5px 1.2em;
+    height: 47px;
+}
+.pop-container {
+    background:#000;
+    position: absolute;
+    top:0;
+    left:0;
+    width:100%;
+    height:100%;
+}

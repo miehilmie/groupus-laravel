@@ -1,0 +1,92 @@
+.loginpanel {
+   padding-right: 150px;
+}
+#loginform {
+    padding:0 15px;
+    width:511px;
+    float:right;
+}
+#logindata {
+    background:#1E3463;
+}
+#logindata li {
+    color:#fff;
+    float:left;
+    margin:4px 8px;
+}
+#loginform .input {
+    width:130px;
+}
+#loginform .submit {
+    cursor: pointer;
+    border:1px solid #000;
+    border-bottom: 1px solid #4d4d4d;
+    border-left: 1px solid #363636;
+    background:#002166;
+    color:#fff;
+    padding:2px 8px;
+}
+#loginform .submit:hover {
+    color:#c9c9c9;
+    background:#5F76A7;
+    border:#6D6D6D 1px solid;
+    border-bottom: #989898 1px solid;
+}
+.error {
+    text-align: center;
+    padding:6px 0 0 0;
+    font-style: italic;
+    font-size: 12px;
+    color:red; 
+    font-weight: bold;
+}
+#remember {
+    color:#fff;
+    background:#1E3463;
+    padding:0 0 5px 75px;
+}
+#remember label {
+    margin-left:5px;
+    font-size:11px;
+    display:block;
+    float:left;
+}
+#remember input {
+    float:left;
+    padding:0;
+    margin:0;
+}
+.content-grid {
+    margin: 15px 155px;
+}
+.systemann-container {
+   width:350px;
+   height:450px;
+   border: 2px solid #1E3563;
+   padding:15px;
+   background:#F3F4F4;
+   float:left; 
+}
+.systemann {
+    padding:3px 0;
+    border-bottom: 1px solid #989898;
+}
+.systemann .title {
+    font-weight: bold;
+    font-size:20px;
+    color:#1E3463;
+}
+.systemann .postedtime, .systemann .postedtime small {
+    font-size:10px;
+    color:#989898;
+}
+.systemann .postedtime {
+    text-align: right;
+    margin:8px 0;
+    font-weight: bold;
+}
+.peopleimg {
+    background: url('../img/people.png') no-repeat 80% 100%;
+    margin-left: 500px;
+    height:450px;
+}
