@@ -48,25 +48,90 @@ class Home_Controller extends Base_Controller {
 	}
 
 	public function get_signup() {
-		return View::make('home.signup');
+		$u = University::all();
+		$f = (Input::old('university') !== NULL && Input::old('university') !== 'none') ? Faculty::find(Input::old('university'))->get() : array();
+
+		return View::make('home.signup')->with(
+			array(
+				'universities' => $u,
+				'faculties' => $f,
+			));
 	}
 
 	public function post_signup() {
-		$input = Input::all();
+		// get all inputs
+		$input = Input::get();
+
+		// define validation rules
 		$rules = array(
-			'username' => 'required|email',
+			'username' => 'required|email|unique:users',
 			'name' => 'required',
 			'password' => 'required|same:password2',
+			'agree' => 'required'
 		);
+
+		// custom message
 		$messages = array(
 		    'email' => 'The :attribute field must be in email format.',
 		    'same' => 'Password must match.'
 		);
+		//@todo
+		// usertype additional condition
+		switch(Input::get('usertype'))
+		{
+			// student
+			case 1:
+				$r = array(
+					'cgpa' => 'required'
+				);
+			break;
+			// lecturer
+			case 2:
+				$r = array();
+			break;
+
+		}
+		$rules = array_merge($rules, $r);
+
+		// validation
 		$validation = Validator::make($input,$rules, $messages);
 		if($validation->fails()) {
 			return Redirect::to('signup')->with_errors($validation)->with_input();
 		}
-		return Redirect::to('signup');
+		$user = new User(array(
+			'username' => $input['username'],
+			'name' => $input['name'],
+			'password' => Hash::make($input['password']),
+			'gender_id' => $input['gender'],
+			'usertype_id' => $input['usertype'],
+			'university_id' => $input['university']
+		));
+
+		$user->save();
+
+		// insert sub table
+		switch(Input::get('usertype'))
+		{
+			// student
+			case 1:
+				$student = new Student(array(
+					'cgpa' => $input['cgpa'],
+					'distance_f_c' => $input['dfc']
+				));
+				$user->student()->insert($student);
+
+			break;
+			//@todo: add lecturer field
+			// lecturer
+			case 2:
+				$lecturer = new Lecturer(array(
+				));
+				$user->lecturer()->insert($lecturer);
+			break;
+
+		}
+
+		return Redirect::to('signup')->with('success','Registration is successful!');
 	}
 
 }

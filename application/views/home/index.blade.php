@@ -5,7 +5,7 @@
 @endsection
 
 @section('nav')
-            <div class="loginpanel clearfix">:
+            <div class="loginpanel clearfix">
                 {{ Form::open('login','POST', array('id' => 'loginform')) }}
                     <ul id="logindata" class="clearfix">
 

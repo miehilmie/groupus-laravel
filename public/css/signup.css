@@ -7,7 +7,13 @@
     color:#C71313;
     padding:10px 15px;
 }
-#register-error p {
+#register-success {
+    background:#97FF84;
+    border: 2px solid #35B016;
+    color:#35B016;
+    padding:10px 15px;
+}
+#register-error p, #register-success p {
     margin:5px 0;
 }
 #register-info .submitpanel {
@@ -31,4 +37,7 @@
     background:#5F76A7;
     border:#6D6D6D 1px solid;
     border-bottom: #989898 1px solid;
+}
+label[for=lblTerm] {
+    cursor: pointer;
 }

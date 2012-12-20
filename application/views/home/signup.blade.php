@@ -19,6 +19,12 @@
             {{ $e }}
             @endforeach
         </div>
+
+    @endif
+    @if($success = Session::get('success'))
+    <div id="register-success">
+        <p>{{ $success }}</p>
+    </div>
     @endif
     <div id="register-info">
         <h1>Registration</h1>
@@ -43,18 +49,22 @@
                         {{ Form::radio('usertype', '2', (Input::old('usertype') === '2') ? true : false) }}
                         <label>Lecturer</label></td></tr>
                 <tr><td><label>University: </label></td><td>
-                        <select name="university">
-                            <option value="none" <?php echo (!isset($_POST['university'])) ? 'selected=selected' : (($_POST['university'] == 'none') ? 'selected=selected' : ''); ?>>-- Select University --</option>
-                            @if(isset($universities))
-
-                            <?php foreach($universities as $u): ?>
-                                <option value="<?php echo $u->id; ?>" <?php echo (!isset($_POST['university'])) ? '' : (($_POST['university'] == $u->id) ? 'selected=selected' : ''); ?>><?php echo $u->name; ?> (<?php echo $u->abbrevation; ?>)</option>
-                            <?php endforeach; ?>
-                            @endif
+                        <select id="selUniversity" name="university">
+                            <option value="none" {{ (Input::old('university', 'none') == 'none') ? 'selected=selected' : '' }}>-- Select University --</option>
+                            @foreach($universities as $u)
+                                <option value="{{ $u->id }}" {{ (Input::old('university') == $u->id) ? 'selected=selected' : '' }}>{{ $u->name }} ({{ $u->abbrevation }})</option>
+                            @endforeach
+                        </select></td></tr>
+                <tr><td><label>Faculty: </label></td><td>
+                        <select id="selFaculty" name="faculty">
+                            <option value="none" {{ (Input::old('faculty', 'none') == 'none') ? 'selected=selected' : '' }}>-- Select Faculty --</option>
+                            @foreach($faculties as $f)
+                                <option value="{{ $f->id }}" {{ (Input::old('faculty') == $f->id) ? 'selected=selected' : '' }}>{{ $f->name }} ({{ $f->abbrevation }})</option>
+                            @endforeach
                         </select></td></tr>
             </table>
             </fieldset>
-            <fieldset class="info-wrapper" data="1">
+            <fieldset class="info-wrapper" {{ (Input::old('usertype') == 2) ? 'style="display:none;"' : ''}} data="1">
                 <legend>Student Information:</legend>
                 <table>
                     <tr><td><label>CGPA: </label></td><td><input style="width:100px" type="text" name="cgpa" value="" /></td></tr>
@@ -67,8 +77,12 @@
                             </select></td></tr>
                 </table>
             </fieldset>
-            <fieldset class="info-wrapper" style="display:none;" data="2">
+            <fieldset class="info-wrapper" {{ (Input::old('usertype') != 2) ? 'style="display:none;"' : ''}} data="2">
                 <legend>Lecturer Information:</legend>
+            </fieldset>
+            <br />
+            <fieldset>
+                <input id="lblTerm" name="agree" type="checkbox"><label for="lblTerm">I Agree with the terms and conditions</label>
             </fieldset>
             <div class="submitpanel"><input class="submit" type="submit" value="Submit" /></div>
         </fieldset>

@@ -20,6 +20,15 @@ Route::get('setting', 'users@setting');
 // install
 Route::get('install', 'install@install');
 
+// AJAX route
+Route::get('ajax/universities/(:any)/faculties', function($id) {
+	if($id == 'none') {
+		return json_encode(array('err' => true));
+	}
+	
+	$f = University::find($id)->faculties()->get();
+	return eloquent_to_json($f);
+});
 
 // test
 Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'subject', 'uses' => 'subjects@show'));
