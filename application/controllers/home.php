@@ -49,7 +49,7 @@ class Home_Controller extends Base_Controller {
 
 	public function get_signup() {
 		$u = University::all();
-		$f = (Input::old('university', 'none') === 'none') ? Faculty::find(Input::old('university'))->get() : array();
+		$f = (Input::old('university', 'none') !== 'none') ? Faculty::find(Input::old('university'))->get() : array();
 
 		return View::make('home.signup')->with(
 			array(
