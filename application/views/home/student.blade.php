@@ -74,8 +74,8 @@
 			                </li>
 			                <li class="bubble-item">
 			                    <ul>
-			                    	@forelse ($subjects as $s => $v)
-			                    		<li>{{  HTML::link_to_route('subject', $s, array($v)) }}</li>
+			                    	@forelse ($subjects as $s)
+			                    		<li>{{  HTML::link_to_route('subject', $s->name, array($s->id)) }}</li>
 			                    	@empty
 			                    		<li><span>No Subject<span></li>
 			                    	@endforelse

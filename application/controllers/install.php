@@ -43,7 +43,8 @@ class Install_Controller extends Base_Controller {
 	private function insert_student() {
 		if( !User::where_username('miebaik')->first() )
 		{
-			$u = University::where_abbrevation('MMU')->first();
+			$university_id = University::where_abbrevation('MMU')->only('id');
+			$faculty_id = Faculty::where_abbrevation('FCI')->only('id');
 			$usertype_id = Usertype::where_type('Student')->only('id');
 			$gender_id = Gender::where_gender('Male')->only('id');
 
@@ -51,19 +52,24 @@ class Install_Controller extends Base_Controller {
 				'username' => 'miebaik',
 				'password' => Hash::make('testing'),
 				'name' => 'Muhammad Hilmi',
+				'university_id' => $university_id,
+				'faculty_id' => $faculty_id,
 				'usertype_id' => $usertype_id,
 				'gender_id' => $gender_id
 			));
+
+			$user->save();
+
 			$student = new Student(array(
 				'cgpa' => 3.33,
 				'distance_f_c' => 1
 			));
-			$u->users()->insert($user);
 			$user->student()->insert($student);
 		}
 		if( !User::where_username('miehilmie')->first() )
 		{
-			$u = University::where_abbrevation('MMU')->first();
+			$university_id = University::where_abbrevation('MMU')->only('id');
+			$faculty_id = Faculty::where_abbrevation('FCI')->only('id');
 			$usertype_id = Usertype::where_type('Lecturer')->only('id');
 			$gender_id = Gender::where_gender('Male')->only('id');
 
@@ -71,12 +77,15 @@ class Install_Controller extends Base_Controller {
 				'username' => 'miehilmie',
 				'password' => Hash::make('testing'),
 				'name' => 'Muhammad Hilmie',
+				'university_id' => $university_id,
+				'faculty_id' => $faculty_id,
 				'usertype_id' => $usertype_id,
 				'gender_id' => $gender_id
 			));
+
+			$user->save();
 			$lecturer = new Lecturer(array(
 			));
-			$u->users()->insert($user);
 			$user->lecturer()->insert($lecturer);
 		}
 	}

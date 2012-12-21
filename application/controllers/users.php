@@ -38,25 +38,5 @@ class Users_Controller extends Base_Controller {
     {
 
     }
-    
-    // show logged in user profile
-    public function get_profile() {
-        $u = Auth::user();
-        $fac = $u->faculty()->first();
-        $uni = $u->university()->only('name');
-        dd($fac);
-        return View::make('user.profile')
-            ->with(array(
-                'name' => $u->name,
-                'phone' => $u->username,
-                'faculty' => $fac,
-                'university' => $uni
-            ));
-    }
-
-    // show logged in user setting
-    public function get_setting() {
-        return View::make('user.setting');
-    }
-
+   
 }

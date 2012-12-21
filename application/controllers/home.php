@@ -10,9 +10,6 @@ class Home_Controller extends Base_Controller {
 			return View::make('home.index');
 		
 		if( $u->usertype_id === Usertype::where_type('Student')->only('id') )
-			
-
-
 			return View::make('home.student')->with(
 				array(
 					'name' => Auth::user()->name,
@@ -22,8 +19,17 @@ class Home_Controller extends Base_Controller {
 					'updates' => array()
 				) 
 			);
+
 		else if( $u->usertype_id === Usertype::where_type('Lecturer')->only('id') )
-			return 'Logged in lecturer'; // @todo: add lecturer view
+			return View::make('home.lecturer')->with(
+				array(
+					'name' => Auth::user()->name,
+					'announcements' => array(), // @todo: add announcements
+					'subjects' => array('TCP1234' => 1,'TCS2111' => 2), // @todo: add subjects
+					'messages' => array(), // @todo: add messages
+					'updates' => array()
+				) 
+			);
 
 	}
 

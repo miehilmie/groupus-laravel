@@ -1,5 +1,8 @@
 (function(){
-    $.fn.leftToggler = function(option){
+    /**
+    *   Author: Muhammad Hilmi
+    **/
+    $.fn.bubbleToggle = function(option){
         return this.each(function(i,el) {
             var base = el, $base = $(el);
             var a = {
@@ -45,6 +48,6 @@
     }
     
     $(document).ready(function() {
-        $('.lefttoggler').leftToggler();
+        $('.bubbleTrigger').bubbleToggle();
     });
 })();

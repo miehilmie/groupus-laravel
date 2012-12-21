@@ -13,9 +13,9 @@ Route::post('signup', array('as' => 'create_signup', 'uses' => 'home@signup'));
 Route::post('login', array('before' => 'csrf', 'as' => 'login', 'uses' => 'home@login'));
 
 // user resource
-Route::get('profile', array('before' => 'auth','uses' => 'users@profile'));
+Route::get('profile', array('before' => 'auth','uses' => 'profile@index'));
 Route::get('users/(:any)','users@show');
-Route::get('setting', 'users@setting');
+Route::get('setting', 'setting@index');
 
 // install
 Route::get('install', 'install@install');
