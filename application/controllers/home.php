@@ -8,31 +8,42 @@ class Home_Controller extends Base_Controller {
 	{
 		if( is_null($u = Auth::user()) )
 			return View::make('home.index');
-		
-		if( $u->usertype_id === Usertype::where_type('Student')->only('id') )
+
+		$semester_id = $u->university()->first()->only('semester_id');
+
+		switch( $u->usertype_id ) {
+			// student
+			case Usertype::where_type('Student')->only('id'):
 			return View::make('home.student')->with(
 				array(
-					'name' => Auth::user()->name,
+					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'subjects' => array('TCP1234' => 1,'TCS2111' => 2), // @todo: add subjects
+					'subjects' => $u->student()->first()->subjects()->where('semester_id','=', $semester_id)->get(),
 					'messages' => array(), // @todo: add messages
 					'updates' => array()
 				) 
 			);
-
-		else if( $u->usertype_id === Usertype::where_type('Lecturer')->only('id') )
+			break;
+			// lecturer
+			case Usertype::where_type('Lecturer')->only('id'):
 			return View::make('home.lecturer')->with(
 				array(
-					'name' => Auth::user()->name,
+					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'subjects' => array('TCP1234' => 1,'TCS2111' => 2), // @todo: add subjects
+					'subjects' => $u->subjects()->get(), // @todo: add subjects
 					'messages' => array(), // @todo: add messages
 					'updates' => array()
 				) 
 			);
+			break;
+
+
+		};
 
 	}
-
+	/***
+	 *	login
+	**/
 	public function post_login() {
 		$remember = Input::get('remember');
 		$credential = array(
@@ -46,13 +57,18 @@ class Home_Controller extends Base_Controller {
 
 		return Redirect::to_route('home')->with('status', 'Invalid username or password')->with_input();
 	}
-
+	/***
+	 *	logout
+	**/
 	public function get_logout() {
 		Auth::logout();
 
 		return Redirect::to_route('home');
 	}
-
+	/***
+	 *	GET : signup
+	 *	Show signup form
+	**/
 	public function get_signup() {
 		$u = University::all();
 		$f = (Input::old('university', 'none') !== 'none') ? Faculty::find(Input::old('university'))->get() : array();
@@ -64,6 +80,10 @@ class Home_Controller extends Base_Controller {
 			));
 	}
 
+	/***
+	 *	POST : signup
+	 *	Action when signup for is submitted
+	**/
 	public function post_signup() {
 		// get all inputs
 		$input = Input::get();
@@ -88,7 +108,7 @@ class Home_Controller extends Base_Controller {
 			// student
 			case 1:
 				$r = array(
-					'cgpa' => 'required'
+					'cgpa' => 'required',
 				);
 			break;
 			// lecturer
