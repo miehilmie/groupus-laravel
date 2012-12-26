@@ -7,6 +7,7 @@ class Create_Lecturers_Table {
 		Schema::create('lecturers', function($table) {
 			$table->increments('id');
 			$table->integer('user_id')->unsigned();
+			$table->string('room_no')->nullable();
 			$table->foreign('user_id')->references('id')->on('users');
 	});
 
