@@ -46,7 +46,28 @@
         });
         
     }
-    
+    function popup(cmd) {
+        var url = '';
+        switch(cmd) {
+            case 'subject':
+                url = '/ajax/subjects/new';
+                break;
+            case 'message':
+                url = '/ajax/messages/new';
+                break;
+        }
+        $.ajax({
+            url: url,
+            success: function(msg) {
+                console.log(msg);
+            }
+        });
+    }
+    $('.add-new').live('click',function(e) {
+        e.preventDefault();
+        var i = $(this).attr('data-target');
+        popup(i);
+    });
     $(document).ready(function() {
         $('.bubbleTrigger').bubbleToggle();
     });

@@ -79,9 +79,13 @@ a:hover {
 #left-content ul:last-child .sub-menu:last-child a {
     border-bottom: 2px solid #909090;
 }
+#left-content .section > li {
+    border-right:2px solid #909090;
+}
 #left-content .section .title {
     height:35px;
     position: relative;
+    border-right: none;
 }
 #left-content .section .title .title-text {
     background: #4466B0;
@@ -104,8 +108,6 @@ a:hover {
     cursor: pointer;
     line-height: 35px;
     padding-left: 35px;
-    margin-right: 37px;
-    border-right:2px solid #909090;
 }
 #left-content .section .bullet .open {
     position:relative;
