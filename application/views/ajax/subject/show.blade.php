@@ -1,0 +1,1 @@
+This is the /home/www/groupus.dev/application/views/ajax/subject/show.blade.php view

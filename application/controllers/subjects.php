@@ -16,7 +16,7 @@ class Subjects_Controller extends Base_Controller {
 
 	public function get_show($id)
     {
-    	return 'view for subject id '. $id;
+    	$u = Auth::user();
     }    
 
 	public function get_edit()
