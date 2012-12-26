@@ -15,7 +15,7 @@ class User extends Eloquent {
 	public function faculty() {
 		return $this->belongs_to('Faculty');
 	}
-
+	
 	public function gender()
 	{
 		return $this->belongs_to('Gender');
@@ -30,5 +30,7 @@ class User extends Eloquent {
 	{
 		return $this->has_one('Lecturer');
 	}
-
+	public function messages() {
+		return $this->has_many('Directmessage', 'receiver_id');
+	}
 }
