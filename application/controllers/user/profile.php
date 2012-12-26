@@ -1,6 +1,6 @@
 <?php
 
-class Profile_Controller extends Base_Controller {
+class User_Profile_Controller extends Base_Controller {
 
     // show logged in user profile
     public function action_index() {
