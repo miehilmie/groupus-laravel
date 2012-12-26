@@ -1,19 +1,29 @@
 <?php // file: /application/seeds/subjects.php
 
-class Seed_Users extends \S2\Seed {
+class Seed_Subjects extends \S2\Seed {
 
     public function grow()
     {
-        $subject = new Subject;
+        $subject = new Subject(array(
+            'code' => 'TCP1231',
+            'name' => 'Computer Programming 1',
+            'faculty_id' => $this->getReference('faculty-fci')->id
+        ));
         $subject->save();
 
+        $subject = new Subject(array(
+            'code' => 'TCP1232',
+            'name' => 'Computer Programming 2',
+            'faculty_id' => $this->getReference('faculty-fci')->id
+        ));
+        $subject->save();
     }
 
     // This is optional. It lets you specify the order each seed is grown.
     // Seeds with a lower number are grown first.
     public function order()
     {
-        return 100;
+        return 5;
     }
 
 }
