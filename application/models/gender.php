@@ -1,6 +1,6 @@
 <?php
 
-class Gender extends Eloquent 
+class Gender extends Basemodel 
 {
 	public static $timestamps = false;
 }

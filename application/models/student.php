@@ -1,6 +1,6 @@
 <?php
 
-class Student extends Eloquent {
+class Student extends Basemodel {
 
 	public static $timestamps = false;
 	public function user()

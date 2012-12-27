@@ -5,20 +5,21 @@
 // home, login, logout, signup
 Route::get('/', array('as' => 'home', 'uses' => 'home@index'));
 Route::get('logout', 'home@logout');
-Route::get('signup', array('as' => 'new_signup', 'uses' => 'home@signup'));
-Route::post('signup', array('as' => 'create_signup', 'uses' => 'home@signup'));
 Route::post('login', array('before' => 'csrf', 'as' => 'login', 'uses' => 'home@login'));
 
 
-// user (one who logged in)
-Route::get('profile', array('before' => 'auth', 'as'=> 'user_profile', 'uses' => 'user.profile@index'));
-Route::get('setting', array('before' => 'auth', 'as'=> 'user_setting', 'uses' => 'user.setting@index'));
+// users resources
+Route::get('signup', array('as' => 'new_user', 'uses' => 'users@new'));
+Route::post('signup', array('as' => 'create_user', 'uses' => 'users@create'));
 
-// user resource
-Route::get('users/(:any)','users@show');
+Route::get('profile', array('before' => 'auth', 'as'=> 'user_profile', 'uses' => 'users@profile'));
+Route::get('setting', array('before' => 'auth', 'as'=> 'user_setting', 'uses' => 'users@setting'));
+Route::get('users/(:any)', array('before' => 'auth' , 'uses' => 'users@show'));
+
 
 // subject
-Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'subject', 'uses' => 'subjects@show'));
+Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'subject_show', 'uses' => 'subjects@show'));
+// Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'new_subject', 'uses' => 'subjects@show'));
 
 
 // ===============================> DATA

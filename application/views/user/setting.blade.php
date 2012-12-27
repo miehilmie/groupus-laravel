@@ -1,4 +1,4 @@
-@layout('logged')
+@layout('layout.logged')
 
 @section('styles')
 @parent
@@ -7,6 +7,6 @@
 
 @section('content')
 <div class="content-wrapper">
-<h1>{{ HTML::image('img/settings.png') }}User Settings</h1>
+<h3>User Settings</h3>
 </div>
 @endsection

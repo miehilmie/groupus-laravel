@@ -13,12 +13,14 @@ class Seed_Users extends \S2\Seed {
             'usertype_id' => $this->getReference('usertype-s')->id,
             'gender_id' => $this->getReference('gender-m')->id,
         ));
+        $this->addReference('user-1', $user);
         $user->save();
         $student = new Student(array(
             'cgpa' => 3.66,
             'distance_f_c' => 1,
         ));
         $user->student()->insert($student);
+        $this->addReference('student-1', $student);
 
         $user = new User(array(
             'username' => 'miehilmie',
@@ -30,9 +32,12 @@ class Seed_Users extends \S2\Seed {
             'gender_id' => $this->getReference('gender-m')->id,
         ));
         $user->save();
+        $this->addReference('user-2', $user);
+
         $lecturer = new Lecturer(array(
         ));
         $user->lecturer()->insert($lecturer);
+        $this->addReference('lecturer-1', $lecturer);
     }
 
     // This is optional. It lets you specify the order each seed is grown.

@@ -1,4 +1,4 @@
-@layout('master')
+@layout('layout.master')
 
 @section('nav')
 <ul class="navbar clearfix">

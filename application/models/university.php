@@ -1,6 +1,6 @@
 <?php
 
-class University extends Eloquent 
+class University extends Basemodel 
 {
 	public function faculties() {
 		return $this->has_many('Faculty');

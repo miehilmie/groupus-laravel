@@ -15,8 +15,8 @@ class Add_Unique_Username_To_Users_Table {
     {
 		Schema::table('users', function($table) {
 			$table->drop_unique('users_username_unique');
-	});
+		});
+	}
 
-    }
 
 }

@@ -1,6 +1,6 @@
 <?php
 
-class Usertype extends Eloquent 
+class Usertype extends Basemodel 
 {
 	public static $timestamps = false;
 }

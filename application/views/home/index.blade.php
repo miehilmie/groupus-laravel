@@ -1,4 +1,4 @@
-@layout('master')
+@layout('layout.master')
 @section('styles')
 @parent
 {{ HTML::style('css/login.css') }}

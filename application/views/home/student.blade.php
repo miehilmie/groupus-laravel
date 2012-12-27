@@ -1,4 +1,4 @@
-@layout('hasleft')
+@layout('layout.hasleft')
 
 @section('styles')
 @parent
@@ -75,7 +75,7 @@
 			                <li class="bubble-item">
 			                    <ul>
 			                    	@forelse ($subjects as $s)
-			                    		<li>{{  HTML::link_to_route('subject', $s->name, array($s->id)) }}</li>
+			                    		<li>{{  HTML::link_to_route('subject_show', $s->code, array($s->id)) }}</li>
 			                    	@empty
 			                    		<li><span>No Subject<span></li>
 			                    	@endforelse
@@ -115,24 +115,23 @@
 		</ul>
 		<ul class="section">
 		    <li class="title"><div class="title-text">My Group!</div><div class="title-roof"></div></li>
+			@forelse($groups as $g)
 			<li class="bullet">
 			    <ul><li class="bullet-text" data-href="/message/">
 			            <a>Group 1</a></li>
 			    </ul>
 			</li>
+			@empty
 			<li class="bullet">
 			    <ul><li class="bullet-text" data-href="/message/">
-			            <a>Group 2</a></li>
+			            No group yet!</li>
 			    </ul>
 			</li>
-			<li class="bullet">
-			    <ul><li class="bullet-text" data-href="/message/">
-			            <a>Group 3</a></li>
-			    </ul>
-			</li>
+			@endforelse
 		</ul>
 		<ul class="searches">
 		    <li></li>
 		</ul>
     </div>
 @endsection
+

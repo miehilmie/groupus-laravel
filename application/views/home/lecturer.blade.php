@@ -1,4 +1,4 @@
-@layout('hasleft')
+@layout('layout.hasleft')
 
 @section('styles')
 @parent

@@ -8,6 +8,7 @@ class Create_Universities_Table {
 			$table->increments('id');
 			$table->string('name');
 			$table->string('abbrevation');
+			$table->integer('semester_id');
 			$table->timestamps();
 	});
 

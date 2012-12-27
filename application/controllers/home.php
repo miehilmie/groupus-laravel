@@ -6,10 +6,10 @@ class Home_Controller extends Base_Controller {
 	
 	public function get_index()
 	{
+
 		if( is_null($u = Auth::user()) )
 			return View::make('home.index');
 
-		$semester_id = $u->university()->first()->only('semester_id');
 
 		switch( $u->usertype_id ) {
 			// student
@@ -18,9 +18,10 @@ class Home_Controller extends Base_Controller {
 				array(
 					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'subjects' => $u->student()->first()->subjects()->where('semester_id','=', $semester_id)->get(),
+					'subjects' => $u->student()->first()->subjects()->where('semester_id','=', $u->university()->first()->semester_id)->get(),
 					'messages' => array(), // @todo: add messages
-					'updates' => array()
+					'updates' => array(),
+					'groups' => array()
 				) 
 			);
 			break;
@@ -64,100 +65,6 @@ class Home_Controller extends Base_Controller {
 		Auth::logout();
 
 		return Redirect::to_route('home');
-	}
-	/***
-	 *	GET : signup
-	 *	Show signup form
-	**/
-	public function get_signup() {
-		$u = University::all();
-		$f = (Input::old('university', 'none') !== 'none') ? Faculty::find(Input::old('university'))->get() : array();
-
-		return View::make('home.signup')->with(
-			array(
-				'universities' => $u,
-				'faculties' => $f,
-			));
-	}
-
-	/***
-	 *	POST : signup
-	 *	Action when signup for is submitted
-	**/
-	public function post_signup() {
-		// get all inputs
-		$input = Input::get();
-
-		// define validation rules
-		$rules = array(
-			'username' => 'required|email|unique:users',
-			'name' => 'required',
-			'password' => 'required|same:password2',
-			'agree' => 'required'
-		);
-
-		// custom message
-		$messages = array(
-		    'email' => 'The :attribute field must be in email format.',
-		    'same' => 'Password must match.'
-		);
-		//@todo
-		// usertype additional condition
-		switch(Input::get('usertype'))
-		{
-			// student
-			case 1:
-				$r = array(
-					'cgpa' => 'required',
-				);
-			break;
-			// lecturer
-			case 2:
-				$r = array();
-			break;
-
-		}
-		$rules = array_merge($rules, $r);
-
-		// validation
-		$validation = Validator::make($input,$rules, $messages);
-		if($validation->fails()) {
-			return Redirect::to('signup')->with_errors($validation)->with_input();
-		}
-		$user = new User(array(
-			'username' => $input['username'],
-			'name' => $input['name'],
-			'password' => Hash::make($input['password']),
-			'gender_id' => $input['gender'],
-			'usertype_id' => $input['usertype'],
-			'university_id' => $input['university']
-		));
-
-		$user->save();
-
-		// insert sub table
-		switch(Input::get('usertype'))
-		{
-			// student
-			case 1:
-				$student = new Student(array(
-					'cgpa' => $input['cgpa'],
-					'distance_f_c' => $input['dfc']
-				));
-				$user->student()->insert($student);
-
-			break;
-			//@todo: add lecturer field
-			// lecturer
-			case 2:
-				$lecturer = new Lecturer(array(
-				));
-				$user->lecturer()->insert($lecturer);
-			break;
-
-		}
-
-		return Redirect::to('signup')->with('success','Registration is successful!');
 	}
 
 }

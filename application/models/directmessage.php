@@ -1,6 +1,6 @@
 <?php
 
-class Directmessage extends Eloquent
+class Directmessage extends Basemodel
 {
 	public function sender()
 	{

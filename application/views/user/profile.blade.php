@@ -1,4 +1,4 @@
-@layout('logged')
+@layout('layout.logged')
 
 @section('styles')
 @parent

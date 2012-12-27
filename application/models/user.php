@@ -1,6 +1,6 @@
 <?php
 
-class User extends Eloquent {
+class User extends Basemodel {
 
 	public function university()
 	{

@@ -10,6 +10,7 @@ class Seed_Subjects extends \S2\Seed {
             'faculty_id' => $this->getReference('faculty-fci')->id
         ));
         $subject->save();
+        $this->addReference('subject-1', $subject);
 
         $subject = new Subject(array(
             'code' => 'TCP1232',
@@ -17,6 +18,7 @@ class Seed_Subjects extends \S2\Seed {
             'faculty_id' => $this->getReference('faculty-fci')->id
         ));
         $subject->save();
+        $this->addReference('subject-2', $subject);
     }
 
     // This is optional. It lets you specify the order each seed is grown.

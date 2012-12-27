@@ -7,7 +7,8 @@ class Seed_Universities extends \S2\Seed {
 
 		$university = new University(array(
 				'name' => 'Multimedia University',
-				'abbrevation' => 'MMU'
+				'abbrevation' => 'MMU',
+                'semester_id' => '1'
 			));
 		$university->save();
 		$this->addReference('university-mmu', $university);
