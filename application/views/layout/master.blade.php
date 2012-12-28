@@ -8,13 +8,11 @@
         @section('styles')
         {{ HTML::style('css/common.css') }}
         @yield_section
-
-        @section('javascripts')
+        
         @if(isset($production))
         <script src="//ajax.googleapis.com/ajax/libs/jquery/1.8.2/jquery.min.js"></script>
         @endif
         <script>window.jQuery || document.write('<script src="{{ URL::to('js/jquery.js') }}"><\/script>')</script>       
-        @yield_section
 
         
     </head>
@@ -31,5 +29,6 @@
         <div class="footer">
             <span>copyright (c) groupus, 2012 all right reserved</span><br /><small>powered by <a href="http://facebook.com/miehilmie">Hilmi Hassan</a></small>
         </div>
+        @yield('javascripts')
     </body>
 </html>
