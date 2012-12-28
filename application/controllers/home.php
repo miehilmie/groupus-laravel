@@ -9,7 +9,6 @@ class Home_Controller extends Base_Controller {
 
 		if( is_null($u = Auth::user()) )
 			return View::make('home.index');
-		$u->student->subjects()->get(array('code'));
 
 		switch( $u->usertype_id ) {
 			// student
@@ -18,8 +17,6 @@ class Home_Controller extends Base_Controller {
 				array(
 					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'subjects' => $u->student->subjects()->where('semester_id','=', $u->university->semester_id)->get(),
-					'messages' => $u->messages()->get(), // m : {sender, }
 					'updates' => array(),
 					'groups' => array()
 				) 

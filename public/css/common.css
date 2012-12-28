@@ -160,14 +160,6 @@ a:hover {
 .bubble-wrapper .bubble .bubble-item {
     padding:5px;
 }
-#subjectFlyout .bubble .bubble-item li > * {
-    display: block;
-    width:150px;
-    line-height: 1.4em;
-    text-align: center;
-    padding:2px 0;
-    font-size:11px;
-}
 .bubble-wrapper .bubble .bubble-item a:hover {
     background:rgb(244, 246, 249);
 }
@@ -195,14 +187,32 @@ a:hover {
 .footer small, .footer a {
     font-size: 10px;
 }
-#messageFlyout a {
+
+#messageFlyout, #subjectFlyout {
+    min-height: 100px;
+    width:250px;
+}
+
+#messageFlyout a, #subjectFlyout a {
     display: block;
+}
+#subjectFlyout a {
+    padding-left: 15px;
+    line-height: 30px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 #messageFlyout .messageContent {
     padding:5px 10px;
 }
 #messageFlyout a:hover {
     text-decoration: none;
+}
+#messageFlyout .emptyContent, #subjectFlyout .emptyContent {
+    line-height: 80px;
+    text-align: center;
+    color: #A1A1A1;
 }
 #messageFlyout .messageComposeShrct {
     text-align: right;
@@ -222,10 +232,7 @@ a:hover {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
-#messageFlyout {
-    min-height: 100px;
-    width:250px;
-}
+
 #messageFlyout .messageViewAll {
     text-align: center;
 }

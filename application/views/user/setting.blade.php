@@ -1,12 +1,15 @@
-@layout('layout.logged')
+@layout('layout.hasleft')
 
 @section('styles')
 @parent
 {{ HTML::style('css/student.css') }}
 @endsection
 
-@section('content')
-<div class="content-wrapper">
+@section('javascripts')
+@parent
+{{ HTML::script('js/student.js') }}
+@endsection
+
+@section('right')
 <h3>User Settings</h3>
-</div>
 @endsection
