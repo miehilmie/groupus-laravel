@@ -9,30 +9,30 @@ class Home_Controller extends Base_Controller {
 
 		if( is_null($u = Auth::user()) )
 			return View::make('home.index');
-
+		$u->student->subjects()->get(array('code'));
 
 		switch( $u->usertype_id ) {
 			// student
-			case Usertype::where_type('Student')->only('id'):
+			case 1:
 			return View::make('home.student')->with(
 				array(
 					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'subjects' => $u->student()->first()->subjects()->where('semester_id','=', $u->university()->first()->semester_id)->get(),
-					'messages' => array(), // @todo: add messages
+					'subjects' => $u->student->subjects()->where('semester_id','=', $u->university->semester_id)->get(),
+					'messages' => $u->messages()->get(), // m : {sender, }
 					'updates' => array(),
 					'groups' => array()
 				) 
 			);
 			break;
 			// lecturer
-			case Usertype::where_type('Lecturer')->only('id'):
+			case 2:
 			return View::make('home.lecturer')->with(
 				array(
 					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'subjects' => $u->subjects()->get(), // @todo: add subjects
-					'messages' => array(), // @todo: add messages
+					'subjects' => array(), // @todo: add subjects
+					'messages' => $u->messages()->get(), // @todo: add messages
 					'updates' => array()
 				) 
 			);

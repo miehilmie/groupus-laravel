@@ -25,7 +25,7 @@ class Subjects_Controller extends Base_Controller {
                 return View::make('subject.student.show')->with(array(
                     'name' => $u->name,
                     'announcements' => array(), // @todo: add announcements
-                    'subjects' => $u->student()->first()->subjects()->where('semester_id','=', $u->university()->first()->semester_id)->get(),
+                    'subjects' => $u->student->subjects()->where('semester_id','=', $u->university->semester_id)->get(),
                     'messages' => array(),
                     'updates' => array(),
                     'groups' => array()

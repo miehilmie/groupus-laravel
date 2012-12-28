@@ -101,9 +101,45 @@
 			                <li class="bubble-item">
 			                    <ul>
 			                    	@forelse ($messages as $m)
-			                    		<li>{{  HTML::link('message', $s) }}</li>
+										<li>
+				                    		<a class="messageContent" href="/messages/1">
+				                    			<div class="clearfix">
+				                    				<div class="imgPrev">
+				                    					<img class="thumb" src="/uploads/1/thumbs/default.jpg" width="50px" height="50px">
+				                    				</div>
+				                    				<div class="cData">
+				                    					<div class="author"><strong>{{ $m->sender }}</strong></div>
+				                    					<div class="snippet">
+				                    						<span>
+				                    							{{ $m->snippet }}
+				                    						</span>
+				                    					</div>
+				                    					<abbr title="Tuesday" data-utime="0" class="timestamp">{{ $m->time }}</abbr>
+				                    				</div>
+				                    			</div>
+				                    		</a>
+			                    		</li>
 			                    	@empty
-			                    		<li><span>No message<span></li>
+			                    		<li><div class="messageComposeShrct"><a href="#">Compose New</a></div></li>
+			                    		<li>
+				                    		<a class="messageContent" href="http://message/1">
+				                    			<div class="clearfix">
+				                    				<div class="imgPrev">
+				                    					<img class="thumb" src="/uploads/1/thumbs/default.jpg" width="50px" height="50px">
+				                    				</div>
+				                    				<div class="cData">
+				                    					<div class="author"><strong>Muhammad Hilmi</strong></div>
+				                    					<div class="snippet">
+				                    						<span>
+				                    							Hello world today is my lucky day. why can't we bla bla bla bla bla
+				                    						</span>
+				                    					</div>
+				                    					<abbr title="Tuesday" data-utime="0" class="timestamp">Tues</abbr>
+				                    				</div>
+				                    			</div>
+				                    		</a>
+			                    		</li>
+			                    		<li><div class="messageViewAll"><a href="/messages">View All</a></div></li>
 			                    	@endforelse
 			                    </ul>
 

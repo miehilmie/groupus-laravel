@@ -160,18 +160,16 @@ a:hover {
 .bubble-wrapper .bubble .bubble-item {
     padding:5px;
 }
-.bubble-wrapper .bubble .bubble-item li > * {
+#subjectFlyout .bubble .bubble-item li > * {
     display: block;
     width:150px;
     line-height: 1.4em;
     text-align: center;
     padding:2px 0;
     font-size:11px;
-    border-right: 1px solid #D0D0D0;
 }
 .bubble-wrapper .bubble .bubble-item a:hover {
-    background:#4466B0;
-    color:#fff;
+    background:rgb(244, 246, 249);
 }
 
 .jewel-notify {
@@ -196,4 +194,38 @@ a:hover {
 }
 .footer small, .footer a {
     font-size: 10px;
+}
+#messageFlyout a {
+    display: block;
+}
+#messageFlyout .messageContent {
+    padding:5px 10px;
+}
+#messageFlyout a:hover {
+    text-decoration: none;
+}
+#messageFlyout .messageComposeShrct {
+    text-align: right;
+}
+#messageFlyout .messageComposeShrct a:hover {
+    background: transparent;
+}
+#messageFlyout .imgPrev {
+    float:left;
+    margin-right: 9px;
+}
+#messageFlyout .cData {
+    text-align: left;
+}
+#messageFlyout .snippet {
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+#messageFlyout {
+    min-height: 100px;
+    width:250px;
+}
+#messageFlyout .messageViewAll {
+    text-align: center;
 }
