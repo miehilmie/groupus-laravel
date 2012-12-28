@@ -4,14 +4,14 @@ class Seed_Enrollments extends \S2\Seed {
 
     public function grow()
     {
-        $this->getReference('student-1')->subjects()
+        $this->getReference('user-1')->subjects()
             ->attach($this->getReference('subject-1')->id, array(
-                'semester_id' => $this->getReference('student-1')->user()->first()
+                'semester_id' => $this->getReference('user-1')
                     ->university()->first()->semester_id));
 
-        $this->getReference('student-1')->subjects()
+        $this->getReference('user-1')->subjects()
             ->attach($this->getReference('subject-2')->id, array(
-                'semester_id' => $this->getReference('student-1')->user()->first()
+                'semester_id' => $this->getReference('user-1')
                     ->university()->first()->semester_id));
 	}
 

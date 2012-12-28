@@ -33,4 +33,7 @@ class User extends Basemodel {
 	public function messages() {
 		return $this->has_many('Directmessage', 'receiver_id');
 	}
+	public function subjects() {
+		return $this->has_many_and_belongs_to('Subject', 'enrollments')->with('semester_id');
+	}
 }
