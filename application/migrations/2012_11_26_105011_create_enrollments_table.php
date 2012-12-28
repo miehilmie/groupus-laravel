@@ -6,10 +6,10 @@ class Create_Enrollments_Table {
     {
 		Schema::create('enrollments', function($table) {
 			$table->increments('id');
-			$table->integer('student_id')->unsigned();
+			$table->integer('user_id')->unsigned();
 			$table->integer('subject_id')->unsigned();
 			$table->integer('semester_id')->unsigned();
-			$table->foreign('student_id')->references('id')->on('students');
+			$table->foreign('user_id')->references('id')->on('users');
 			$table->foreign('subject_id')->references('id')->on('subjects');
 			$table->timestamps();
 	});
