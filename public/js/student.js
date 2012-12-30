@@ -1,9 +1,22 @@
+/*
+Author : Muhammad Hilmi
+*/
 (function($){
-    $('.add-new').click(function(e) {
-        e.preventDefault();
-        var i = $(this).attr('data-target');
-        popup(i);
-    });
-    
-    $('.bubbleTrigger').bubbleToggle();
+	$('.star.clickable').mouseover(function() {
+		var index = $(this).attr('data-value');
+		$(this).parent().find('.star.clickable').each(function(i,v) {
+			if(i < index) {
+				$(this).addClass('hover');
+			}
+		});
+	}).mouseout(function() {
+		$(this).parent().find('.star.clickable').each(function(i,v) {
+			$(this).removeClass('hover');
+		});
+	}).click(function() {
+		var value = $(this).attr('data-value');
+		var input = $("<input>").attr("type", "hidden").attr("name", "votes").val(value);
+		$(this).parent().append($(input)).submit();
+	});
+
 })(jQuery);

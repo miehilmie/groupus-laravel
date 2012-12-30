@@ -2,6 +2,13 @@
 
 class User extends Basemodel {
 
+    public static $rules = array(
+        'username' => 'required|email|unique:users',
+        'name' => 'required',
+        'password' => 'required|same:password2',
+        'agree' => 'required'
+    );
+
 	public function university()
 	{
 		return $this->belongs_to('University');
@@ -35,5 +42,9 @@ class User extends Basemodel {
 	}
 	public function subjects() {
 		return $this->has_many_and_belongs_to('Subject', 'enrollments')->with('semester_id');
+	}
+
+	public static function votecount($id) {
+		return 13;
 	}
 }

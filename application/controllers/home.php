@@ -28,9 +28,8 @@ class Home_Controller extends Base_Controller {
 				array(
 					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'subjects' => array(), // @todo: add subjects
-					'messages' => $u->messages()->get(), // @todo: add messages
-					'updates' => array()
+					'updates' => array(),
+					'groups' => array()
 				) 
 			);
 			break;

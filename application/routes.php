@@ -15,12 +15,14 @@ Route::post('signup', array('as' => 'create_user', 'uses' => 'users@create'));
 Route::get('profile', array('before' => 'auth', 'as'=> 'user_profile', 'uses' => 'users@profile'));
 Route::get('setting', array('before' => 'auth', 'as'=> 'user_setting', 'uses' => 'users@setting'));
 Route::get('users/(:any)', array('before' => 'auth' , 'uses' => 'users@show'));
+Route::post('users/(:any)/(:num)', array('before' => 'auth' , 'uses' => 'users@vote'));
 
-
-// subject
+// subjects
 Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'subject_show', 'uses' => 'subjects@show'));
-// Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'new_subject', 'uses' => 'subjects@show'));
 
+// messages
+Route::get('messages', array('before' => 'auth', 'as' => 'messages', 'uses' => 'messages@index'));
+Route::post('messages', array('before' => 'auth|csrf', 'as' => 'new_message', 'uses' => 'messages@create'));
 
 // ===============================> DATA
 // AJAX route

@@ -145,8 +145,12 @@ class Users_Controller extends Base_Controller {
         $uni = $u->university()->only('name');
         return View::make('user.profile')
             ->with(array(
+                'user' => $u,
                 'name' => $u->name,
-                'phone' => $u->username,
+                'img_src' => $u->img_url,
+                'age' => $u->age ? $u->age : 'Not specified',
+                'phone' => $u->phone ? $u->phone : 'Not specified',
+                'address' => $u->address ? $u->address : 'Not specified',
                 'faculty' => $fac,
                 'university' => $uni
             ));
@@ -154,5 +158,8 @@ class Users_Controller extends Base_Controller {
     public function get_setting()
     {
         return View::make('user.setting');
+    }
+    public function post_vote() {
+        return Input::get('id');
     }
 }

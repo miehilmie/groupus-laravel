@@ -19,12 +19,12 @@
 			                </li>
 			                <li class="bubble-item">
 			                    <ul>
-			                    	@forelse (Auth::user()->subjects as $s)
+			                    	@forelse (Subject::your_subjects() as $s)
 			                    		<li>{{  HTML::link_to_route('subject_show', $s->code . '	 ' .$s->name, array($s->id)) }}</li>
 			                    	@empty
 			                    		<li>
 			                    			<div class="emptyContent">
-			                    			<span>You don't have any message yet.</span>
+			                    			<span>You don't have any subject yet.</span>
 			                    			</div>
 			                    		</li>
 			                    	@endforelse
@@ -49,7 +49,8 @@
 			                </li>
 			                <li class="bubble-item">
 			                    <ul>
-			                    	@forelse (Auth::user()->messages as $m)
+			                    	<li><div class="messageComposeShrct"><a id="composeNewMsg" href="#" data-href="newMessageTmpl">Compose New</a></div></li>
+			                    	@forelse (Directmessage::your_messages() as $m)
 										<li>
 				                    		<a class="messageContent" href="/messages/1">
 				                    			<div class="clearfix">
@@ -57,26 +58,25 @@
 				                    					<img class="thumb" src="/uploads/1/thumbs/default.jpg" width="50px" height="50px">
 				                    				</div>
 				                    				<div class="cData">
-				                    					<div class="author"><strong>{{ $m->sender }}</strong></div>
+				                    					<div class="author"><strong>{{ $m->sender->name }}</strong></div>
 				                    					<div class="snippet">
 				                    						<span>
-				                    							{{ $m->snippet }}
+				                    							{{ $m->subject }}
 				                    						</span>
 				                    					</div>
-				                    					<abbr title="Tuesday" data-utime="0" class="timestamp">{{ $m->time }}</abbr>
+				                    					<abbr title="Tuesday" data-utime="0" class="timestamp">Tues</abbr>
 				                    				</div>
 				                    			</div>
 				                    		</a>
 			                    		</li>
 			                    	@empty
-			                    		<li><div class="messageComposeShrct"><a href="#">Compose New</a></div></li>
 			                    		<li>
 			                    			<div class="emptyContent">
 			                    			<span>You don't have any message yet.</span>
 			                    			</div>
 			                    		</li>
-			                    		<li><div class="messageViewAll"><a href="/messages">View All</a></div></li>
 			                    	@endforelse
+			                    	<li><div class="messageViewAll">{{ HTML::link_to_route('messages', 'View All') }}</a></div></li>
 			                    </ul>
 
 			                </li>
@@ -90,6 +90,27 @@
 <div class="right-content">
     @yield('right')
 </div></div>
+<script type="text/template" id="newMessageTmpl">
+<h3> Compose new message </h3>
+{{ Form::open('messages', 'POST') }}
+{{ Form::token() }}
+<p> {{ Form::label('msgto', 'To: ') }}
+{{ Form::select('msgto', array('1' => 'Muhammad Hilmi', '2' => 'Muhammad Hilmie')); }}
+</p>
+<p>
+{{ Form::label('msgsubject', 'Subject: ') }}
+{{ Form::text('msgsubject', ''); }}
+</p>
+<p>
+{{ Form::label('msgbody', 'Message: ') }}<br />
+{{ Form::textarea('msgbody', '') }}
 
+</p>
+<p>
+{{ Form::submit('Send') }}
+</p>
+{{ Form::close() }}
+</script>
 {{ HTML::script('js/common.js') }}
+{{ HTML::script('js/hasleft.js') }}
 @endsection

@@ -34,7 +34,7 @@ a:hover {
 .content-wrapper.hasleft {
     margin-left: 0;
 }
-.clearfix::after {
+.clearfix::after, .pagination::after {
     display:block;
     content:".";
     height:0;
@@ -231,8 +231,55 @@ a:hover {
     overflow: hidden;
     text-overflow: ellipsis;
     white-space: nowrap;
+    color: #969696;
 }
-
+#messageFlyout .timestamp {
+    color: #969696;
+    font-size: 10px;
+}
 #messageFlyout .messageViewAll {
     text-align: center;
+}
+.pagination{text-align:center; color:#aaa;}
+.pagination li {float:left;}
+.pagination a,.pagination strong{color:#666;border:1px solid #ddd;background:#fcfcfc;padding:4px 12px;margin:0 3px;text-decoration:none;}
+.pagination a:hover{background:#526FE1;border:1px solid #526FE1;color:#fff;}
+.pagination .active a {background: #BFBFBF;border:1px solid #BFBFBF;color:#fff;}
+.pagination strong{background:#666;border:1px solid #666 ;color:#fff;}
+
+#profile-info li{
+    padding:2px 15px;
+}
+#profile-tbl .head {
+    background: #BBC9FF;
+}
+#profile-tbl {
+    margin-bottom: 15px;
+}
+#profile-info label {
+    font-weight: bold;
+    text-align: right;
+    display: inline-block;
+    width:80px;
+    padding-right: 10px;
+}
+.star {
+    display: inline-block;
+    width: 20px;
+    height: 20px;
+    background: url('../img/star_empty.png');
+}
+
+.star.filled {
+    background: url('../img/star.png');
+}
+
+.star.clickable.hover {
+    cursor: pointer;
+    background: url('../img/star_hover.png');
+}
+.votescount {
+    margin-left: 5px;
+    font-size:10px;
+    color: #14C90D;
 }
