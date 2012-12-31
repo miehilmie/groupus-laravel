@@ -10,12 +10,12 @@ Route::post('login', array('before' => 'csrf', 'as' => 'login', 'uses' => 'home@
 
 // users resources
 Route::get('signup', array('as' => 'new_user', 'uses' => 'users@new'));
-Route::post('signup', array('as' => 'create_user', 'uses' => 'users@create'));
+Route::post('signup', array('before' => 'csrf' ,'as' => 'create_user', 'uses' => 'users@create'));
 
 Route::get('profile', array('before' => 'auth', 'as'=> 'user_profile', 'uses' => 'users@profile'));
 Route::get('setting', array('before' => 'auth', 'as'=> 'user_setting', 'uses' => 'users@setting'));
-Route::get('users/(:any)', array('before' => 'auth' , 'uses' => 'users@show'));
-Route::post('users/(:any)/(:num)', array('before' => 'auth' , 'uses' => 'users@vote'));
+Route::get('users/(:any)', array('before' => 'auth','as' => 'show_user', 'uses' => 'users@show'));
+Route::post('users/(:num)/(:any)', array('before' => 'auth' , 'uses' => 'users@vote'));
 
 // subjects
 Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'subject_show', 'uses' => 'subjects@show'));
