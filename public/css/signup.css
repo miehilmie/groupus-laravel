@@ -32,6 +32,9 @@
      border: #9A96B8 solid 1px;
      background:#D7DDFD;
 }
+#register-info .required {
+    color:red;
+}
 #register-info .submit:hover {
     color:#c9c9c9;
     background:#5F76A7;
