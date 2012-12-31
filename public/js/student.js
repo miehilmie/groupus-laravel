@@ -16,7 +16,7 @@ Author : Muhammad Hilmi
 	}).click(function() {
 		var value = $(this).attr('data-value');
 		var input = $("<input>").attr("type", "hidden").attr("name", "votes").val(value);
-		$(this).parent().append($(input)).submit();
+		$(this).parents('form').append($(input)).submit();
 	});
 
 })(jQuery);

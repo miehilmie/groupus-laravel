@@ -16,7 +16,7 @@
 		<td colspan="2"><h1>{{ $user->name }} {{ HTML::link('setting', '[edit profile]') }}</h1></td>
 	</tr>
 	<tr>
-		<td><img src="{{ $user->img_url }}" width="180px" height="230px" ></td>
+		<td><img src="{{ URL::base().$user->img_url }}" width="180px" height="230px" ></td>
 		<td>
 			<ul id="profile-info">
 			<li><label>Name :</label> {{ $user->name }}</li>
@@ -27,9 +27,57 @@
 			<li><label>University:</label> {{ $user->university->name }}</li></ul>
 		</td>
 	</tr>
-	<tr><td colspan="2">{{ Form::open('users/'.$user->id.'/1') }}{{ Form::token() }}Friendly: <span class="star filled clickable" data-value="1"></span><span class="star clickable" data-value="2"></span><span class="star clickable" data-value="3"></span><span class="star clickable" data-value="4"></span><span class="star clickable" data-value="5"></span></span><span class="votescount">({{ User::votecount($user->id) }} votes)</span>{{ Form::hidden('id',$user->id) }}{{ Form::close() }}</td><tr>
-	<tr><td colspan="2">Overall proficiency: <span><span class="star filled clickable" data-value="1"></span><span class="star clickable" data-value="2"></span><span class="star clickable" data-value="3"></span><span class="star clickable" data-value="4"></span><span class="star clickable" data-value="5"></span></span><span class="votescount">(100 votes)</span></td><tr>
-	<tr><td colspan="2">Hardworking: <span><span class="star filled clickable" data-value="1"></span><span class="star clickable" data-value="2"></span><span class="star clickable" data-value="3"></span><span class="star clickable" data-value="4"></span><span class="star clickable" data-value="5"></span></span><span class="votescount">(100 votes)</span></td><tr>
-	<tr><td colspan="2">Leadership: <span><span class="star filled clickable" data-value="1"></span><span class="star filled clickable" data-value="2"></span><span class="star clickable" data-value="3"></span><span class="star clickable" data-value="4"></span><span class="star clickable" data-value="5"></span></span><span class="votescount">(100 votes)</span></td><tr>
+	<tr><td colspan="2">
+		Friendly: 
+		<span>
+			@for($i = 0; $i < 5; $i++)
+			@if($i < $friendly_value)
+			<span class="star filled" data-value="{{ $i+1 }}"></span>
+			@else
+			<span class="star" data-value="{{ $i+1 }}"></span>
+			@endif
+			@endfor
+		</span>
+		<span class="votescount">({{ $friendly_votes }} votes)</span>
+	</td></tr>
+	<tr><td colspan="2">
+		Overall proficiency: 
+		<span>
+			@for($i = 0; $i < 5; $i++)
+			@if($i < $proficiency_value)
+			<span class="star filled" data-value="{{ $i+1 }}"></span>
+			@else
+			<span class="star" data-value="{{ $i+1 }}"></span>
+			@endif
+			@endfor
+		</span>
+		<span class="votescount">({{ $proficiency_votes }} votes)</span>
+	</td></tr>
+	<tr><td colspan="2">
+		Hardworking: 
+		<span>
+			@for($i = 0; $i < 5; $i++)
+			@if($i < $hardwork_value)
+			<span class="star filled" data-value="{{ $i+1 }}"></span>
+			@else
+			<span class="star" data-value="{{ $i+1 }}"></span>
+			@endif
+			@endfor
+		</span>
+		<span class="votescount">({{ $hardwork_votes }} votes)</span>
+	</td></tr>
+	<tr><td colspan="2">
+		Leadership: 
+		<span>
+			@for($i = 0; $i < 5; $i++)
+			@if($i < $leadership_value)
+			<span class="star filled" data-value="{{ $i+1 }}"></span>
+			@else
+			<span class="star" data-value="{{ $i+1 }}"></span>
+			@endif
+			@endfor
+		</span>
+		<span class="votescount">({{ $leadership_votes }} votes)</span>
+	</td></tr>
 </table>
 @endsection
