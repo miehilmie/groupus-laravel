@@ -20,19 +20,24 @@ class Users_Controller extends Base_Controller {
         if(!($u = User::find($id))) {
             return View::make('error.404');
         }
-        // @todo : add user column in db for
-        //          img_url, age, address, phone, 
-        $fac = $u->faculty()->first();
-        $uni = $u->university()->only('name');
+        if($u->id === Auth::user()->id) {
+            return $this->get_profile();
+        }
         return View::make('user.show')
             ->with(array(
-                'img_url' => '',
-                'address' => 'Unit 8-9-3, Blok 8, Fasa 2, Pantai Hillpark, Jalan Pantai Dalam, 52900 Kuala Lumpur',
-                'age' => '23',
-                'name' => $u->name,
-                'phone' => '0177526474',
-                'faculty' => $fac,
-                'university' => $uni
+                'user' => $u,
+                'friendly_click' => !Vote::IsVoteExist(Auth::user()->id, $u->id, 1),
+                'friendly_value' => Vote::get_average_value($u->id, 1),
+                'friendly_votes' => Vote::get_vote_count($u->id, 1),
+                'proficiency_click' => !Vote::IsVoteExist(Auth::user()->id, $u->id, 2),
+                'proficiency_value' => Vote::get_average_value($u->id, 2),
+                'proficiency_votes' => Vote::get_vote_count($u->id, 2),
+                'hardwork_click' => !Vote::IsVoteExist(Auth::user()->id, $u->id, 3),
+                'hardwork_value' => Vote::get_average_value($u->id, 3),
+                'hardwork_votes' => Vote::get_vote_count($u->id, 3),
+                'leadership_click' => !Vote::IsVoteExist(Auth::user()->id, $u->id, 4),
+                'leadership_value' => Vote::get_average_value($u->id, 4),
+                'leadership_votes' => Vote::get_vote_count($u->id, 4),
             ));
     }    
 
@@ -97,8 +102,12 @@ class Users_Controller extends Base_Controller {
             'username' => $input['username'],
             'name' => $input['name'],
             'password' => Hash::make($input['password']),
+            'age' => $input['age'],
+            'phone' => $input['contact'],
+            'address' => $input['address'],
             'gender_id' => $input['gender'],
             'usertype_id' => $input['usertype'],
+            'faculty_id' => $input['faculty'],
             'university_id' => $input['university']
         ));
 
@@ -141,25 +150,68 @@ class Users_Controller extends Base_Controller {
     public function get_profile()
     {
         $u = Auth::user();
-        $fac = $u->faculty()->first();
-        $uni = $u->university()->only('name');
         return View::make('user.profile')
             ->with(array(
                 'user' => $u,
-                'name' => $u->name,
-                'img_src' => $u->img_url,
-                'age' => $u->age ? $u->age : 'Not specified',
-                'phone' => $u->phone ? $u->phone : 'Not specified',
-                'address' => $u->address ? $u->address : 'Not specified',
-                'faculty' => $fac,
-                'university' => $uni
+                'friendly_value' => Vote::get_average_value($u->id, 1),
+                'friendly_votes' => Vote::get_vote_count($u->id, 1),
+                'proficiency_value' => Vote::get_average_value($u->id, 2),
+                'proficiency_votes' => Vote::get_vote_count($u->id, 2),
+                'hardwork_value' => Vote::get_average_value($u->id, 3),
+                'hardwork_votes' => Vote::get_vote_count($u->id, 3),
+                'leadership_value' => Vote::get_average_value($u->id, 4),
+                'leadership_votes' => Vote::get_vote_count($u->id, 4),
             ));
     }
     public function get_setting()
     {
         return View::make('user.setting');
     }
-    public function post_vote() {
-        return Input::get('id');
+    public function post_vote($id, $type) {
+
+        // stop if id not exist
+        if(!($user = User::find($id))) {
+            return Redirect::to_route('home');
+        }
+
+        // stop if voter == user
+        $voter = Auth::user();
+        if($id == $voter->id) {
+            return Redirect::to_route('home');
+        }
+        // get integer type
+        switch ($type) {
+            case 'friendly':
+                $itype = 1;
+                break;
+            case 'proficiency':
+                $itype = 2;
+                break;
+            case 'hardwork':
+                $itype = 3;
+                break;
+            case 'leadership':
+                $itype = 4;
+                break;
+            default:
+                return Redirect::to_route('home');
+                break;
+        }
+
+        // stop if vote exist
+        if(Vote::IsVoteExist($voter->id, $user->id, $type) == true) {
+            return Redirect::to_route('home');
+        }
+
+        $vote_value = Input::get('votes');
+
+        $vote = new Vote(array(
+            'voter_id' => Auth::user()->id,
+            'user_id' => $user->id,
+            'value' => Input::get('votes'),
+            'type' => $itype
+        ));
+        $vote->save();
+        return Redirect::to_route('show_user', array($id));
     }
 }
