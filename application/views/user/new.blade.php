@@ -1,10 +1,5 @@
 @layout('layout.master')
 
-@section('styles')
-@parent
-{{ HTML::style('css/signup.css') }}
-@endsection
-
 @section('javascripts')
 @parent
 {{ HTML::script('js/signup.js') }}        
@@ -14,7 +9,7 @@
 <div class="content-wrapper">
 
     @if($errors->has())
-        <div id="register-error">
+        <div class="errormsg">
             @foreach ($errors->all('<p>:message</p>') as $e)
             {{ $e }}
             @endforeach
@@ -22,13 +17,13 @@
 
     @endif
     @if($success = Session::get('success'))
-    <div id="register-success">
+    <div class="successmsg">
         <p>{{ $success }}</p>
     </div>
     @endif
-    <div id="register-info">
+    <div id="formfields">
         <h1>Registration</h1>
-        {{ Form::open('signup','POST', array('id'=>'register-form')) }}
+        {{ Form::open('signup','POST') }}
         {{ Form::token() }}
         <fieldset>
             <legend style="color:#6D6B79;font-weight:bold; font-size: 16px;">Information details:</legend>
@@ -40,7 +35,7 @@
                 <tr><td><label>Password<span class="required">*</span>: </label></td><td>{{ Form::password('password') }}</td></tr>
                 <tr><td><label>Re-Password<span class="required">*</span>: </label></td><td>{{ Form::password('password2') }}</td></tr>
                 <tr><td><label>Age: </label></td><td>{{ Form::text('age', Input::old('age')) }}</td></tr>
-                <tr><td><label>Contact: </label></td><td>{{ Form::text('contact', Input::old('contact')) }}</td></tr>
+                <tr><td><label>Contact: </label></td><td>{{ Form::text('phone', Input::old('phone')) }}</td></tr>
                 <tr><td><label>Address: </label></td><td>{{ Form::text('address', Input::old('address')) }}</td></tr>
                 <tr><td><label>Gender<span class="required">*</span>: </label></td>
                     <td>{{ Form::radio('gender', '1', ((Input::old('gender') === '1') ? true : false) || true) }}

@@ -14,6 +14,7 @@ Route::post('signup', array('before' => 'csrf' ,'as' => 'create_user', 'uses' =>
 
 Route::get('profile', array('before' => 'auth', 'as'=> 'user_profile', 'uses' => 'users@profile'));
 Route::get('setting', array('before' => 'auth', 'as'=> 'user_setting', 'uses' => 'users@setting'));
+Route::put('setting/(:num)', array('before' => 'auth|csrf', 'uses' => 'users@setting'));
 Route::get('users/(:any)', array('before' => 'auth','as' => 'show_user', 'uses' => 'users@show'));
 Route::post('users/(:num)/(:any)', array('before' => 'auth' , 'uses' => 'users@vote'));
 

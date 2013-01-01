@@ -16,7 +16,7 @@
 		<td colspan="2"><h1>{{ $user->name }} {{ HTML::link('setting', '[edit profile]') }}</h1></td>
 	</tr>
 	<tr>
-		<td><img src="{{ URL::base().$user->img_url }}" width="180px" height="230px" ></td>
+		<td><img src="/uploads/{{ $user->img_url }}" width="180px" height="180px" ></td>
 		<td>
 			<ul id="profile-info">
 			<li><label>Name :</label> {{ $user->name }}</li>

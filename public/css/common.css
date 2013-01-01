@@ -28,8 +28,7 @@ a:hover {
     margin-right:15px;
 }
 .content-wrapper {
-    margin-top:25px;
-    margin-left: 25px;
+    margin: 25px;
 }
 .content-wrapper.hasleft {
     margin-left: 0;
@@ -282,4 +281,68 @@ a:hover {
     margin-left: 5px;
     font-size:10px;
     color: #14C90D;
+}
+
+/* flash message */
+.errormsg {
+    background:#FF8484;
+    border: 2px solid #C71313;
+    color:#C71313;
+    padding:10px 15px;
+}
+.successmsg {
+    background:#97FF84;
+    border: 2px solid #35B016;
+    color:#35B016;
+    padding:10px 15px;
+}
+.errormsg p, .successmsg p {
+    margin:5px 0;
+}
+
+/* form fields */
+#formfields .submitpanel {
+    margin:15px 0 0 0;
+}
+#formfields .submit {
+    cursor: pointer;
+    border:1px solid #000;
+    border-bottom: 1px solid #4d4d4d;
+    border-left: 1px solid #363636;
+    background:#002166;
+    color:#fff;
+    padding:2px 8px;
+}
+#formfields fieldset {
+     border: #9A96B8 solid 1px;
+     background:#D7DDFD;
+}
+#formfields .required {
+    color:red;
+}
+#formfields .submit:hover {
+    color:#c9c9c9;
+    background:#5F76A7;
+    border:#6D6D6D 1px solid;
+    border-bottom: #989898 1px solid;
+}
+label[for=lblTerm] {
+    cursor: pointer;
+}
+.tabs li {
+    list-style:none;
+    display:inline;
+}
+
+.tabs a {
+    padding:5px 10px;
+    display:inline-block;
+    background:#666;
+    color:#fff;
+    text-decoration:none;
+}
+
+.tabs a.active {
+    background:#005BAF;
+    color:#fff;
 }

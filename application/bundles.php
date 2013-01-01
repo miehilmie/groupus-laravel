@@ -36,6 +36,6 @@
 return array(
 
 	'docs' => array('handles' => 'docs'),
-	'bob', 'plant'
+	'bob', 'plant', 'resizer'
 
 );

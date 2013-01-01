@@ -55,7 +55,7 @@
 				                    		<a class="messageContent" href="/messages/1">
 				                    			<div class="clearfix">
 				                    				<div class="imgPrev">
-				                    					<img class="thumb" src="/uploads/1/thumbs/default.jpg" width="50px" height="50px">
+				                    					<img class="thumb" src="/uploads/thumbs/{{ $m->sender->img_url }}" width="50px" height="50px">
 				                    				</div>
 				                    				<div class="cData">
 				                    					<div class="author"><strong>{{ $m->sender->name }}</strong></div>

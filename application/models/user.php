@@ -43,8 +43,4 @@ class User extends Basemodel {
 	public function subjects() {
 		return $this->has_many_and_belongs_to('Subject', 'enrollments')->with('semester_id');
 	}
-
-	public static function votecount($id) {
-		return 13;
-	}
 }
