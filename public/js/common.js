@@ -70,30 +70,12 @@
             $base = $(el);
             $base.click(function(e) {
                 e.preventDefault();
+                var callback = option.callback || function() {};
                 var w = $('html').width();
                 var h = $('html').height();
                 var wh = $(window).height();
-                var content = $('#'+ $base.attr('data-href'));
-                if( !content.length ) { 
-                    alert('Please specify data-href');
-                    return;
-                }
 
-                var back = $('<div/>', {
-                    css: {
-                        'z-index': 99,
-                        position: 'absolute',
-                        left:0,
-                        top:0,
-                        width: w+'px',
-                        height: h+'px',
-                        background: 'rgba(0,0,0,0.6)'
-                    },
-
-                    click: function(e) {
-                        back.trigger('close');
-                    },
-                }).append($('<div/>', {
+                var body = $('<div/>', {
                     id: 'holder',
                     css: {
                         left: (w*0.1) + 'px',
@@ -107,7 +89,24 @@
                     click: function(e) {
                         e.stopPropagation();
                     }
-                }).html(content.html()));
+                }).html("Loading..");
+
+                var back = $('<div/>', {
+                    css: {
+                        'z-index': 99,
+                        position: 'fixed',
+                        left:0,
+                        top:0,
+                        width: w+'px',
+                        height: h+'px',
+                        background: 'rgba(0,0,0,0.6)'
+                    },
+
+                    click: function(e) {
+                        back.trigger('close');
+                    },
+                }).append(body);
+
                 $("html").live("keydown", function(c) {
                     c.which == 27 && back.trigger('close');
                 }), 
@@ -116,23 +115,9 @@
                     back.remove();
                 })
                 $('body').append(back);
+                callback({ back: back, body: body }, $base);
 
-                // var url = '';
-                // switch(cmd) {
-                //     case 'subject':
-                //         url = '/ajax/subjects/new';
-                //         break;
-                //     case 'message':
-                //         url = '/ajax/messages/new';
-                //         break;
-                // }
-                // $.ajax({
-                //     url: url,
-                //     success: function(msg) {
-                //         console.log(msg);
-                //     }
-                // });
-            });
+            }); //  end click -->
 
 
 

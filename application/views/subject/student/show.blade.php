@@ -12,7 +12,46 @@
 @endsection
 
 @section('right')
- <h3>Subject view</h3>
+	<ul class="lecturer-announcement">
+	     <li class="header">Lecturer's Announcements</li>
+	     <li class="body">
+	         @forelse ($announcements as $a)
+		         <ul class="announcement-item">
+		             <li class="item-1"><span class="cls"><?php echo $a->code ?></span><span class="time"><?php echo $a->time; ?></span><span class="poster"><?php echo $a->poster; ?></span></li>
+		             <li class="item-2"><?php echo $a->body; ?></li>
+		         </ul>
+	         @empty
+	         	<div><span>You have no announcement yet</span></div>
+	         @endforelse
+	         <?php
+	         /**
+	          * $a as announcement item
+	          * attributes:
+	          * code - subject code
+	          * time - announcement time
+	          * poster - poster
+	          * body - announcement conent
+	          **/
+	         ?>
+	     </li>
+	 </ul>
+	 <ul class="student-update">
+	     <li class="header">Discussion board<a style="float:right;" href="#">Post New</a></li>
+	     <li class="body">
+	         <ul class="update-item">
+	         	<li>
+		         @forelse ($updates as $u)
+			         <ul class="update-item">
+			             <li class="item-1"><span class="cls"><?php echo $a->code ?></span><span class="time"><?php echo $a->time; ?></span><span class="poster"><?php echo $a->poster; ?></span></li>
+			             <li class="item-2"><?php echo $a->body; ?></li>
+			         </ul>
+		         @empty
+		         	<span>You have no update</span>
+		         @endforelse
+		        </li>
+	         </ul>
+	     </li>
+	 </ul>
 @endsection
 
 @section('left')
@@ -36,3 +75,4 @@
 		    <li></li>
 		</ul>
 @endsection
+

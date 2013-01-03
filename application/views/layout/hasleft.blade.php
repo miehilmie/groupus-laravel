@@ -19,8 +19,9 @@
 			                </li>
 			                <li class="bubble-item">
 			                    <ul>
+			                    	<li><div class="subjectComposeShrct"><a id="addNewSubject" href="#">Add New Subject</a></div></li>
 			                    	@forelse (Subject::your_subjects() as $s)
-			                    		<li>{{  HTML::link_to_route('subject_show', $s->code . '	 ' .$s->name, array($s->id)) }}</li>
+			                    		<li class="subj-item">{{  HTML::link_to_route('subject_show', $s->code . '	 ' .$s->name, array($s->id)) }}</li>
 			                    	@empty
 			                    		<li>
 			                    			<div class="emptyContent">
@@ -49,10 +50,10 @@
 			                </li>
 			                <li class="bubble-item">
 			                    <ul>
-			                    	<li><div class="messageComposeShrct"><a id="composeNewMsg" href="#" data-href="newMessageTmpl">Compose New</a></div></li>
+			                    	<li><div class="messageComposeShrct"><a id="composeNewMsg" href="#">Compose New</a></div></li>
 			                    	@forelse (Directmessage::your_messages() as $m)
 										<li>
-				                    		<a class="messageContent" href="/messages/1">
+				                    		<a class="messageContent" href="/messages/{{ $m->id }}">
 				                    			<div class="clearfix">
 				                    				<div class="imgPrev">
 				                    					<img class="thumb" src="/uploads/thumbs/{{ $m->sender->img_url }}" width="50px" height="50px">
@@ -94,8 +95,9 @@
 <h3> Compose new message </h3>
 {{ Form::open('messages', 'POST') }}
 {{ Form::token() }}
+
 <p> {{ Form::label('msgto', 'To: ') }}
-{{ Form::select('msgto', array('1' => 'Muhammad Hilmi', '2' => 'Muhammad Hilmie')); }}
+<select name="msgto"><%= users %></select>
 </p>
 <p>
 {{ Form::label('msgsubject', 'Subject: ') }}
@@ -111,6 +113,32 @@
 </p>
 {{ Form::close() }}
 </script>
+<script type="text/template" id="newSubjectTmpl">
+<h3> Compose new message </h3>
+{{ Form::open('subjects', 'POST') }}
+{{ Form::token() }}
+
+<p> {{ Form::label('faculty', 'Faculty: ') }}
+<select name="faculty"><%= users %></select>
+</p>
+<p>
+<label for="subject1">Subject 1: </label><select class="subjectSelect" name="subject1"><option value="-1">----- NONE -----</option></select>
+</p>
+<p>
+<label for="subject2">Subject 2: </label><select class="subjectSelect" name="subject2"><option value="-1">----- NONE -----</option></select>
+</p>
+<p>
+<label for="subject3">Subject 3: </label><select class="subjectSelect" name="subject3"><option value="-1">----- NONE -----</option></select>
+</p>
+<p>
+<label for="subject4">Subject 4: </label><select class="subjectSelect" name="subject4"><option value="-1">----- NONE -----</option></select>
+</p>
+<p>
+{{ Form::submit('Submit') }}
+</p>
+{{ Form::close() }}
+</script>
+{{ HTML::script('js/underscore-min.js') }}
 {{ HTML::script('js/common.js') }}
 {{ HTML::script('js/hasleft.js') }}
 @endsection

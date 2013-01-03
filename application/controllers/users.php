@@ -173,32 +173,8 @@ class Users_Controller extends Base_Controller {
     public function get_setting() {
         $u = Auth::user();
         $data = array(
-                'name'    => $u->name,
-                'age'     => $u->age,
-                'phone'   => $u->phone,
-                'address' => $u->address,
-                'gender'  => $u->gender_id
-            );
-
-        switch ($u->usertype_id) {
-            case 1:
-                $ext = array(
-                    'cgpa' => $u->student->cgpa,
-                    'dfc' => $u->student->distance_f_c
-                );
-                break;
-
-            case 2:
-                $ext = array();
-                break;
-
-            default:
-                # code...
-                break;
-        }
-
-        $data = array_merge($data, $ext);
-
+            'user' => $u
+        );
         return View::make('user.setting')->with($data);
     }
 
@@ -260,7 +236,7 @@ class Users_Controller extends Base_Controller {
                 break;
             case 2:
                 $rules = array(
-                    'image' => 'required|image|max:300'
+                    'image' => 'required|image|max:200'
                 );
                 $validation = Validator::make($input, $rules);
                 if($validation->fails()) {

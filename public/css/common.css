@@ -2,6 +2,9 @@ html, body {
     margin:0;
     padding:0;
 }
+form {
+    margin: 0;
+}
 ul, ol {
     margin:0;
     padding:0;
@@ -50,6 +53,7 @@ a:hover {
 }
 /* navbar */
 .navbar {
+    color:#000;
     margin:12px 15px 2px;
 }
 .navbar span {
@@ -195,7 +199,7 @@ a:hover {
 #messageFlyout a, #subjectFlyout a {
     display: block;
 }
-#subjectFlyout a {
+#subjectFlyout .subj-item a {
     padding-left: 15px;
     line-height: 30px;
     overflow: hidden;
@@ -213,13 +217,13 @@ a:hover {
     text-align: center;
     color: #A1A1A1;
 }
-#messageFlyout .messageComposeShrct {
+#messageFlyout .messageComposeShrct, #subjectFlyout .subjectComposeShrct {
     text-align: right;
 }
-#messageFlyout .messageComposeShrct a:hover {
+#messageFlyout .messageComposeShrct a:hover, #subjectFlyout .subjectComposeShrct a:hover {
     background: transparent;
 }
-#messageFlyout .imgPrev {
+#messageFlyout .imgPrev, .messageItem .imgPrev {
     float:left;
     margin-right: 9px;
 }
@@ -239,7 +243,29 @@ a:hover {
 #messageFlyout .messageViewAll {
     text-align: center;
 }
-.pagination{text-align:center; color:#aaa;}
+#messageContent .messageItem {
+    padding: 16px 15px;
+    border-bottom: 1px solid #C4CDD8;
+}
+#messageContent .messageItem:last-child {
+    border-bottom: none;
+}
+#messageContent .messageItem .rightMenu {
+    display: none;
+    float:right;
+    margin-right: 40px;
+}
+#messageContent .rightMenu li {
+    float:left;
+}
+#messageContent .messageItem:hover {
+    cursor: pointer;
+    background: #EAEFF6;
+}
+#messageContent .messagesWrapper {
+    min-height: 300px;
+}
+.pagination{margin-top:15px; text-align:center; color:#aaa;}
 .pagination li {float:left;}
 .pagination a,.pagination strong{color:#666;border:1px solid #ddd;background:#fcfcfc;padding:4px 12px;margin:0 3px;text-decoration:none;}
 .pagination a:hover{background:#526FE1;border:1px solid #526FE1;color:#fff;}
@@ -284,6 +310,11 @@ a:hover {
 }
 
 /* flash message */
+.errormsg-textonly p {
+    color:#C71313;
+    padding:0 15px;
+    margin: 3px;
+}
 .errormsg {
     background:#FF8484;
     border: 2px solid #C71313;
@@ -345,4 +376,65 @@ label[for=lblTerm] {
 .tabs a.active {
     background:#005BAF;
     color:#fff;
+}
+.messagesWrapper {
+    border:1px solid #B7B9BD;
+    background: #F5F5F5;
+    padding: 15px 0;
+}
+.messageContainer li {
+    padding: 5px 15px;
+}
+.messageContainer li strong {
+    float:left;
+}
+.messageContainer li div {
+    margin-left: 80px;
+    background: #fff;
+    padding: 3px 7px;
+    border: 1px solid #E7E2E2;
+}
+.messageContainer li div.newMsg {
+    background: transparent;
+    border:0;
+}
+.messageContainer li div.newMsg input {
+    width: 700px;
+}
+.messageContainer li .msgBody {
+    margin-left: 0;
+    min-height: 200px;
+    width: 900px;
+}
+.messageControl ul {
+    float:right;
+    margin-right: 20px;
+}
+.messageControl li {
+    float:left;
+}
+.reply-ico {
+    background: url('../img/reply-icon.png') !important;
+    display: inline-block;
+    width: 26px;
+    height: 33px;
+    margin: 2px 6px;
+}
+.delete-ico {
+    background: url('../img/trash-icon.png') !important;
+    display: inline-block;
+    vertical-align: top;
+    border: 0;
+    width: 26px !important;
+    height: 33px !important;
+    margin: 2px 6px;
+}
+.delete-ico::-moz-focus-inner {
+    padding: 0;
+    border:0;
+}
+
+.btn-niceblue { background-color: hsl(198, 90%, 29%) !important; background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr="#0987bc", endColorstr="#07648c"); background-image: -khtml-gradient(linear, left top, left bottom, from(#0987bc), to(#07648c)); background-image: -moz-linear-gradient(top, #0987bc, #07648c); background-image: -ms-linear-gradient(top, #0987bc, #07648c); background-image: -webkit-gradient(linear, left top, left bottom, color-stop(0%, #0987bc), color-stop(100%, #07648c)); background-image: -webkit-linear-gradient(top, #0987bc, #07648c); background-image: -o-linear-gradient(top, #0987bc, #07648c); background-image: linear-gradient(#0987bc, #07648c); border-color: #07648c #07648c hsl(198, 90%, 26.5%); color: #fff !important; text-shadow: 0 -1px 0 rgba(0, 0, 0, 0.16); -webkit-font-smoothing: antialiased; }
+#oopsmsg{
+    text-align: center;
 }

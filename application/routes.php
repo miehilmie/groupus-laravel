@@ -22,21 +22,44 @@ Route::post('users/(:num)/(:any)', array('before' => 'auth' , 'uses' => 'users@v
 Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'subject_show', 'uses' => 'subjects@show'));
 
 // messages
-Route::get('messages', array('before' => 'auth', 'as' => 'messages', 'uses' => 'messages@index'));
-Route::post('messages', array('before' => 'auth|csrf', 'as' => 'new_message', 'uses' => 'messages@create'));
-
+Route::get('messages', array('as' => 'messages', 'before' => 'auth', 'uses' => 'messages@index'));
+Route::get('messages/new/(:num)', array('as' => 'reply_message', 'before' => 'auth', 'uses' => 'messages@new'));
+Route::get('messages/new', array('as' => 'new_message', 'before' => 'auth', 'uses' => 'messages@new'));
+Route::get('messages/(:num)', array('as'=> 'message', 'before' => 'auth', 'uses' => 'messages@show'));
+Route::post('messages', array('as' => 'new_message', 'before' => 'auth|csrf', 'uses' => 'messages@create'));
+Route::delete('messages', array('before' => 'auth', 'uses' => 'messages@destroy'));
 // ===============================> DATA
+
+
+
 // AJAX route
+
 Route::get('ajax/universities/(:any)/faculties', array('as' => 'ajax_university_faculties', 'uses' => 'ajax.universities@faculties_index'));
 
-// ajax/subject Resource
-Route::get('ajax/subjects', array('as' => 'ajax_subjects', 'uses' => 'ajax.subjects@index'));
-Route::get('ajax/subjects/(:any)', array('as' => 'ajax_subject', 'uses' => 'ajax.subjects@show'));
-Route::get('ajax/subjects/new', array('as' => 'new_ajax_subject', 'uses' => 'ajax.subjects@new'));
-Route::get('ajax/subjects/(:any)edit', array('as' => 'edit_ajax_subject', 'uses' => 'ajax.subjects@edit'));
-Route::post('ajax/subjects', 'ajax/subjects@create');
-Route::put('ajax/subjects/(:any)', 'ajax/subjects@update');
-Route::delete('ajax/subjects/(:any)', 'ajax/subjects@destroy');
+
+
+// ajax user Resource
+Route::get('ajax/users', array('as' => 'ajaxusers', 'uses' => 'ajax.users@index'));
+Route::get('ajax/users/(:any)', array('as' => 'ajaxuser', 'uses' => 'ajax.users@show'));
+Route::get('ajax/users/new', array('as' => 'new_ajaxuser', 'uses' => 'ajax.users@new'));
+Route::get('ajax/users/(:any)edit', array('as' => 'edit_ajaxuser', 'uses' => 'ajax.users@edit'));
+Route::post('ajax/users', 'ajax.users@create');
+Route::put('ajax/users/(:any)', 'ajax.users@update');
+Route::delete('ajax/users/(:any)', 'ajax.users@destroy');
+
+// ajax message Resource
+Route::get('ajax/messages', array('as' => 'ajaxmessages', 'uses' => 'ajax.messages@index'));
+Route::get('ajax/messages/(:any)', array('as' => 'ajaxmessage', 'uses' => 'ajax.messages@show'));
+Route::get('ajax/messages/new', array('as' => 'new_ajaxmessage', 'uses' => 'ajax.messages@new'));
+Route::get('ajax/messages/(:any)edit', array('as' => 'edit_ajaxmessage', 'uses' => 'ajax.messages@edit'));
+Route::post('ajax/messages', 'ajax.messages@create');
+Route::put('ajax/messages/(:any)', 'ajax.messages@update');
+Route::delete('ajax/messages/(:any)', 'ajax.messages@destroy');
+
+// ajax faculty Resource
+Route::get('ajax/faculties', array('as' => 'ajaxfaculties', 'uses' => 'ajax.faculties@index'));
+Route::get('ajax/faculties/(:num)/subjects', array('as' => 'ajaxfaculties_subjects', 'uses' => 'ajax.faculties@subjects'));
+
 
 
 Route::get('help', function() {

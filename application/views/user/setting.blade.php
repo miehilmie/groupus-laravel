@@ -3,6 +3,7 @@
 @section('styles')
 @parent
 {{ HTML::style('css/student.css') }}
+
 @endsection
 
 @section('javascripts')
@@ -16,7 +17,6 @@
         {{ $e }}
         @endforeach
     </div>
-
 @endif
 @if($success = Session::get('success'))
 <div class="successmsg">
@@ -38,32 +38,35 @@
             <fieldset>
                 <legend>General Information:</legend>
             <table>
-                <tr><td><label>Full Name<span class="required">*</span>: </label></td><td>{{ Form::text('name', (Input::old('name') ? Input::old('name') : $name)) }}</td></tr>
-                <tr><td><label>Age: </label></td><td>{{ Form::text('age', (Input::old('age') ? Input::old('age') : $age)) }}</td></tr>
-                <tr><td><label>Contact: </label></td><td>{{ Form::text('phone', (Input::old('phone') ? Input::old('phone') : $phone)) }}</td></tr>
-                <tr><td><label>Address: </label></td><td>{{ Form::text('address', (Input::old('address') ? Input::old('address') : $address)) }}</td></tr>
+                <tr><td><label>Full Name<span class="required">*</span>: </label></td><td>{{ Form::text('name', (Input::old('name') ? Input::old('name') : $user->name)) }}</td></tr>
+                <tr><td><label>Age: </label></td><td>{{ Form::text('age', (Input::old('age') ? Input::old('age') : $user->age)) }}</td></tr>
+                <tr><td><label>Contact: </label></td><td>{{ Form::text('phone', (Input::old('phone') ? Input::old('phone') : $user->phone)) }}</td></tr>
+                <tr><td><label>Address: </label></td><td>{{ Form::text('address', (Input::old('address') ? Input::old('address') : $user->address)) }}</td></tr>
                 <tr><td><label>Gender<span class="required">*</span>: </label></td>
-                    <td>{{ Form::radio('gender', '1', (Input::old('gender') === '1' || $gender === '1') ? true : false) }}
+                    <td>{{ Form::radio('gender', '1', (Input::old('gender') === '1' || $user->gender_id === '1') ? true : false) }}
                         <label>Male</label>
-                        {{ Form::radio('gender', '2', (Input::old('gender') === '2' || $gender === '2') ? true : false) }}
+                        {{ Form::radio('gender', '2', (Input::old('gender') === '2' || $user->gender_id === '2') ? true : false) }}
                         <label>Female</label></td></tr>
             </table>
-            <fieldset class="info-wrapper" {{ (Input::old('usertype') == 2) ? 'style="display:none;"' : ''}} data="1">
+            @if($user->usertype_id == 1)
+            <fieldset class="info-wrapper">
                 <legend>Student Information:</legend>
                 <table>
-                    <tr><td><label>CGPA<span class="required">*</span>: </label></td><td><input style="width:100px" type="text" name="cgpa" value="{{ Input::old('cgpa') ? Input::old('cgpa') : $cgpa }}" /></td></tr>
+                    <tr><td><label>CGPA<span class="required">*</span>: </label></td><td><input style="width:100px" type="text" name="cgpa" value="{{ Input::old('cgpa') ? Input::old('cgpa') : $user->student->cgpa }}" /></td></tr>
                     <tr><td><label>Distance from campus<span class="required">*</span>: </label></td><td>
                             <select name="dfc">
-                                <option value="1" {{ ($dfc == 1) ? 'selected' : '' }}>In campus</option>
-                                <option value="2" {{ ($dfc == 2) ? 'selected' : '' }}>10KM from campus</option>
-                                <option value="3" {{ ($dfc == 3) ? 'selected' : '' }}>Within 10 to 20KM from campus</option>
-                                <option value="4" {{ ($dfc == 4) ? 'selected' : '' }}>More than 20KM from campus</option>
+                                <option value="1" {{ ($user->student->distance_f_c == 1) ? 'selected' : '' }}>In campus</option>
+                                <option value="2" {{ ($user->student->distance_f_c == 2) ? 'selected' : '' }}>10KM from campus</option>
+                                <option value="3" {{ ($user->student->distance_f_c == 3) ? 'selected' : '' }}>Within 10 to 20KM from campus</option>
+                                <option value="4" {{ ($user->student->distance_f_c == 4) ? 'selected' : '' }}>More than 20KM from campus</option>
                             </select></td></tr>
                 </table>
             </fieldset>
-            <fieldset class="info-wrapper" {{ (Input::old('usertype') != 2) ? 'style="display:none;"' : ''}} data="2">
+            @elseif($user->usertype_id == 2)
+            <fieldset class="info-wrapper">
                 <legend>Lecturer Information:</legend>
             </fieldset>
+            @endif
             </fieldset>
             <div class="submitpanel"><input class="submit" type="submit" value="Submit" /></div>
 {{ Form::close() }}
