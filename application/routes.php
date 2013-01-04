@@ -19,7 +19,8 @@ Route::get('users/(:any)', array('before' => 'auth','as' => 'show_user', 'uses' 
 Route::post('users/(:num)/(:any)', array('before' => 'auth' , 'uses' => 'users@vote'));
 
 // subjects
-Route::get('subjects/(:num)', array('before'=> 'auth', 'as' => 'subject_show', 'uses' => 'subjects@show'));
+Route::get('subjects/(:num)', array('before'=> 'auth|subjectowner', 'as' => 'subject_show', 'uses' => 'subjects@show'));
+Route::post('subjects/enroll', array('as' => 'subjectsenroll', 'before' => 'auth|csrf', 'uses' => 'subjects@enroll'));
 
 // messages
 Route::get('messages', array('as' => 'messages', 'before' => 'auth', 'uses' => 'messages@index'));
@@ -40,27 +41,16 @@ Route::get('ajax/universities/(:any)/faculties', array('as' => 'ajax_university_
 
 // ajax user Resource
 Route::get('ajax/users', array('as' => 'ajaxusers', 'uses' => 'ajax.users@index'));
-Route::get('ajax/users/(:any)', array('as' => 'ajaxuser', 'uses' => 'ajax.users@show'));
-Route::get('ajax/users/new', array('as' => 'new_ajaxuser', 'uses' => 'ajax.users@new'));
-Route::get('ajax/users/(:any)edit', array('as' => 'edit_ajaxuser', 'uses' => 'ajax.users@edit'));
-Route::post('ajax/users', 'ajax.users@create');
-Route::put('ajax/users/(:any)', 'ajax.users@update');
-Route::delete('ajax/users/(:any)', 'ajax.users@destroy');
 
 // ajax message Resource
-Route::get('ajax/messages', array('as' => 'ajaxmessages', 'uses' => 'ajax.messages@index'));
-Route::get('ajax/messages/(:any)', array('as' => 'ajaxmessage', 'uses' => 'ajax.messages@show'));
-Route::get('ajax/messages/new', array('as' => 'new_ajaxmessage', 'uses' => 'ajax.messages@new'));
-Route::get('ajax/messages/(:any)edit', array('as' => 'edit_ajaxmessage', 'uses' => 'ajax.messages@edit'));
-Route::post('ajax/messages', 'ajax.messages@create');
-Route::put('ajax/messages/(:any)', 'ajax.messages@update');
-Route::delete('ajax/messages/(:any)', 'ajax.messages@destroy');
+
 
 // ajax faculty Resource
 Route::get('ajax/faculties', array('as' => 'ajaxfaculties', 'uses' => 'ajax.faculties@index'));
 Route::get('ajax/faculties/(:num)/subjects', array('as' => 'ajaxfaculties_subjects', 'uses' => 'ajax.faculties@subjects'));
 
-
+// ajax subject Resource
+Route::get('ajax/subjects/available', array('as' => 'ajaxsubjects', 'uses' => 'ajax.subjects@available'));
 
 Route::get('help', function() {
 	$t = DB::table('users')->select('username')->get();
@@ -121,14 +111,12 @@ Route::filter('auth', function()
 
 // student are not allowed
 // announcements route?
-Route::filter('nostudent', function ()
+Route::filter('onlylecturer', function ()
 {
 
 });
 
-// allow view only associates with themselves
-// @todo: maybe need to send parameter
-Route::filter('belongs_to', function()
+Route::filter('subjectowner', function ()
 {
-
+	
 });
