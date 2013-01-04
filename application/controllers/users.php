@@ -4,16 +4,6 @@ class Users_Controller extends Base_Controller {
 
 	public $restful = true;    
 
-	public function get_index()
-    {
-
-    }    
-
-	public function post_index()
-    {
-        
-    }    
-
 	public function get_show($id)
     {
 
@@ -44,12 +34,7 @@ class Users_Controller extends Base_Controller {
                 'hardwork_votes'    => Vote::get_vote_count($u->id, 3),
                 'leadership_votes'  => Vote::get_vote_count($u->id, 4),
             ));
-    }    
-
-	public function get_edit()
-    {
-
-    }    
+    }   
 
 	public function get_new()
     {
@@ -143,13 +128,6 @@ class Users_Controller extends Base_Controller {
         return Redirect::to('signup')->with('success','Registration is successful!');
     }
 
-	public function put_update() {
-
-    }    
-
-	public function delete_destroy() {
-
-    }
 
     public function get_profile() {
         $u = Auth::user();
