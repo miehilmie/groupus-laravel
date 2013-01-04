@@ -1,11 +1,5 @@
 @layout('layout.logged')
 
-@section('styles')
-@parent
-{{ HTML::style('css/student.css') }} 
-@endsection
-
-
 @section('content')
 <table id="profile-tbl" border="1" align="center" cellspacing="0" cellpadding="8px">
 	<tr class="head">

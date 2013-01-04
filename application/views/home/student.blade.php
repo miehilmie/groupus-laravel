@@ -1,12 +1,5 @@
 @layout('layout.hasleft')
 
-@section('styles')
-@parent
-{{ HTML::style('css/student.css') }}
-@endsection
-
-
-
 @section('right')
 	<ul class="lecturer-announcement">
 	     <li class="header">Lecturer's Announcements</li>
