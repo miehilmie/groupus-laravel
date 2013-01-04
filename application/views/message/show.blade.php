@@ -1,13 +1,10 @@
 @layout('layout.hasleft')
 
-@section('styles')
-{{ HTML::style('css/bootstrap.css') }}
-@parent
-@endsection
 
 @section('right')
 <div id="messageContent">
 <h2>Message</h2>
+<a style="font-weight:bold; font-size:14px" href="/messages">&lt; back</a>
 <div class="messagesWrapper">
 	<ul class="messageContainer">
 		{{ Form::open('messages', 'DELETE')}}
