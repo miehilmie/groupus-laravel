@@ -1,7 +1,9 @@
 (function($){
     $('.bubbleTrigger').bubbleToggle(),
     
-    $('#composeNewMsg').guPopup({
+    $('.composeNewMsg').guPopup({
+        height: 400,
+        width: 800,
     	callback: function(o, $base) {
     		var users = {};
             var template = _.template($('#newMessageTmpl').html());
