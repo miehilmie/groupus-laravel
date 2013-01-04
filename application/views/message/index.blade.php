@@ -9,8 +9,12 @@
 @section('right')
 <div id="messageContent">
 <h1>Messages</h1>
+<div style="text-align:right; margin-bottom:7px; margin-right:15px">
+<a class="composeNewMsg btn btn-niceblue" href="#">Compose New</a>
+</div>
 <ul class="messagesWrapper">
 @if($messages->results)
+<div style="min-height:430px">
 	@foreach($messages->results as $m)
 	<li class="messageItem">
 		<div class="clearfix">
@@ -28,6 +32,7 @@
 		</div>
 	</li>
 	@endforeach
+</div>
 	{{ $messages->links() }}
 @else
 <div id="oopsmsg">
