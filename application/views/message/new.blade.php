@@ -1,9 +1,6 @@
 @layout('layout.hasleft')
 
-@section('styles')
-{{ HTML::style('css/bootstrap.css') }}
-@parent
-@endsection
+
 
 @section('right')
 <div id="messageContent">

@@ -5,10 +5,11 @@
 {{ HTML::style('css/student.css') }} 
 @endsection
 
-@section('javascripts')
+@section('jslogged')
 @parent
-{{ HTML::script('js/student.js') }}
+{{ HTML::script('js/views/user.js') }}
 @endsection
+
 
 @section('content')
 <table id="profile-tbl" border="1" align="center" cellspacing="0" cellpadding="8px">

@@ -3,11 +3,11 @@
 @section('styles')
 @parent
 {{ HTML::style('css/student.css') }}
-
 @endsection
 
-@section('javascripts')
-{{ HTML::script('js/student.js') }}
+@section('jshasleft')
+@parent
+{{ HTML::script('js/views/setting.js') }}
 @endsection
 
 @section('right')

@@ -5,10 +5,9 @@
 {{ HTML::style('css/student.css') }}
 @endsection
 
-
-@section('javascripts')
+@section('jshasleft')
 @parent
-{{ HTML::script('js/student.js') }}
+{{ HTML::script('js/views/subject.js') }}
 @endsection
 
 @section('right')
@@ -36,7 +35,7 @@
 	     </li>
 	 </ul>
 	 <ul class="student-update">
-	     <li class="header">Discussion board<a style="float:right;" href="#">Post New</a></li>
+	     <li class="header">Discussion board<a id="newPostSubject" href="#">Post New</a></li>
 	     <li class="body">
 	         <ul class="update-item">
 	         	<li>

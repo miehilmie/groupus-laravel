@@ -1,8 +1,8 @@
 @layout('layout.master')
 
-@section('javascripts')
+@section('jsmaster')
 @parent
-{{ HTML::script('js/signup.js') }}        
+{{ HTML::script('js/views/signup.js') }}        
 @endsection
 
 @section('content')

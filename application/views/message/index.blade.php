@@ -1,13 +1,11 @@
 @layout('layout.hasleft')
 
-@section('styles')
-{{ HTML::style('css/bootstrap.css') }}
-@parent
+
+
+@section('jshasleft')
+{{ HTML::script('js/views/message.js') }}
 @endsection
 
-@section('javascripts')
-{{ HTML::script('js/student.js') }}
-@endsection
 @section('right')
 <div id="messageContent">
 <h1>Messages</h1>
