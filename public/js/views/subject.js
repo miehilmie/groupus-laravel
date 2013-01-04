@@ -18,4 +18,11 @@
     		});
 		}
 	});
+
+    var $aside = $('.rSide'),
+        asideOffset = $aside.offset(),
+        $window = $('.hasRight');
+
+    $aside.css({'height': $window.innerHeight() });
+        
 })(jQuery);

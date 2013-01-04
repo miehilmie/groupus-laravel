@@ -19,7 +19,7 @@
 			                </li>
 			                <li class="bubble-item">
 			                    <ul>
-			                    	<li><div class="subjectComposeShrct"><a id="addNewSubject" href="#">Add New Subject</a></div></li>
+			                    	<li><div class="subjectComposeShrct"><a id="addNewSubject" href="#">New Subject</a></div></li>
 			                    	@forelse (Subject::your_subjects() as $s)
 			                    		<li class="subj-item">{{  HTML::link_to_route('subject_show', $s->code . '	 ' .$s->name, array($s->id)) }}</li>
 			                    	@empty
@@ -50,7 +50,7 @@
 			                </li>
 			                <li class="bubble-item">
 			                    <ul>
-			                    	<li><div class="messageComposeShrct"><a id="composeNewMsg" href="#">Compose New</a></div></li>
+			                    	<li><div class="messageComposeShrct"><a class="composeNewMsg" href="#">Compose New</a></div></li>
 			                    	@forelse (Directmessage::your_messages() as $m)
 										<li>
 				                    		<a class="messageContent" href="/messages/{{ $m->id }}">

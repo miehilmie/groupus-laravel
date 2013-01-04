@@ -1,16 +1,34 @@
 @layout('layout.hasleft')
 
-@section('styles')
-@parent
-{{ HTML::style('css/student.css') }}
-@endsection
 
 @section('jshasleft')
-@parent
 {{ HTML::script('js/views/subject.js') }}
 @endsection
 
 @section('right')
+<div class="clearfix">
+<div class="rSide">
+	<div class="title">Student's List</div>
+	<div class="userList">
+	<?php for ($i=0; $i < 5; $i++) { 
+		?>
+		<div class="userContainer">
+			<a href="#" title="Muhammad Hilmi bin HASDAdasd ad asdasdasdas Hassan"><div class="indicator online"></div>Muhammad Hilmi bin HASDAdasd ad asdasdasdas Hassan</a>
+		</div>
+		<?php
+	} ?>
+	<?php for ($i=0; $i < 15; $i++) { 
+		?>
+		<div class="userContainer">
+			<a href="#" title="Muhammad Hilmi bin HASDAdasd ad asdasdasdas Hassan"><div class="indicator"></div>Muhammad Hilmi bin HASDAdasd ad asdasdasdas Hassan</a>
+		</div>
+		<?php
+	} ?>
+	</div>
+</div>
+<div class="hasRight">
+	<h2 style="text-align:center;">Welcome To {{ $subject->code }}</h2>
+	<h3 style="text-align:center;">{{ $subject->name }}</h3>
 	<ul class="lecturer-announcement">
 	     <li class="header">Lecturer's Announcements</li>
 	     <li class="body">
@@ -35,7 +53,7 @@
 	     </li>
 	 </ul>
 	 <ul class="student-update">
-	     <li class="header">Discussion board<a id="newPostSubject" href="#">Post New</a></li>
+	     <li class="header">Discussion board<a class="actionOnTitle" id="newPostSubject" href="#">Post New</a></li>
 	     <li class="body">
 	         <ul class="update-item">
 	         	<li>
@@ -51,6 +69,8 @@
 	         </ul>
 	     </li>
 	 </ul>
+</div>
+</div>
 @endsection
 
 @section('left')
@@ -75,3 +95,18 @@
 		</ul>
 @endsection
 
+
+@section('pagespecific-templates')
+<script type="text/template" id="newPostSubjectTmpl">
+	<h3> Post anything.. </h3>
+	{{ Form::open('/subjects/posts') }}
+	{{ Form::token() }}
+	<textarea></textarea><br /><br /><br />
+	<div class="clearfix" style="float:right;">
+		{{ Form::submit('Submit', array('class' => 'btn btn-niceblue')) }}
+	</div>
+	<input type="hidden" name="id" value="{{ $subject->id }}" />
+	{{ Form::hidden('redirect', URL::current()) }}
+	{{ Form::close() }}
+</script>
+@endsection
