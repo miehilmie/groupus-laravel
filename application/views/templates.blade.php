@@ -17,6 +17,7 @@
 	<p>
 		{{ Form::submit('Send', array('class' => 'btn btn-niceblue')) }}
 	</p>
+	{{ Form::hidden('redirect', URL::current()) }}
 	{{ Form::close() }}
 </script>
 
@@ -41,17 +42,5 @@
 		{{ Form::hidden('redirect', URL::current()) }}
 		{{ Form::submit('Submit', array('class' => 'btn btn-niceblue')) }}
 	</p>
-	{{ Form::close() }}
-</script>
-
-<script type="text/template" id="newPostSubjectTmpl">
-	<h3> Post anything.. </h3>
-	{{ Form::('/subjects/posts') }}
-	{{ Form::token() }}
-	<textarea></textarea><br /><br /><br />
-	<div class="clearfix" style="float:right;">
-		{{ Form::submit('Submit', array('class' => 'btn btn-niceblue')) }}
-	</div>
-	{{ Form::hidden('redirect', URL::current()) }}
 	{{ Form::close() }}
 </script>

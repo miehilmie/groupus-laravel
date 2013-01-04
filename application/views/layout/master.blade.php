@@ -31,5 +31,6 @@
         </div>
         @yield('jsmaster')
         {{ render('templates') }}
+        @yield('pagespecific-templates')
     </body>
 </html>
