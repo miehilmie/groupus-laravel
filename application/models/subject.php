@@ -16,4 +16,8 @@ class Subject extends Basemodel
 	public static function your_subjects() {
 		return Auth::user()->subjects()->where('semester_id', '=', Auth::user()->university->semester_id)->get();
 	}
+
+	public static function IsEnrolled($id) {
+		return Auth::user()->subjects()->where('subject_id','=',$id)->where('semester_id', '=', Auth::user()->university->semester_id)->count() > 0;
+	}
 }
