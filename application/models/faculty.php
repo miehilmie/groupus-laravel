@@ -9,4 +9,8 @@ class Faculty extends Basemodel {
 	public function users() {
 		return $this->has_many('User');
 	}
+
+	public function subjects() {
+		return $this->has_many('Subject');
+	}
 }
