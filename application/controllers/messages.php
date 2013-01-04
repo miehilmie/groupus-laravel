@@ -45,7 +45,7 @@ class Messages_Controller extends Base_Controller {
 			'subject' => Input::get('msgsubject'),
 			'message' => Input::get('msgbody')
 		));
-		return Redirect::to('/');
+		return Redirect::to(Input::get('redirect'));
 
 	}
 
