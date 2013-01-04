@@ -4,10 +4,6 @@ class Subjects_Controller extends Base_Controller {
 
 	public $restful = true;    
 
-	public function get_index()
-    {
-
-    }    
 
 	public function post_enroll()
     {
@@ -26,29 +22,29 @@ class Subjects_Controller extends Base_Controller {
 	public function get_show($id)
     {
         $u = Auth::user();
+
         if(!Subject::IsEnrolled($id)) {
             return View::make('error.noauth');
         }
+
+        $subject = Subject::find($id);
+
         switch($u->usertype_id)
         {
             // student
             case 1:
             return View::make('subject.student.show')->with(array(
-                'name' => $u->name,
                 'announcements' => array(), // @todo: add announcements
-                'subjects' => $u->subjects()->where('semester_id','=', $u->university->semester_id)->get(),
-                'messages' => array(),
+                'subject' => $subject,
                 'updates' => array(),
-                'groups' => array()
             ));
             break;
 
             // lecturer
             case 2:
             return View::make('subject.student.show')->with(array(
-                'name' => $u->name,
                 'announcements' => array(), // @todo: add announcements
-                'subjects' => $u->subjects()->where('semester_id','=', $u->university->semester_id)->get(),
+                'subject' => $u->subjects()->where_subject_id_and_semester_id($id, $u->university->semester_id)->first(),
                 'messages' => array(),
                 'updates' => array(),
                 'groups' => array()
