@@ -7,3 +7,7 @@
     <li class="right">{{ HTML::link('setting', 'Account Setting', array('class' => 'item')) }}{{ HTML::link('logout', 'Logout', array('class' => 'item')) }}</li>
 </ul>
 @endsection
+
+@section('jsmaster')
+@yield('jslogged')
+@endsection

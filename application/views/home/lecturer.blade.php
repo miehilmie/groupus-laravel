@@ -6,11 +6,6 @@
 @endsection
 
 
-@section('javascripts')
-@parent
-{{ HTML::script('js/student.js') }}
-@endsection
-
 @section('right')
 	<ul class="lecturer-announcement">
 	     <li class="header">Lecturer's Announcements</li>

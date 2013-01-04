@@ -91,54 +91,13 @@
 <div class="right-content">
     @yield('right')
 </div></div>
-<script type="text/template" id="newMessageTmpl">
-<h3> Compose new message </h3>
-{{ Form::open('messages', 'POST') }}
-{{ Form::token() }}
+@endsection
 
-<p> {{ Form::label('msgto', 'To: ') }}
-<select name="msgto"><%= users %></select>
-</p>
-<p>
-{{ Form::label('msgsubject', 'Subject: ') }}
-{{ Form::text('msgsubject', ''); }}
-</p>
-<p>
-{{ Form::label('msgbody', 'Message: ') }}<br />
-{{ Form::textarea('msgbody', '') }}
+@section('jslibs')
+{{ HTML::script('js/libs/essentials.js') }}
+@endsection
 
-</p>
-<p>
-{{ Form::submit('Send') }}
-</p>
-{{ Form::close() }}
-</script>
-<script type="text/template" id="newSubjectTmpl">
-<h3> Compose new message </h3>
-{{ Form::open('subjects', 'POST') }}
-{{ Form::token() }}
-
-<p> {{ Form::label('faculty', 'Faculty: ') }}
-<select name="faculty"><%= users %></select>
-</p>
-<p>
-<label for="subject1">Subject 1: </label><select class="subjectSelect" name="subject1"><option value="-1">----- NONE -----</option></select>
-</p>
-<p>
-<label for="subject2">Subject 2: </label><select class="subjectSelect" name="subject2"><option value="-1">----- NONE -----</option></select>
-</p>
-<p>
-<label for="subject3">Subject 3: </label><select class="subjectSelect" name="subject3"><option value="-1">----- NONE -----</option></select>
-</p>
-<p>
-<label for="subject4">Subject 4: </label><select class="subjectSelect" name="subject4"><option value="-1">----- NONE -----</option></select>
-</p>
-<p>
-{{ Form::submit('Submit') }}
-</p>
-{{ Form::close() }}
-</script>
-{{ HTML::script('js/underscore-min.js') }}
-{{ HTML::script('js/common.js') }}
-{{ HTML::script('js/hasleft.js') }}
+@section('jslogged')
+{{ HTML::script('js/views/hasleft.js') }}
+@yield('jshasleft')
 @endsection
