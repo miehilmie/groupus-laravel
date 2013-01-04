@@ -74,16 +74,19 @@
                 var w = $('html').width();
                 var h = $('html').height();
                 var wh = $(window).height();
-
+                var width = option.width || (w - (w*0.2));
+                var height = option.height || (wh - (wh*0.2));
+                var wscale = (1-(width/w))/2;
+                var hscale = (1-(height/wh))/2;
                 var body = $('<div/>', {
                     id: 'holder',
                     css: {
-                        left: (w*0.1) + 'px',
-                        top: (wh*0.1) + 'px',
+                        left: (w*wscale) - 50 + 'px',
+                        top: (wh*hscale) + 'px',
                         position: 'relative',
                         background: '#fff',
-                        width: (w - (w*0.2) - 120)+'px',
-                        height: (wh - (wh*0.2) - 20)+'px',
+                        width: width +'px',
+                        height:  height +'px',
                         'padding': '10px 60px'
                     },
                     click: function(e) {
