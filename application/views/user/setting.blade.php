@@ -1,12 +1,6 @@
 @layout('layout.hasleft')
 
-@section('styles')
-@parent
-{{ HTML::style('css/student.css') }}
-@endsection
-
 @section('jshasleft')
-@parent
 {{ HTML::script('js/views/setting.js') }}
 @endsection
 

@@ -1,12 +1,6 @@
 @layout('layout.logged')
 
-@section('styles')
-@parent
-{{ HTML::style('css/student.css') }} 
-@endsection
-
 @section('jslogged')
-@parent
 {{ HTML::script('js/views/user.js') }}
 @endsection
 

@@ -1,7 +1,6 @@
 @layout('layout.master')
 
 @section('jsmaster')
-@parent
 {{ HTML::script('js/views/signup.js') }}        
 @endsection
 
