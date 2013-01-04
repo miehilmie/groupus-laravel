@@ -20,7 +20,7 @@ class Directmessage extends Basemodel
 	public static function your_messages() {
 		return Auth::user()->messages()->order_by('created_at', 'desc')->take(5)->get();
 	}
-	public static function your_messages_paginated($n = 3) {
+	public static function your_messages_paginated($n = 5) {
 		return Auth::user()->messages()->order_by('created_at', 'desc')->paginate($n);
 	}
 }
