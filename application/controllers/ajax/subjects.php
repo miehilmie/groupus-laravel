@@ -4,39 +4,9 @@ class Ajax_Subjects_Controller extends Base_Controller {
 
 	public $restful = true;    
 
-	public function get_index()
+    // available subject to enroll
+    public function get_available()
     {
-
-    }    
-
-	public function post_index()
-    {
-
-    }    
-
-	public function get_show()
-    {
-
-    }    
-
-	public function get_edit()
-    {
-
-    }    
-
-	public function get_new()
-    {
-
-    }    
-
-	public function put_update()
-    {
-
-    }    
-
-	public function delete_destroy()
-    {
-
+        return Response::eloquent(Auth::user()->faculty->subjects);
     }
-
 }
