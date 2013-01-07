@@ -46,23 +46,16 @@
 @section('left')
 		<ul class="section">
 		    <li class="title"><div class="title-text">My Group!</div><div class="title-roof"></div></li>
+			@forelse($groups as $g)
 			<li class="bullet">
 			    <ul><li class="bullet-text" data-href="/message/">
 			            <a>Group 1</a></li>
 			    </ul>
 			</li>
-			<li class="bullet">
-			    <ul><li class="bullet-text" data-href="/message/">
-			            <a>Group 2</a></li>
-			    </ul>
+			@empty
+			<li class="empty">
+				<span>No group yet!</span>
 			</li>
-			<li class="bullet">
-			    <ul><li class="bullet-text" data-href="/message/">
-			            <a>Group 3</a></li>
-			    </ul>
-			</li>
-		</ul>
-		<ul class="searches">
-		    <li></li>
+			@endforelse
 		</ul>
 @endsection

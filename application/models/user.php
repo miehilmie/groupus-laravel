@@ -37,10 +37,23 @@ class User extends Basemodel {
 	{
 		return $this->has_one('Lecturer');
 	}
+
 	public function messages() {
 		return $this->has_many('Directmessage', 'receiver_id');
 	}
+
+	public function sentitems() {
+		return $this->has_many('SentItem', 'sender_id');
+	}
+
 	public function subjects() {
 		return $this->has_many_and_belongs_to('Subject', 'enrollments')->with('semester_id');
+	}
+	public function get_message_jewel() {
+		$count = $this->messages()->where_has_read(false)->count();
+		if($count > 0)
+			return $count;
+		else
+			return '';
 	}
 }

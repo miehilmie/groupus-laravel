@@ -214,7 +214,7 @@ class Users_Controller extends Base_Controller {
                 break;
             case 2:
                 $rules = array(
-                    'image' => 'required|image|max:200'
+                    'image' => 'required|image|max:500'
                 );
                 $validation = Validator::make($input, $rules);
                 if($validation->fails()) {
@@ -224,8 +224,8 @@ class Users_Controller extends Base_Controller {
                 $file = Input::file('image');
                 $ext = File::extension($file['name']);
                 
-                $dest_path = 'public/uploads/';
-                $dest_path_thumb = 'public/uploads/thumbs/';
+                $dest_path = Config::get('application.custom_img_path');
+                $dest_path_thumb = Config::get('application.custom_img_thumbs_path');
                 $dest_filename = time().'_'.$u->id.'.'.$ext;
 
                 Bundle::start('resizer');

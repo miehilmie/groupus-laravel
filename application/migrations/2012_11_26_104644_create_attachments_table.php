@@ -6,8 +6,7 @@ class Create_Attachments_Table {
     {
 		Schema::create('attachments', function($table) {
 			$table->increments('id');
-			$table->string('url');
-			$table->string('path');
+			$table->string('filename');
 			$table->timestamps();
 	});
 

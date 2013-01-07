@@ -92,7 +92,7 @@
                     click: function(e) {
                         e.stopPropagation();
                     }
-                }).html("Loading..");
+                }).html('<div class="ajxLoading"></div>');
 
                 var back = $('<div/>', {
                     css: {

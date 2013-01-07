@@ -53,15 +53,10 @@
 			    </ul>
 			</li>
 			@empty
-			<li class="bullet">
-			    <ul><li class="bullet-text" data-href="/message/">
-			            No group yet!</li>
-			    </ul>
+			<li class="empty">
+				<span>No group yet!</span>
 			</li>
 			@endforelse
-		</ul>
-		<ul class="searches">
-		    <li></li>
 		</ul>
 @endsection
 

@@ -5,7 +5,7 @@ class Seed_Users extends \S2\Seed {
     public function grow()
     {
         $user = new User(array(
-            'username' => 'miebaik',
+            'username' => 'miehilmie',
             'password' => Hash::make('testing'),
             'name' => 'Muhammad Hilmi',
             'university_id' => $this->getReference('university-mmu')->id,
@@ -23,9 +23,9 @@ class Seed_Users extends \S2\Seed {
         $this->addReference('student-1', $student);
 
         $user = new User(array(
-            'username' => 'miehilmie',
+            'username' => 'syuhaidaaa',
             'password' => Hash::make('testing'),
-            'name' => 'Muhammad Hilmie',
+            'name' => 'Syuhaida Ahmad Ariffin',
             'university_id' => $this->getReference('university-mmu')->id,
             'faculty_id' => $this->getReference('faculty-fci')->id,
             'usertype_id' => $this->getReference('usertype-l')->id,

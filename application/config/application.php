@@ -1,6 +1,15 @@
 <?php
 
 return array(
+	// --------------_> CUSTOM
+	'custom_img_url' => '/uploads/img/',
+	'custom_img_thumbs_url' => '/uploads/img/thumbs/',
+	'custom_img_path' => 'public/uploads/img/',
+	'custom_img_thumbs_path' => 'public/uploads/img/thumbs/',
+
+	'custom_attachment_url' => '/uploads/attachment/',
+	'custom_attachment_path' => 'public/uploads/attachment/',
+
 
 	/*
 	|--------------------------------------------------------------------------

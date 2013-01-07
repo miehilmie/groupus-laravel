@@ -36,11 +36,20 @@
                 <tr><td><label>Age: </label></td><td>{{ Form::text('age', (Input::old('age') ? Input::old('age') : $user->age)) }}</td></tr>
                 <tr><td><label>Contact: </label></td><td>{{ Form::text('phone', (Input::old('phone') ? Input::old('phone') : $user->phone)) }}</td></tr>
                 <tr><td><label>Address: </label></td><td>{{ Form::text('address', (Input::old('address') ? Input::old('address') : $user->address)) }}</td></tr>
-                <tr><td><label>Gender<span class="required">*</span>: </label></td>
-                    <td>{{ Form::radio('gender', '1', (Input::old('gender') === '1' || $user->gender_id === '1') ? true : false) }}
-                        <label>Male</label>
+                <tr>
+                    <td>
+                    <label>Gender<span class="required">*</span>: </label>
+                </td>
+                    <td>
+                        <div class="labelfix cleafix">
+                        {{ Form::radio('gender', '1', (Input::old('gender') === '1' || $user->gender_id === '1') ? true : false, array()) }}
+                        <label>
+                            &nbsp;Male&nbsp;&nbsp;
+                        </label>
                         {{ Form::radio('gender', '2', (Input::old('gender') === '2' || $user->gender_id === '2') ? true : false) }}
-                        <label>Female</label></td></tr>
+                        <label>&nbsp;Female</label>
+                        </div>
+                    </td></tr>
             </table>
             @if($user->usertype_id == 1)
             <fieldset class="info-wrapper">

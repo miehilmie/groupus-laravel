@@ -8,10 +8,10 @@
 @section('right')
 <div class="clearfix">
 <div class="rSide">
-	<div class="title">Student's List</div>
+	<div class="title">User's List</div>
 	<ul class="userList">
-		@foreach($subject->get_only_students() as $s)
-		<li class="userContainer">
+		@foreach($subject->get_only_students_and_lecturers() as $s)
+		<li class="userContainer {{ ($s->usertype_id == 2) ? 'lecturer' : '' }}">
 			<a href="#" title="{{ $s->name }}"><div class="indicator online"></div>{{ $s->name }}</a>
 		</li>
 
@@ -27,11 +27,9 @@
 <div class="hasRight">
 	<h2 style="text-align:center;">Welcome To {{ $subject->code }}</h2>
 	<h3 style="text-align:center;">{{ $subject->name }}</h3>
-	@if($subject->IsGroupingEnable())
-	<div style="text-align:right; margin-bottom:5px;"><a id="joinGroup" class="btn btn-nicewhite" href="#">Join a group!</a></div>
-	@endif
+	<div style="text-align:right; margin-bottom:5px;"><a id="subjectSetting" class="btn btn-nicewhite" data-id="{{ $subject->id }}" href="#">Subject Settings</a></div>
 	<ul class="lecturer-announcement">
-	     <li class="header">Lecturer's Announcements</li>
+	     <li class="header">Lecturer's Announcements<a class="actionOnTitle" id="newAnnounce" href="#">New Announcement</a></li>
 	     <li class="body">
 	         @forelse ($announcements as $a)
 		         <ul class="announcement-item">
@@ -100,7 +98,7 @@
 			<li class="searchbox">
 				<span>Search:</span>
 				<ul class="searchoptions clearfix">
-					<li class="labelfix clearfix">
+				<li class="labelfix clearfix">
 					<input id="searchsubject" type="radio" value="1" name="searchtype" checked /><label for="searchsubject" />Subject</label>
 				</li>
 				<li class="labelfix clearfix">
@@ -127,5 +125,45 @@
 	<input type="hidden" name="id" value="{{ $subject->id }}" />
 	{{ Form::hidden('redirect', URL::current()) }}
 	{{ Form::close() }}
+</script>
+
+<script type="text/template" id="subjectSettingTmpl">
+	<br />
+	<h3> Subject Setting </h3>
+	<ul class="groupsetting-form">
+	{{ Form::open('/subjects/settings') }}
+	{{ Form::token() }}
+	<li class="inlinefields clearfix">
+		<label>Max groups in class: </label>
+		<select name="max_groups">
+			<%= maxgroups %>
+		</select>
+	</li>
+	<li class="inlinefields clearfix">
+		<label>Max students per group: </label>
+		<select name="max_students">
+			<%= maxstudents %>
+		</select>
+	</li>
+	<li><span>Mode: </span></li>
+	<li>
+		<ul class="radiooptions clearfix">
+		<li class="labelfix clearfix">
+			<input id="mode1" type="radio" name="mode" value="1" <%= (mode == 1) ? 'checked' : '' %> /><label for="mode1">&nbsp;Manual&nbsp;&nbsp;</label>
+		</li>
+		<li class="labelfix clearfix">
+			<input id="mode2" type="radio" name="mode" value="2" <%= (mode == 2) ? 'checked' : '' %> /><label for="mode2">&nbsp;Auto&nbsp;&nbsp;</label>
+		</li>
+		</ul>
+	</li>
+	<li  class="labelfix clearfix"><br /><label>Enable:&nbsp;</label><input type="checkbox" name="enable" <%= (enable == 1) ? 'checked' : '' %> /></li>
+	<li class="clearfix" style="float:right;">
+		<br />
+		{{ Form::submit('Submit', array('class' => 'btn btn-niceblue')) }}
+	</li>
+	<input type="hidden" name="id" value="{{ $subject->id }}" />
+	{{ Form::hidden('redirect', URL::current()) }}
+	{{ Form::close() }}
+	</ul>
 </script>
 @endsection

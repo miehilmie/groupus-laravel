@@ -11,7 +11,6 @@ Route::post('login', array('before' => 'csrf', 'as' => 'login', 'uses' => 'home@
 // users resources
 Route::get('signup', array('as' => 'new_user', 'uses' => 'users@new'));
 Route::post('signup', array('before' => 'csrf' ,'as' => 'create_user', 'uses' => 'users@create'));
-
 Route::get('profile', array('before' => 'auth', 'as'=> 'user_profile', 'uses' => 'users@profile'));
 Route::get('setting', array('before' => 'auth', 'as'=> 'user_setting', 'uses' => 'users@setting'));
 Route::put('setting/(:num)', array('before' => 'auth|csrf', 'uses' => 'users@setting'));
@@ -21,22 +20,30 @@ Route::post('users/(:num)/(:any)', array('before' => 'auth' , 'uses' => 'users@v
 // subjects
 Route::get('subjects/(:num)', array('before'=> 'auth|subjectowner', 'as' => 'subject_show', 'uses' => 'subjects@show'));
 Route::post('subjects/enroll', array('as' => 'subjectsenroll', 'before' => 'auth|csrf', 'uses' => 'subjects@enroll'));
+Route::post('subjects/posts', array('as' => 'subjectspost', 'before' => 'auth|csrf', 'uses' => 'subjects@posts'));
+Route::post('subjects/settings', array('as' => 'subjectssettings', 'before' => 'auth|csrf', 'uses' => 'subjects@settings'));
 
 // messages
 Route::get('messages', array('as' => 'messages', 'before' => 'auth', 'uses' => 'messages@index'));
+Route::get('messages/sents', array('as' => 'sents', 'before' => 'auth', 'uses' => 'messages@sents'));
+
 Route::get('messages/new/(:num)', array('as' => 'reply_message', 'before' => 'auth', 'uses' => 'messages@new'));
 Route::get('messages/new', array('as' => 'new_message', 'before' => 'auth', 'uses' => 'messages@new'));
+
 Route::get('messages/(:num)', array('as'=> 'message', 'before' => 'auth', 'uses' => 'messages@show'));
+Route::get('messages/sents/(:num)', array('as'=> 'message_sent', 'before' => 'auth', 'uses' => 'messages@sents_show'));
+
 Route::post('messages', array('as' => 'new_message', 'before' => 'auth|csrf', 'uses' => 'messages@create'));
+
 Route::delete('messages', array('before' => 'auth', 'uses' => 'messages@destroy'));
+Route::delete('messages/sents', array('before' => 'auth', 'uses' => 'messages@sents_destroy'));
+
 // ===============================> DATA
 
 
 
 // AJAX route
-
 Route::get('ajax/universities/(:any)/faculties', array('as' => 'ajax_university_faculties', 'uses' => 'ajax.universities@faculties_index'));
-
 
 
 // ajax user Resource
@@ -51,16 +58,19 @@ Route::get('ajax/faculties/(:num)/subjects', array('as' => 'ajaxfaculties_subjec
 
 // ajax subject Resource
 Route::get('ajax/subjects/available', array('as' => 'ajaxsubjects', 'uses' => 'ajax.subjects@available'));
+Route::get('ajax/subjects/(:num)/rule', array('as' => 'ajaxsubjectrule', 'uses' => 'ajax.subjects@rule'));
 
-Route::get('help', function() {
-	$t = DB::table('users')->select('username')->get();
-	$b = array(
-		'miebaik',
-		'miehilmie'
-	);
-	dd($b);
-	return View::make('home.index');
+
+// API -------------------->
+Route::get('hash/(:any)/(:any)', function($u, $p) {
+	$user = User::where_username($u)->first();
+	if($user) {
+		return Hash::check($p, $user->password);
+	}
+	return false;
 });
+
+
 /***
 *	Listener
 ***/

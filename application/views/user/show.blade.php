@@ -11,7 +11,7 @@
 		<td colspan="2"><h1>{{ $user->name }}</h1></td>
 	</tr>
 	<tr>
-		<td><img src="/uploads/{{ $user->img_url }}" width="180px" height="180px" ></td>
+		<td><img src="{{ Config::get('application.custom_img_url')}}{{ $user->img_url }}" width="180px" height="180px" ></td>
 		<td>
 			<ul id="profile-info">
 			<li><label>Name :</label> {{ $user->name }}</li>
