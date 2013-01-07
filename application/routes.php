@@ -59,6 +59,7 @@ Route::get('ajax/faculties/(:num)/subjects', array('as' => 'ajaxfaculties_subjec
 // ajax subject Resource
 Route::get('ajax/subjects/available', array('as' => 'ajaxsubjects', 'uses' => 'ajax.subjects@available'));
 Route::get('ajax/subjects/(:num)/rule', array('as' => 'ajaxsubjectrule', 'uses' => 'ajax.subjects@rule'));
+Route::get('ajax/subjects/(:num)/groups', array('as' => 'ajaxsubjectrule', 'uses' => 'ajax.subjects@groups'));
 
 
 // API -------------------->

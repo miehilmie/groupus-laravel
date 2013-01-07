@@ -18,6 +18,12 @@ class Subject extends Basemodel
 		return $this->has_many('Discussion');
 	}
 
+	public function grouprules() {
+		return $this->has_many('Grouprule');
+	}
+	public function groups() {
+		return $this->has_many('Group');
+	}
 	public static function your_subjects() {
 		return Auth::user()->subjects()
 		->where('semester_id', '=', Auth::user()->university->semester_id)
@@ -48,7 +54,24 @@ class Subject extends Basemodel
 		->where_semester_id(Auth::user()->university->semester_id)
 		->first();
 	}
-	
+
+	public function get_only_groups() {
+		
+		$groups = $this->groups()
+		->where_semester_id(Auth::user()->university->semester_id)
+		->get();
+		
+		return $groups;
+		// $response = array();
+		// foreach ($groups as $g) {
+		// 	$o = json_decode(eloquent_to_json($g));
+		// 	$o->users = $g->students();
+
+		// 	$response[] = $o;
+		// }
+
+		// return json_encode($response);
+	}
 	// BOOLEAN
 	public static function IsEnrolled($id) {
 		return Auth::user()->subjects()
@@ -60,10 +83,6 @@ class Subject extends Basemodel
 	public static function IsFacultySubject($id) {
 		return static::where_faculty_id_and_id(Auth::user()->faculty_id, $id)
 		->count() > 0;
-	}
-
-	public function grouprules() {
-		return $this->has_many('Grouprule');
 	}
 
 	public function IsGroupingEnable() {

@@ -28,7 +28,7 @@
 	<h2 style="text-align:center;">Welcome To {{ $subject->code }}</h2>
 	<h3 style="text-align:center;">{{ $subject->name }}</h3>
 	@if($subject->IsGroupingEnable())
-	<div style="text-align:right; margin-bottom:5px;"><a id="joinGroup" class="btn btn-nicewhite" href="#">Join a group!</a></div>
+	<div style="text-align:right; margin-bottom:5px;"><a id="joinGroup" class="btn btn-nicewhite" data-id="{{ $subject->id }}" href="#">Join a group!</a></div>
 	@endif
 	<ul class="lecturer-announcement">
 	     <li class="header">Lecturer's Announcements</li>
@@ -127,5 +127,49 @@
 	<input type="hidden" name="id" value="{{ $subject->id }}" />
 	{{ Form::hidden('redirect', URL::current()) }}
 	{{ Form::close() }}
+</script>
+
+<script type="text/template" id="joinGroupTmpl">
+	<h3> Select Group: </h3>
+	{{ Form::open('/subjects/groups') }}
+	{{ Form::token() }}
+	<dl class="accordion">
+
+	<%= group_list %>
+	
+
+	</dl>
+	<br /><br />
+	<div class="clearfix" style="float:right;">
+		{{ Form::submit('Submit', array('class' => 'btn btn-niceblue')) }}
+	</div>
+	<input type="hidden" name="id" value="{{ $subject->id }}" />
+	{{ Form::hidden('redirect', URL::current()) }}
+	{{ Form::close() }}
+</script>
+<script type="text/template" id="groupTmpl">
+<dt><a href=""><%= group_name %></a></dt>
+	<dd>
+		<ul>
+			<%= group_userlist %>
+		</ul>
+		<div class="clearfix" style="text-align:right;"><input type="radio" name="group_num" value="<%= group_id %>"><span>&nbsp;Join Group</span></div>
+</dd>
+</script>
+<script type="text/template" id="userGroupTmpl">
+<li>
+	<a class="userGroupContent" href="/users/<%= id %>">
+		<div class="clearfix">
+			<div class="imgPrev">
+				<img class="thumb" src="<%= img_url %>" width="25px" height="25px">
+			</div>
+			<div class="cData">
+				<div class="author">
+					<strong><%= name %></strong>
+				</div>
+			</div>
+		</div>
+	</a>
+</li>
 </script>
 @endsection

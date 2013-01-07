@@ -157,9 +157,12 @@
 		</ul>
 	</li>
 	<li  class="labelfix clearfix"><br /><label>Enable:&nbsp;</label><input type="checkbox" name="enable" <%= (enable == 1) ? 'checked' : '' %> /></li>
+	<br />
+	<a href="#" class="ajaxGenerate btn btn-success">Generate</a> 
 	<li class="clearfix" style="float:right;">
 		<br />
-		{{ Form::submit('Submit', array('class' => 'btn btn-niceblue')) }}
+		<br />
+		{{ Form::submit('Save', array('class' => 'btn btn-niceblue')) }}
 	</li>
 	<input type="hidden" name="id" value="{{ $subject->id }}" />
 	{{ Form::hidden('redirect', URL::current()) }}

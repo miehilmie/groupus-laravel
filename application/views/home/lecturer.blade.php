@@ -2,7 +2,7 @@
 
 @section('right')
 	<ul class="lecturer-announcement">
-	     <li class="header">Lecturer's Announcements</li>
+	     <li class="header">Your Announcements</li>
 	     <li class="body">
 	         @forelse ($announcements as $a)
 		         <ul class="announcement-item">
@@ -28,16 +28,21 @@
 	     <li class="header">My Updates</li>
 	     <li class="body">
 	         <ul class="update-item">
-	         	<li>
-		         @forelse ($updates as $u)
-			         <ul class="update-item">
-			             <li class="item-1"><span class="cls"><?php echo $a->code ?></span><span class="time"><?php echo $a->time; ?></span><span class="poster"><?php echo $a->poster; ?></span></li>
-			             <li class="item-2"><?php echo $a->body; ?></li>
+		         @forelse ($updates as $a)
+		         <li class="update-item">
+			         <ul class="{{ ($a->poster->usertype_id == 2) ? 'lect' : ''  }}">
+			             <li class="titlebar"><span class="cls">{{ $a->subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster->id }}" ><?php echo $a->poster->name; ?></a></span></li>
+			             <li class="messagebar"><?php echo $a->message; ?></li>
+			             <li class="attachmentbar">
+			             	@if($a->has_attachment)
+			             	<div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment->filename }}</a>
+			             	@endif
+			             </li>
 			         </ul>
+			     </li>
 		         @empty
-		         	<span>You have no update</span>
+		         	<li><span>You have no update</span></li>
 		         @endforelse
-		        </li>
 	         </ul>
 	     </li>
 	 </ul>

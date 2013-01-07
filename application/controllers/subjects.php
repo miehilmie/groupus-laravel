@@ -30,12 +30,12 @@ class Subjects_Controller extends Base_Controller {
             $grouprule->maxgroups = Input::get('max_groups');
             $grouprule->maxstudents = Input::get('max_students');
             $grouprule->mode = Input::get('mode');
-            $grouprule->enable = Input::get('enable');
+            $grouprule->enable = (Input::get('enable') == 'on') ? 1 : 0;
             $grouprule->save();
         }
 
         return Redirect::to($redirect);
-    }  
+    }
 
 	public function get_show($id)
     {
@@ -47,6 +47,8 @@ class Subjects_Controller extends Base_Controller {
 
         $subject = Subject::find($id);
 
+
+        $updates = User::updates();
         switch($u->usertype_id)
         {
             // student
@@ -55,7 +57,6 @@ class Subjects_Controller extends Base_Controller {
                 'announcements' => array(), // @todo: add announcements
                 'subject'       => $subject,
                 'groups'        => array(),
-                'updates'       => array(),
             ));
             break;
 
@@ -64,8 +65,6 @@ class Subjects_Controller extends Base_Controller {
             return View::make('subject.lecturer.show')->with(array(
                 'announcements' => array(), // @todo: add announcements
                 'subject'       => $subject,
-                'messages'      => array(),
-                'updates'       => array(),
                 'groups'        => array()
             ));
             break;

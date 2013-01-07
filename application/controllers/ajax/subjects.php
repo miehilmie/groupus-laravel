@@ -30,4 +30,30 @@ class Ajax_Subjects_Controller extends Base_Controller {
     	return null;
 
     }
+    
+    public function get_groups($id) {
+        if(Subject::IsFacultySubject($id) && Subject::IsEnrolled($id)) {
+            $subject = Subject::find($id);
+            $groups = $subject->get_only_groups();
+            $response = array();
+            foreach ($groups as $g) {
+            	$o = json_decode(eloquent_to_json($g));
+            	$o->users = json_decode(eloquent_to_json($g->students()->get()));
+            	$response[] = $o;
+            }
+            return json_encode($response);
+            // $grouprule = $subject->get_only_grouprule();
+
+ 			// return $grouprule->maxstudents;
+            // $grouprule->maxstudents = Input::get('max_students');
+        }
+	    // return eloquent_to_json(Grouprule::find($rule->id));
+
+
+    }
+
+    public function post_generate() {
+    	$input = Input::json();
+    	return json_encode($input);
+    }
 }

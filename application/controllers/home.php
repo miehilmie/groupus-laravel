@@ -6,7 +6,6 @@ class Home_Controller extends Base_Controller {
 	
 	public function get_index()
 	{
-		$a = json_decode(eloquent_to_json(User::get(array('id'))));
 		if( is_null($u = Auth::user()) )
 			return View::make('home.index');
 
@@ -17,7 +16,7 @@ class Home_Controller extends Base_Controller {
 				array(
 					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'updates' => array(),
+					'updates' => User::updates(),
 					'groups' => array()
 				) 
 			);
@@ -28,7 +27,7 @@ class Home_Controller extends Base_Controller {
 				array(
 					'name' => $u->name,
 					'announcements' => array(), // @todo: add announcements
-					'updates' => array(),
+					'updates' => User::updates(),
 					'groups' => array()
 				) 
 			);

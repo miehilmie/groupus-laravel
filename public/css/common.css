@@ -629,6 +629,42 @@ label[for=lblTerm] {
 
 /* ----------_ END FORMFIELDS -------- */
 
+/* ----------  ACCORDION  ------------ */
+
+.accordion {
+  margin:50px
+}
+.accordion dt {
+  background: #1B4A91;
+}
+.accordion dd,.accordion dt {
+  padding:10px;
+  border:1px solid #ADADAD;
+  border-bottom:0;
+}
+.accordion dd:last-of-type,.accordion dt:last-of-type {
+  border-bottom:1px solid #000;
+}
+.accordion dt a {
+  display:block;
+  color:#fff;
+  font-weight:bold;
+}
+.accordion dd {
+  border-top:0;
+  font-size:12px;
+}
+.accordion dd:last-of-type {
+  border-top:1px solid #fff;
+  position:relative;
+  top:-1px
+}
+
+  
+
+/* ---------- END ACCORDION  ------------ */
+
+
 /* ---------------- PAGINATION ------------- */
 
 .pagination{margin-top:15px; text-align:center; color:#aaa;}
@@ -719,12 +755,15 @@ label[for=lblTerm] {
 #messageFlyout .messageComposeShrct a:hover, #subjectFlyout .subjectComposeShrct a:hover {
     background: transparent;
 }
-#messageFlyout .imgPrev, .messageItem .imgPrev {
+#messageFlyout .imgPrev, .messageItem .imgPrev, .userGroupContent .imgPrev {
     float:left;
     margin-right: 9px;
 }
 #messageFlyout .cData {
     text-align: left;
+}
+.userGroupContent .cData {
+  line-height: 25px;
 }
 #messageFlyout .snippet {
     overflow: hidden;
