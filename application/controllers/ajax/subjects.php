@@ -12,22 +12,28 @@ class Ajax_Subjects_Controller extends Base_Controller {
 
     public function get_rule($id) {
     	if(Subject::IsEnrolled($id)) {
+            $response = array();
 	    	$subject = Subject::find($id);
+
 	    	$rule = $subject->get_only_grouprule();
-	    	if($rule) {
-		    	return eloquent_to_json($rule);
-	    	}
-	    	else {
+	    	if(!$rule) {
 	    		$rule = Grouprule::create(array(
 	    			'subject_id' => $subject->id,
 	    			'semester_id' => Auth::user()->university->semester_id
 	    		));
 
-	    		return eloquent_to_json(Grouprule::find($rule->id));
-	    	}	
+                $rule = Grouprule::find($rule->id);
+	    	}
+
+            $response = json_decode(eloquent_to_json($rule));
+            $response->has_group = (Group::where_subject_id($subject->id)
+                ->where_semester_id(Auth::user()->university->semester_id)->count() > 0);
+
+            return json_encode($response);
+
     	}
 
-    	return null;
+    	return Response::error('404');
 
     }
     
