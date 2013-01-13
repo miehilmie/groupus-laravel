@@ -3,22 +3,29 @@
 class Home_Controller extends Base_Controller {
 
 	public $restful = true;
-	
+
+
+    /**
+     * get_index
+     *
+     * @access public
+     *
+     * @return mixed Value.
+     */
 	public function get_index()
 	{
 		if( is_null($u = Auth::user()) )
 			return View::make('home.index');
-
 		switch( $u->usertype_id ) {
 			// student
 			case 1:
 			return View::make('home.student')->with(
 				array(
 					'name' => $u->name,
-					'announcements' => array(), // @todo: add announcements
-					'updates' => User::updates(),
-					'groups' => array()
-				) 
+					'announcements' => $u->announcements(),
+					'updates' => $u->updates(),
+					'groups' => Auth::user()->student->get_only_groups()
+				)
 			);
 			break;
 			// lecturer
@@ -26,10 +33,10 @@ class Home_Controller extends Base_Controller {
 			return View::make('home.lecturer')->with(
 				array(
 					'name' => $u->name,
-					'announcements' => array(), // @todo: add announcements
-					'updates' => User::updates(),
+					'announcements' => $u->announcements(),
+					'updates' => $u->updates(),
 					'groups' => array()
-				) 
+				)
 			);
 			break;
 
@@ -45,7 +52,7 @@ class Home_Controller extends Base_Controller {
 		$credential = array(
 			'username' => Input::get('username'),
 			'password' => Input::get('password'),
-			'remember' => !empty($remember) ? $remember : null 
+			'remember' => !empty($remember) ? $remember : null
 		);
 
 		if( Auth::attempt($credential) )
@@ -61,7 +68,7 @@ class Home_Controller extends Base_Controller {
 		$user = Auth::user();
 		$user->last_activity = $five_minago;
 		$user->save();
-		
+
 		Auth::logout();
 
 		return Redirect::to_route('home');
