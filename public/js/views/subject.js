@@ -1,11 +1,20 @@
 (function($) {
 	$('#newPost').guPopup({
         width: 700,
-        height: 300,
+        height: 350,
 		callback: function(o, $base) {
-    		o.body.html($('#newPostSubjectTmpl').html());
+            o.body.html($('#newPostSubjectTmpl').html());
 		}
 	});
+
+    $('#newAnnounce').guPopup({
+        width: 700,
+        height: 350,
+        callback: function(o, $base) {
+            o.body.html($('#newPostAnnounceTmpl').html());
+        }
+    });
+
     $('#subjectSetting').guPopup({
         width: 500,
         height: 450,
@@ -18,29 +27,36 @@
                 dataType: 'JSON',
                 type: 'GET',
                 success: function(m) {
+                    var v = m.has_group;
+                    console.log(v);
                     var maxgroups = '';
-                    for (var i = 0; i <= 17; ++i) {
+                    var i;
+                    for (i = 0; i <= 17; ++i) {
                         maxgroups += '<option '+ ((i == m.maxgroups) ? 'selected' : '') +' value="'+i+'">'+i+'</option>';
-                    };
+                    }
 
                     var maxstudents = '';
-                    for (var i = 0; i <= 17; ++i) {
+                    for (i = 0; i <= 17; ++i) {
                         maxstudents += '<option '+ ((i == m.maxstudents) ? 'selected' : '') +' value="'+i+'">'+i+'</option>';
-                    };
+                    }
                     o.body.html(template({
-                        maxgroups: maxgroups, 
+                        maxgroups: maxgroups,
                         maxstudents: maxstudents,
                         mode: m.mode,
                         enable: m.enable
                     }));
 
                     $('.ajaxGenerate').click(function(e) {
-                        if($(this).hasClass('disabled')) {
-                        } else {
-
+                        if($(this).parents('form').find('input[name="prefix"]').val().length === 0) {
+                            alert("Group prefix name is required");
+                            return false;
                         }
-                        return false;
-                    })
+                        var c = true;
+                        if(v === true) {
+                            c = confirm('Group is already found in this subject. Proceed with the settings will destroy all existing groups. Are sure you want to continue?');
+                        }
+                        return c;
+                    });
 
 
                 }
@@ -50,7 +66,7 @@
 
     $("#joinGroup").guPopup({
         width: 700,
-        height: 730,
+        height: 530,
         callback: function(o, $base) {
             var id = $('#joinGroup').attr('data-id');
 
@@ -71,14 +87,12 @@
                         var user_html = '';
 
                         $.each(v.users, function(i, vo) {
-                            user_html += user({id: vo.id, img_url: vo.img_url, name: vo.name })
+                            user_html += user({id: vo.id, img_url: vo.img_url, name: vo.name });
                         });
                         group_html += group({group_name: v.name, group_userlist: user_html, group_id: v.id});
                     });
 
-
-
-
+                    o.body.html(join_group({ group_list: group_html }));
                     var allPanels = $('.accordion > dd').hide();
 
                     $('.accordion > dt > a').click(function() {
@@ -86,18 +100,13 @@
                         $(this).parent().next().slideDown();
                         return false;
                     });
-
-
-
-                    o.body.html(join_group({ group_list: group_html }));
-
                 }
             });
         }
     });
 
-    
-  
+
+
 
 
     var $aside = $('.rSide'),
@@ -105,5 +114,4 @@
         $window = $('.hasRight');
 
     $aside.css({'height': $window.innerHeight() });
-        
 })(jQuery);

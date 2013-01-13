@@ -23,6 +23,7 @@
     	}
     }),
     $('#addNewSubject').guPopup({
+        width: 600,
     	callback: function(o, $base) {
     		var users = {};
             var template = _.template($('#newSubjectTmpl').html());

@@ -23,7 +23,7 @@
                     var $el =$('#selFaculty');
                     $el.html('<option value="none">-- Select Faculty --</option>');
                     $.each(msg,function(i,v) {
-                        $el.append('<option value="'+ v.id +'">'+ v.name +' ('+ v.abbrevation +')</option>')
+                        $el.append('<option value="'+ v.id +'">'+ v.name +' ('+ v.abbrevation +')</option>');
                     });
                 }
             }
