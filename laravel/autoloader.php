@@ -222,7 +222,7 @@ class Autoloader {
 		return array_map(function($directory)
 		{
 			return rtrim($directory, DS).DS;
-		
+
 		}, (array) $directories);
 	}
 

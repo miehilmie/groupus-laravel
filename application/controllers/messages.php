@@ -7,7 +7,7 @@ class Messages_Controller extends Base_Controller {
 	public function get_index() {
 		return View::make('message.index')->with('messages', Directmessage::your_messages_paginated());
 	}
-	
+
 	public function get_sents() {
 		return View::make('message.sents')->with('messages', SentItem::your_messages_paginated());
 	}
@@ -19,7 +19,7 @@ class Messages_Controller extends Base_Controller {
 		$m = Directmessage::find($id);
 		$m->has_read = true;
 		$m->save();
-		
+
 		return View::make('message.show')->with(array(
 			'message' => $m
 		));
@@ -74,7 +74,7 @@ class Messages_Controller extends Base_Controller {
 
 		$msg = Directmessage::find(Input::get('id'));
 		$msg->delete();
-		
+
 		return Redirect::to_route('messages');
 
 	}

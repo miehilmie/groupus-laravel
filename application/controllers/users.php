@@ -2,7 +2,7 @@
 
 class Users_Controller extends Base_Controller {
 
-	public $restful = true;    
+	public $restful = true;
 
 	public function get_show($id)
     {
@@ -34,7 +34,7 @@ class Users_Controller extends Base_Controller {
                 'hardwork_votes'    => Vote::get_vote_count($u->id, 3),
                 'leadership_votes'  => Vote::get_vote_count($u->id, 4),
             ));
-    }   
+    }
 
 	public function get_new()
     {
@@ -46,11 +46,27 @@ class Users_Controller extends Base_Controller {
                 'universities' => $u,
                 'faculties'    => $f,
             ));
-    }    
+    }
     public function post_create()
     {
         // get all inputs
         $input = Input::get();
+
+
+        // custom error message
+        $messages = array(
+            'email' => 'The :attribute field must be in email format.',
+            'same'  => 'Password must match.',
+            'cgpa'  => 'CGPA must ranged from 0 to 4'
+        );
+
+        //custom validation
+
+        // cgpa: must be valid value from 0 to 4
+        Validator::register('cgpa', function($attribute, $value, $parameters)
+        {
+            return $value > 0 && $value <= 4;
+        });
 
         // define validation rules
         $rules = array(
@@ -60,24 +76,21 @@ class Users_Controller extends Base_Controller {
             'agree'    => 'required'
         );
 
-        // custom message
-        $messages = array(
-            'email' => 'The :attribute field must be in email format.',
-            'same'  => 'Password must match.'
-        );
-        //@todo
+
         // usertype additional condition
         switch(Input::get('usertype'))
         {
             // student
             case 1:
                 $r = array(
-                    'cgpa' => 'required',
+                    'cgpa' => 'required|cgpa',
                 );
             break;
             // lecturer
             case 2:
-                $r = array();
+                $r = array(
+                    'roomno' => 'required'
+                );
             break;
 
         }
@@ -119,6 +132,7 @@ class Users_Controller extends Base_Controller {
             // lecturer
             case 2:
                 $lecturer = new Lecturer(array(
+                    'roomno'       => $input['roomno']
                 ));
                 $user->lecturer()->insert($lecturer);
             break;
@@ -228,7 +242,7 @@ class Users_Controller extends Base_Controller {
 
                 $file = Input::file('image');
                 $ext = File::extension($file['name']);
-                
+
                 $dest_path = Config::get('application.custom_img_path');
                 $dest_path_thumb = Config::get('application.custom_img_thumbs_path');
                 $dest_filename = time().'_'.$u->id.'.'.$ext;
@@ -292,7 +306,7 @@ class Users_Controller extends Base_Controller {
         if($id == $voter->id) {
             return Redirect::to_route('home');
         }
-        
+
         // get integer type
         switch ($type) {
             case 'friendly':

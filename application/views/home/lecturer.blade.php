@@ -1,27 +1,26 @@
 @layout('layout.hasleft')
 
 @section('right')
-	<ul class="lecturer-announcement">
+	<ul class="student-update">
 	     <li class="header">Your Announcements</li>
 	     <li class="body">
-	         @forelse ($announcements as $a)
-		         <ul class="announcement-item">
-		             <li class="item-1"><span class="cls"><?php echo $a->code ?></span><span class="time"><?php echo $a->time; ?></span><span class="poster"><?php echo $a->poster; ?></span></li>
-		             <li class="item-2"><?php echo $a->body; ?></li>
+	     	<ul>
+		         @forelse ($announcements as $a)
+	         <li class="update-item">
+		         <ul>
+		             <li class="titlebar"><span class="cls"><a href="/subjects/{{ $a->subject->id}}">{{ $a->subject->code }}</a></span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster->user->id }}" ><?php echo $a->poster->user->name; ?></a></span></li>
+		             <li class="messagebar"><?php echo $a->message; ?></li>
+		             <li class="attachmentbar">
+		             	@if($a->has_attachment)
+		             	<div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment->filename }}</a>
+		             	@endif
+		             </li>
 		         </ul>
+		     </li>
 	         @empty
-	         	<div><span>You have no announcement yet</span></div>
+	         	<li><span>You have no update</span></li>
 	         @endforelse
-	         <?php
-	         /**
-	          * $a as announcement item
-	          * attributes:
-	          * code - subject code
-	          * time - announcement time
-	          * poster - poster
-	          * body - announcement conent
-	          **/
-	         ?>
+	     </ul>
 	     </li>
 	 </ul>
 	 <ul class="student-update">
@@ -48,19 +47,3 @@
 	 </ul>
 @endsection
 
-@section('left')
-		<ul class="section">
-		    <li class="title"><div class="title-text">My Group!</div><div class="title-roof"></div></li>
-			@forelse($groups as $g)
-			<li class="bullet">
-			    <ul><li class="bullet-text" data-href="/message/">
-			            <a>Group 1</a></li>
-			    </ul>
-			</li>
-			@empty
-			<li class="empty">
-				<span>No group yet!</span>
-			</li>
-			@endforelse
-		</ul>
-@endsection

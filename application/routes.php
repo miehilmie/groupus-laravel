@@ -4,7 +4,7 @@
 
 // home, login, logout, signup
 Route::get('/', array('as' => 'home', 'uses' => 'home@index'));
-Route::get('logout', 'home@logout');
+Route::get('logout', array('before' => 'auth', 'uses' => 'home@logout'));
 Route::post('login', array('before' => 'csrf', 'as' => 'login', 'uses' => 'home@login'));
 
 
@@ -21,7 +21,9 @@ Route::post('users/(:num)/(:any)', array('before' => 'auth' , 'uses' => 'users@v
 Route::get('subjects/(:num)', array('before'=> 'auth|subjectowner', 'as' => 'subject_show', 'uses' => 'subjects@show'));
 Route::post('subjects/enroll', array('as' => 'subjectsenroll', 'before' => 'auth|csrf', 'uses' => 'subjects@enroll'));
 Route::post('subjects/posts', array('as' => 'subjectspost', 'before' => 'auth|csrf', 'uses' => 'subjects@posts'));
+Route::post('subjects/announcements', array('as' => 'subjectsannouncement', 'before' => 'auth|csrf', 'uses' => 'subjects@announcements'));
 Route::post('subjects/settings', array('as' => 'subjectssettings', 'before' => 'auth|csrf', 'uses' => 'subjects@settings'));
+Route::post('subjects/groups', array('as' => 'subjectsgroups', 'before' => 'auth|csrf', 'uses' => 'subjects@groups'));
 
 // messages
 Route::get('messages', array('as' => 'messages', 'before' => 'auth', 'uses' => 'messages@index'));
@@ -40,7 +42,9 @@ Route::delete('messages/sents', array('before' => 'auth', 'uses' => 'messages@se
 
 // ===============================> DATA
 
-
+Route::get('testing', function(){
+	return View::make('testview');
+});
 
 // AJAX route
 Route::get('ajax/universities/(:any)/faculties', array('as' => 'ajax_university_faculties', 'uses' => 'ajax.universities@faculties_index'));
@@ -48,6 +52,7 @@ Route::get('ajax/universities/(:any)/faculties', array('as' => 'ajax_university_
 
 // ajax user Resource
 Route::get('ajax/users', array('as' => 'ajaxusers', 'uses' => 'ajax.users@index'));
+Route::get('ajax/users/(:num)', array('as' => 'ajaxshowuser', 'uses' => 'ajax.users@show'));
 
 // ajax message Resource
 
@@ -129,5 +134,5 @@ Route::filter('onlylecturer', function ()
 
 Route::filter('subjectowner', function ()
 {
-	
+
 });

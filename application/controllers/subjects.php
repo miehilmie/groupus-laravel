@@ -2,7 +2,7 @@
 
 class Subjects_Controller extends Base_Controller {
 
-	public $restful = true;    
+	public $restful = true;
 
 
 	public function post_enroll()
@@ -16,12 +16,13 @@ class Subjects_Controller extends Base_Controller {
             }
         }
         return Redirect::to($redirect);
-    }  
+    }
 
     public function post_settings()
     {
         $redirect = Input::get('redirect');
         $id = Input::get('id');
+        $prefix = Input::get('prefix');
 
         if(Subject::IsFacultySubject($id) && Subject::IsEnrolled($id)) {
             $subject = Subject::find($id);
@@ -32,6 +33,24 @@ class Subjects_Controller extends Base_Controller {
             $grouprule->mode = Input::get('mode');
             $grouprule->enable = (Input::get('enable') == 'on') ? 1 : 0;
             $grouprule->save();
+
+            if($groups = Group::where_subject_id($id)
+                ->where_semester_id(Auth::user()->university->semester_id)
+                ->get())
+            {
+                foreach ($groups as $g) {
+                    $g->students()->delete();
+                    $g->delete();
+                }
+            }
+
+            for($i = 1; $i <= $grouprule->maxgroups; $i++) {
+                Group::create(array(
+                    'name' => $prefix.'_'.$i,
+                    'subject_id' => $id,
+                    'semester_id' => Auth::user()->university->semester_id
+                ));
+            }
         }
 
         return Redirect::to($redirect);
@@ -47,8 +66,6 @@ class Subjects_Controller extends Base_Controller {
 
         $subject = Subject::find($id);
 
-
-        $updates = User::updates();
         switch($u->usertype_id)
         {
             // student
@@ -56,7 +73,7 @@ class Subjects_Controller extends Base_Controller {
             return View::make('subject.student.show')->with(array(
                 'announcements' => array(), // @todo: add announcements
                 'subject'       => $subject,
-                'groups'        => array(),
+                'groups' => Auth::user()->student->get_only_groups()
             ));
             break;
 
@@ -83,7 +100,7 @@ class Subjects_Controller extends Base_Controller {
         $rules = array(
             'message' => 'required',
         );
-        
+
         $has_attachment = (is_uploaded_file($_FILES['attachment']['tmp_name'])) ? true : false;
 
         if($has_attachment) {
@@ -118,21 +135,93 @@ class Subjects_Controller extends Base_Controller {
 
         return Redirect::to($redirect);
     }
+    public function post_announcements() {
+        $id = Input::get('id');
+        $redirect = Input::get('redirect');
+
+        if(Subject::IsFacultySubject($id) && !Subject::IsEnrolled($id)) {
+            return Redirect::to($redirect);
+        }
+
+        $input = Input::all();
+        $rules = array(
+            'message' => 'required',
+        );
+
+        $has_attachment = (is_uploaded_file($_FILES['attachment']['tmp_name'])) ? true : false;
+
+        if($has_attachment) {
+            // upload file and all
+            $file = Input::file('attachment');
+            $dest_path = Config::get('application.custom_attachment_path');
+            Input::upload('attachment', $dest_path, $file['name']);
+
+            $attachment = new Attachment(array(
+                'filename' => $file['name']
+            ));
+
+            $attachment->save();
+            $attachment_id = $attachment->id;
+        }
+
+        $validation = Validator::make($input, $rules);
+        if($validation->fails()) {
+            return Redirect::to($redirect);
+        }
+
+        $post = new Announcement(array(
+            'poster_id'      => Auth::user()->lecturer->id,
+            'subject_id'     => $id,
+            'semester_id'    => Auth::user()->university->semester_id,
+            'message'        => Input::get('message'),
+            'has_attachment' => $has_attachment,
+            'attachment_id'  => ($has_attachment) ? $attachment_id : null
+        ));
+
+        $post->save();
+
+        return Redirect::to($redirect);
+    }
+    public function post_groups() {
+        $id = Input::get('id');
+        $redirect = Input::get('redirect');
+
+        if(Subject::IsFacultySubject($id) && !Subject::IsEnrolled($id)) {
+            return Redirect::to($redirect);
+        }
+
+        $input = Input::all();
+        $rules = array(
+            'group_num' => 'required',
+        );
+
+        $validation = Validator::make($input, $rules);
+        if($validation->fails()) {
+            return Redirect::to($redirect);
+        }
+
+        $group = Group::find(Input::get('group_num'));
+
+        $student = Auth::user()->student;
+        $group->students()->attach($student->id);
+
+        return Redirect::to($redirect);
+    }
 
 	public function get_edit()
     {
 
-    }    
+    }
 
 	public function get_new()
     {
 
-    }    
+    }
 
 	public function put_update()
     {
 
-    }    
+    }
 
 	public function delete_destroy()
     {

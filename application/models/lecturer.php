@@ -8,4 +8,8 @@ class Lecturer extends Basemodel {
 		return $this->belongs_to('User');
 	}
 
+    public static function register() {
+
+    }
+
 }
