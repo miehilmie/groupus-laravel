@@ -12,7 +12,7 @@
 <a>Subjects</a>
 </li>
 <li class="bubble-wrapper" id="subjectFlyout">
-<ul class="bubble">                    
+<ul class="bubble">
 <li class="bubble-caret">
 <div class="caret-outer" ></div>
 <div class="caret-inner" ></div>
@@ -39,12 +39,12 @@
 
 <li class="bullet">
 <ul>
-<li class="jewel-notify">{{ Auth::user()->get_message_jewel() }}</li>
+<li class="jewel-notify">{{ Auth::user()->jewel() }}</li>
 <li class="bullet-text bubbleTrigger" data-href="/message/" data-target="messageFlyout">
 <a>Messages</a>
 </li>
 <li class="bubble-wrapper" id="messageFlyout">
-<ul class="bubble">                    
+<ul class="bubble">
 <li class="bubble-caret">
 <div class="caret-outer" ></div>
 <div class="caret-inner" ></div>
