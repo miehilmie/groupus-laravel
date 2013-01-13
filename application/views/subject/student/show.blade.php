@@ -10,11 +10,15 @@
 <div class="rSide">
 	<div class="title">Student's List</div>
 	<ul class="userList">
-		@foreach($subject->get_only_students() as $s)
+		@foreach($subject->get_only_onlinestudents() as $s)
 		<li class="userContainer">
 			<a href="#" title="{{ $s->name }}"><div class="indicator online"></div>{{ $s->name }}</a>
 		</li>
-
+		@endforeach
+		@foreach($subject->get_only_offlinestudents() as $s)
+		<li class="userContainer">
+			<a href="#" title="{{ $s->name }}"><div class="indicator"></div>{{ $s->name }}</a>
+		</li>
 		@endforeach
 		<!-- <li class="userContainer">
 			<a href="#" title="Mohd Farid bin Rossle"><div class="indicator"></div>Mohd Farid bin Rossle</a>
@@ -161,7 +165,7 @@
 	<a class="userGroupContent" href="/users/<%= id %>">
 		<div class="clearfix">
 			<div class="imgPrev">
-				<img class="thumb" src="<%= img_url %>" width="25px" height="25px">
+				<img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}<%= img_url %>" width="25px" height="25px">
 			</div>
 			<div class="cData">
 				<div class="author">

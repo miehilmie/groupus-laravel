@@ -1,6 +1,6 @@
 <?php
 
-class Create_Announcements_Table {
+class Create_Table_Groupposts {
 
 	/**
 	 * Make changes to the database.
@@ -9,17 +9,17 @@ class Create_Announcements_Table {
 	 */
 	public function up()
 	{
-		Schema::create('announcements', function($table) {
+		//
+		Schema::create('groupposts', function($table) {
 			$table->increments('id');
 			$table->integer('poster_id')->unsigned();
-			$table->integer('subject_id')->unsigned();
-			$table->integer('semester_id')->unsigned();
+			$table->integer('group_id')->unsigned();
 			$table->integer('attachment_id')->unsigned()->nullable();
 			$table->text('message');
 			$table->boolean('has_attachment')->default(false);
 			$table->timestamps();
-			$table->foreign('poster_id')->references('id')->on('lecturers');
-			$table->foreign('subject_id')->references('id')->on('subjects');
+			$table->foreign('poster_id')->references('id')->on('users');
+			$table->foreign('group_id')->references('id')->on('groups');
 			$table->foreign('attachment_id')->references('id')->on('attachments');
 		});
 	}
@@ -31,7 +31,7 @@ class Create_Announcements_Table {
 	 */
 	public function down()
 	{
-		Schema::drop('announcements');
+		Schema::drop('groupposts');
 	}
 
 }

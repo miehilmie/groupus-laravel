@@ -213,13 +213,18 @@ class Users_Controller extends Base_Controller {
 
                 break;
             case 2:
-                $rules = array(
-                    'image' => 'required|image|max:500'
-                );
-                $validation = Validator::make($input, $rules);
-                if($validation->fails()) {
-                    return Redirect::to_route('user_setting')->with_errors($validation);
+                // production server does not support finfo extension,
+                // so disable it if baseurl = web.groupusmalaysia.com
+                if(URL::base() != "http://web.groupusmalaysia.com") {
+                    $rules = array(
+                        'image' => 'required|image|max:500'
+                    );
+                    $validation = Validator::make($input, $rules);
+                    if($validation->fails()) {
+                        return Redirect::to_route('user_setting')->with_errors($validation);
+                    }
                 }
+
 
                 $file = Input::file('image');
                 $ext = File::extension($file['name']);

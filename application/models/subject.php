@@ -42,6 +42,26 @@ class Subject extends Basemodel
 		->order_by('usertype_id', 'desc')->get();
 	}
 
+	public function get_only_onlinestudents() {
+		$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
+
+		return $this->users()
+		->where('semester_id', '=', Auth::user()->university->semester_id)
+		->where('last_activity','>', $five_minago)
+		->where('usertype_id', '=', 1)
+		->order_by('name', 'asc')->get();
+	}
+
+	public function get_only_offlinestudents() {
+		$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
+
+		return $this->users()
+		->where('semester_id', '=', Auth::user()->university->semester_id)
+		->where('last_activity','<=', $five_minago)
+		->where('usertype_id', '=', 1)
+		->order_by('name', 'asc')->get();
+	}
+
 	public function get_only_students() {
 		return $this->users()
 		->where('semester_id', '=', Auth::user()->university->semester_id)
@@ -60,7 +80,7 @@ class Subject extends Basemodel
 		$groups = $this->groups()
 		->where_semester_id(Auth::user()->university->semester_id)
 		->get();
-		
+
 		return $groups;
 		// $response = array();
 		// foreach ($groups as $g) {

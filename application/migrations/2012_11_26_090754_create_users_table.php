@@ -16,6 +16,7 @@ class Create_Users_Table {
 			$table->integer('gender_id')->unsigned();
 			$table->integer('university_id')->unsigned();
 			$table->timestamps();
+			$table->timestamp('last_activity');
 			$table->foreign('gender_id')->references('id')
 				->on('genders');
 			$table->foreign('university_id')->references('id')

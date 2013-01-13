@@ -38,7 +38,15 @@ class Ajax_Subjects_Controller extends Base_Controller {
             $response = array();
             foreach ($groups as $g) {
             	$o = json_decode(eloquent_to_json($g));
-            	$o->users = json_decode(eloquent_to_json($g->students()->get()));
+            	$students = $g->students()->get();
+
+            	$users = array();
+            	foreach ($students as $student) {
+            		$user = json_decode(eloquent_to_json($student->user));
+            		$user->extra = json_decode(eloquent_to_json($student->first()));
+            		$users[] = $user;
+            	}
+            	$o->users = $users;
             	$response[] = $o;
             }
             return json_encode($response);

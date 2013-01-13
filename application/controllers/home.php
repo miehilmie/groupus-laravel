@@ -57,6 +57,11 @@ class Home_Controller extends Base_Controller {
 	 *	logout
 	**/
 	public function get_logout() {
+		$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
+		$user = Auth::user();
+		$user->last_activity = $five_minago;
+		$user->save();
+		
 		Auth::logout();
 
 		return Redirect::to_route('home');

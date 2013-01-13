@@ -54,31 +54,43 @@
         callback: function(o, $base) {
             var id = $('#joinGroup').attr('data-id');
 
-            var join_group = _.template($('#joinGroupTmpl').html());
-
-            var group = _.template($('#groupTmpl').html());
-
-            var user = _.template($('#userGroupTmpl').html());
-
-            o.body.html($('#joinGroupTmpl').html());
-
-
-            var allPanels = $('.accordion > dd').hide();
-
-            $('.accordion > dt > a').click(function() {
-                allPanels.slideUp();
-                $(this).parent().next().slideDown();
-                return false;
-            });
 
             $.ajax({
                 url: '/ajax/subjects/'+ id +'/groups',
                 dataType: 'JSON',
                 type: 'GET',
                 success: function(m) {
-                    $.each(m, function(i, v) {
 
+                    var join_group = _.template($('#joinGroupTmpl').html());
+                    var group = _.template($('#groupTmpl').html());
+                    var user = _.template($('#userGroupTmpl').html());
+
+                    var group_html = '';
+
+                    $.each(m, function(i, v) {
+                        var user_html = '';
+
+                        $.each(v.users, function(i, vo) {
+                            user_html += user({id: vo.id, img_url: vo.img_url, name: vo.name })
+                        });
+                        group_html += group({group_name: v.name, group_userlist: user_html, group_id: v.id});
                     });
+
+
+
+
+                    var allPanels = $('.accordion > dd').hide();
+
+                    $('.accordion > dt > a').click(function() {
+                        allPanels.slideUp();
+                        $(this).parent().next().slideDown();
+                        return false;
+                    });
+
+
+
+                    o.body.html(join_group({ group_list: group_html }));
+
                 }
             });
         }
