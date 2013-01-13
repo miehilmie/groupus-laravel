@@ -707,6 +707,9 @@ label[for=lblTerm] {
     width:37px;
     background:url('../img/roof.png');
 }
+#left-content .section .bullet {
+  width: 198px;
+}
 #left-content .section .bullet .bullet-text a {
     display:block;
     cursor: pointer;
@@ -735,11 +738,27 @@ label[for=lblTerm] {
     text-overflow: ellipsis;
     white-space: nowrap;
 }
+.group-wrap a {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
 #messageFlyout .messageContent {
     padding:5px 10px;
 }
 #messageFlyout .unread.messageContent {
   background: #FDE2C8;
+}
+.closeBtn {
+  height: 20px;
+  width: 20px;
+  background: url('../img/close_btn.png') no-repeat;
+  z-index:99;
+  position: absolute;
+  left: auto;
+  right: -10px;
+  cursor: pointer;
+  top:-10px;
 }
 #messageFlyout a:hover {
     text-decoration: none;
@@ -1592,3 +1611,22 @@ input[type="submit"].btn.btn-mini {
     font-size: 10px;
 }
 /* ---------- END FOOTER ------------ */
+.hovercard {
+  position: relative;
+  cursor: pointer;
+}
+.hovercard .hovercard-item {
+  display: none;
+  background: #fff;
+  border: 1px solid #C8C8C8;
+  padding: 5px;
+  width: 300px;
+  height: 80px;
+  position: absolute;
+  top:0px;
+  left: -100px;
+  z-index: 99;
+}
+.hovercard .hovercard-item .panel {
+
+}
