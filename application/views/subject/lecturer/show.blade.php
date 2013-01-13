@@ -10,35 +10,60 @@
 <div class="rSide">
 	<div class="title">User's List</div>
 	<ul class="userList">
-		@foreach($subject->get_only_students_and_lecturers() as $s)
+		@foreach($subject->get_only_onlineusers() as $s)
 		<li class="userContainer {{ ($s->usertype_id == 2) ? 'lecturer' : '' }}">
 			<a href="#" title="{{ $s->name }}"><div class="indicator online"></div>{{ $s->name }}</a>
 		</li>
-
 		@endforeach
-		<!-- <li class="userContainer">
-			<a href="#" title="Mohd Farid bin Rossle"><div class="indicator"></div>Mohd Farid bin Rossle</a>
+		@foreach($subject->get_only_offlineusers() as $s)
+		<li class="userContainer {{ ($s->usertype_id == 2) ? 'lecturer' : '' }}">
+			<a href="#" title="{{ $s->name }}"><div class="indicator"></div>{{ $s->name }}</a>
 		</li>
-		<li class="userContainer">
-			<a href="#" title="Syuhaida Ahmad Ariffin"><div class="indicator"></div>Syuhaida Ahmad Ariffin</a>
-		</li> -->
+		@endforeach
 	</ul>
 </div>
 <div class="hasRight">
 	<h2 style="text-align:center;">Welcome To {{ $subject->code }}</h2>
 	<h3 style="text-align:center;">{{ $subject->name }}</h3>
 	<div style="text-align:right; margin-bottom:5px;"><a id="subjectSetting" class="btn btn-nicewhite" data-id="{{ $subject->id }}" href="#">Subject Settings</a></div>
-	<ul class="lecturer-announcement">
+	<ul class="student-update">
 	     <li class="header">Lecturer's Announcements<a class="actionOnTitle" id="newAnnounce" href="#">New Announcement</a></li>
 	     <li class="body">
-	         @forelse ($announcements as $a)
-		         <ul class="announcement-item">
-		             <li class="item-1"><span class="cls"><?php echo $a->code ?></span><span class="time"><?php echo $a->time; ?></span><span class="poster"><?php echo $a->poster; ?></span></li>
-		             <li class="item-2"><?php echo $a->body; ?></li>
-		         </ul>
-	         @empty
-	         	<div><span>You have no announcement yet</span></div>
-	         @endforelse
+	     	<ul>
+	        @forelse ($subject->get_only_announcements() as $a)
+		         <li class="update-item">
+			         <ul>
+			             <li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><span class="hovercard" data-template="userHoverTmpl">
+			             	<?php echo $a->poster->user->name; ?>
+<div class="hovercard-item">
+<a href="/users/{{ $a->poster->user->id }}">
+	<div class="clearfix">
+		<div class="imgPrev">
+			<img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster->user->img_url }}" width="25px" height="25px">
+		</div>
+		<div class="cData">
+			<div class="author">
+				<strong>{{ $a->poster->user->name }}</strong>
+			</div>
+		</div>
+	</div>
+</a>
+<div class="panel">
+	<a href="/messages/new/{{ $a->poster->user->id }}"><img src="/img/message_ico.png" /></a>
+</div>
+</div>
+			             </span></span></li>
+			             <li class="messagebar"><?php echo $a->message; ?></li>
+			             <li class="attachmentbar">
+			             	@if($a->has_attachment)
+			             	<div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment->filename }}</a>
+			             	@endif
+			             </li>
+			         </ul>
+			     </li>
+		         @empty
+		         	<li class="no-item"><span>You have no announcement yet</span></li>
+		         @endforelse
 	         <?php
 	         /**
 	          * $a as announcement item
@@ -49,6 +74,7 @@
 	          * body - announcement conent
 	          **/
 	         ?>
+	     </ul>
 	     </li>
 	 </ul>
 	 <ul class="student-update">
@@ -77,37 +103,6 @@
 </div>
 @endsection
 
-@section('left')
-		<ul class="section">
-		    <li class="title"><div class="title-text">My Group!</div><div class="title-roof"></div></li>
-			@forelse($groups as $g)
-			<li class="bullet">
-			    <ul><li class="bullet-text" data-href="/message/">
-			            <a>Group 1</a></li>
-			    </ul>
-			</li>
-			@empty
-			<li class="empty">
-				<span>No group yet!</span>
-			</li>
-			@endforelse
-		</ul>
-		<!-- 
-		<ul class="section">
-		    <li class="title"><div class="title-text">Search!</div><div class="title-roof"></div></li>
-			<li class="searchbox">
-				<span>Search:</span>
-				<ul class="searchoptions clearfix">
-				<li class="labelfix clearfix">
-					<input id="searchsubject" type="radio" value="1" name="searchtype" checked /><label for="searchsubject" />Subject</label>
-				</li>
-				<li class="labelfix clearfix">
-					<input id="searchgroup" type="radio" value="1" name="searchtype" /><label for="searchgroup">Group</label>
-				</li></ul>
-
-			</li>
-		</ul> -->
-@endsection
 
 
 @section('pagespecific-templates')
@@ -157,16 +152,31 @@
 		</ul>
 	</li>
 	<li  class="labelfix clearfix"><br /><label>Enable:&nbsp;</label><input type="checkbox" name="enable" <%= (enable == 1) ? 'checked' : '' %> /></li>
-	<br />
-	<a href="#" class="ajaxGenerate btn btn-success">Generate</a> 
-	<li class="clearfix" style="float:right;">
-		<br />
-		<br />
-		{{ Form::submit('Save', array('class' => 'btn btn-niceblue')) }}
+	<li class="inlinefields clearfix">
+		<label>Group Prefix Name: </label>
+		<input name="prefix" type="text" />
 	</li>
+	<br /><br />
+	{{ Form::submit('Generate', array('class' => 'ajaxGenerate btn btn-success')) }}
+
 	<input type="hidden" name="id" value="{{ $subject->id }}" />
 	{{ Form::hidden('redirect', URL::current()) }}
 	{{ Form::close() }}
 	</ul>
+</script>
+<script type="text/template" id="newPostAnnounceTmpl">
+	<h3> Post announcement.. </h3>
+	{{ Form::open_for_files('/subjects/announcements') }}
+	{{ Form::token() }}
+	<textarea name="message"></textarea><br /><br />
+	<span>Attachment: </span><br/>
+	{{ Form::file('attachment') }}
+	<br /><br />
+	<div class="clearfix" style="float:right;">
+		{{ Form::submit('Submit', array('class' => 'btn btn-niceblue')) }}
+	</div>
+	<input type="hidden" name="id" value="{{ $subject->id }}" />
+	{{ Form::hidden('redirect', URL::current()) }}
+	{{ Form::close() }}
 </script>
 @endsection

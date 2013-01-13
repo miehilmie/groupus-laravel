@@ -37,13 +37,12 @@
                     }
                     else {
                         a.closeDropdown();
-                        a.active = $base, a.active.parent().addClass("open")
+                        a.active = $base, a.active.parent().addClass("open");
                     }
                 },
                 closeDropdown: function() {
                     $base.parent().removeClass("open"), a.active = false;
-                }
-                ,
+                },
                 close: function(e) {
                     if(a.isFlyoutClick(e) || $base.has(e.target).length > 0)
                         return;
@@ -52,16 +51,16 @@
                 },
                 init: function() {
                     $("html").live("keydown", function(c) {
-                        c.which == 27 && a.close(c);
-                    }),            
+                        if(c.which == 27) a.close(c);
+                    }),
                     $base.click(a.toggleDisplay),
                     $(document).click(a.close);
                 }
-            }
+            };
             a.init();
         });
-        
-    }
+
+    };
     /**
     *   Author: Muhammad Hilmi
     **/
@@ -79,6 +78,19 @@
                 var wscale = (1-(width/w))/2;
                 var hscale = (1-(height/wh))/2;
                 var body = $('<div/>', {
+                    id: 'holderbody',
+                    css: {
+                        position: 'relative',
+                        background: '#fff',
+                        width: width - 120 +'px',
+                        height:  height - 20 +'px'
+                    },
+                    click: function(e) {
+                        e.stopPropagation();
+                    }
+                }).html('<div class="ajxLoading"></div>');
+
+                var holder = $('<div/>', {
                     id: 'holder',
                     css: {
                         left: (w*wscale) - 50 + 'px',
@@ -92,7 +104,7 @@
                     click: function(e) {
                         e.stopPropagation();
                     }
-                }).html('<div class="ajxLoading"></div>');
+                }).append('<div class="closeBtn"></div>').append(body);
 
                 var back = $('<div/>', {
                     css: {
@@ -107,16 +119,19 @@
 
                     click: function(e) {
                         back.trigger('close');
-                    },
-                }).append(body);
+                    }
+                }).append(holder);
 
                 $("html").live("keydown", function(c) {
-                    c.which == 27 && back.trigger('close');
-                }), 
+                    if(c.which == 27) back.trigger('close');
+                }),
 
                 back.on('close', function() {
                     back.remove();
-                })
+                });
+                back.find('.closeBtn').click(function() {
+                    back.remove();
+                });
                 $('body').append(back);
                 callback({ back: back, body: body }, $base);
 
@@ -125,5 +140,5 @@
 
 
         });
-    }
+    };
 })(jQuery);
