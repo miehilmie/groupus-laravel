@@ -10,9 +10,13 @@ class Subjects_Controller extends Base_Controller {
         $redirect = Input::get('redirect');
         for($i = 1; $i <= 5;$i++) {
             $id = Input::get('subject'.$i);
+            $subject = Subject::find($id);
+            $u = Auth::user();
+            if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
+                $u->subjects()->attach($id,
+                    array('semester_id' => $u->university->semester_id)
+                );
 
-            if(Subject::IsFacultySubject($id) && !Subject::IsEnrolled($id)) {
-                Auth::user()->subjects()->attach($id, array('semester_id' => Auth::user()->university->semester_id));
             }
         }
         return Redirect::to($redirect);
@@ -23,10 +27,11 @@ class Subjects_Controller extends Base_Controller {
         $redirect = Input::get('redirect');
         $id = Input::get('id');
         $prefix = Input::get('prefix');
+        $subject = Subject::find($id);
 
-        if(Subject::IsFacultySubject($id) && Subject::IsEnrolled($id)) {
-            $subject = Subject::find($id);
-            $grouprule = $subject->get_only_grouprule();
+        // if subject exist, is same faculty with user, not enrolled yet
+        if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
+            $grouprule = $subject->subject_grouprule();
 
             $grouprule->maxgroups = Input::get('max_groups');
             $grouprule->maxstudents = Input::get('max_students');
@@ -59,12 +64,12 @@ class Subjects_Controller extends Base_Controller {
 	public function get_show($id)
     {
         $u = Auth::user();
+        $subject = Subject::find($id);
 
-        if(!Subject::IsEnrolled($id)) {
+        if($subject && !$subject->IsEnrolled()) {
             return View::make('error.noauth');
         }
 
-        $subject = Subject::find($id);
 
         switch($u->usertype_id)
         {
@@ -73,7 +78,7 @@ class Subjects_Controller extends Base_Controller {
             return View::make('subject.student.show')->with(array(
                 'announcements' => array(), // @todo: add announcements
                 'subject'       => $subject,
-                'groups' => Auth::user()->student->get_only_groups()
+                'groups' => array()
             ));
             break;
 

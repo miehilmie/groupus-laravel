@@ -2,7 +2,7 @@
 
 class Ajax_Subjects_Controller extends Base_Controller {
 
-	public $restful = true;    
+	public $restful = true;
 
     // available subject to enroll
     public function get_available()
@@ -11,9 +11,10 @@ class Ajax_Subjects_Controller extends Base_Controller {
     }
 
     public function get_rule($id) {
-    	if(Subject::IsEnrolled($id)) {
+        $subject = Subject::find($id);
+
+    	if($subject && $subject->IsEnrolled()) {
             $response = array();
-	    	$subject = Subject::find($id);
 
 	    	$rule = $subject->get_only_grouprule();
 	    	if(!$rule) {
@@ -36,15 +37,16 @@ class Ajax_Subjects_Controller extends Base_Controller {
     	return Response::error('404');
 
     }
-    
+
     public function get_groups($id) {
-        if(Subject::IsFacultySubject($id) && Subject::IsEnrolled($id)) {
-            $subject = Subject::find($id);
-            $groups = $subject->get_only_groups();
+        $subject = Subject::find($id);
+
+        if($subject && $subject->IsFacultySubject() && $subject->IsEnrolled()) {
+            $groups = $subject->subject_groups();
             $response = array();
             foreach ($groups as $g) {
             	$o = json_decode(eloquent_to_json($g));
-            	$students = $g->students()->get();
+            	$students = $g->students;
 
             	$users = array();
             	foreach ($students as $student) {
@@ -56,12 +58,7 @@ class Ajax_Subjects_Controller extends Base_Controller {
             	$response[] = $o;
             }
             return json_encode($response);
-            // $grouprule = $subject->get_only_grouprule();
-
- 			// return $grouprule->maxstudents;
-            // $grouprule->maxstudents = Input::get('max_students');
         }
-	    // return eloquent_to_json(Grouprule::find($rule->id));
 
 
     }

@@ -151,7 +151,6 @@
 		</li>
 		</ul>
 	</li>
-	<li  class="labelfix clearfix"><br /><label>Enable:&nbsp;</label><input type="checkbox" name="enable" <%= (enable == 1) ? 'checked' : '' %> /></li>
 	<li class="inlinefields clearfix">
 		<label>Group Prefix Name: </label>
 		<input name="prefix" type="text" />

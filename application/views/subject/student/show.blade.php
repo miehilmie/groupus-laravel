@@ -11,22 +11,16 @@
 <div class="rSide">
 	<div class="title">Student's List</div>
 	<ul class="userList">
-		@foreach($subject->get_only_onlinestudents() as $s)
+		@foreach($subject->subject_onlinestudents() as $s)
 		<li class="userContainer">
 			<a href="#" title="{{ $s->name }}"><div class="indicator online"></div>{{ $s->name }}</a>
 		</li>
 		@endforeach
-		@foreach($subject->get_only_offlinestudents() as $s)
+		@foreach($subject->subject_offlinestudents() as $s)
 		<li class="userContainer">
 			<a href="#" title="{{ $s->name }}"><div class="indicator"></div>{{ $s->name }}</a>
 		</li>
 		@endforeach
-		<!-- <li class="userContainer">
-			<a href="#" title="Mohd Farid bin Rossle"><div class="indicator"></div>Mohd Farid bin Rossle</a>
-		</li>
-		<li class="userContainer">
-			<a href="#" title="Syuhaida Ahmad Ariffin"><div class="indicator"></div>Syuhaida Ahmad Ariffin</a>
-		</li> -->
 	</ul>
 </div>
 <div class="hasRight">
@@ -39,7 +33,7 @@
 	     <li class="header">Lecturer's Announcements</li>
 	     <li class="body">
 	     	<ul>
-	        @forelse ($subject->get_only_announcements() as $a)
+	        @forelse ($subject->subject_announcements() as $a)
 		         <li class="update-item">
 			         <ul>
 			             <li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><span class="hovercard" data-template="userHoverTmpl">
@@ -80,7 +74,7 @@
 	     <li class="header">Discussion board<a class="actionOnTitle" id="newPost" href="#">Post New</a></li>
 	     <li class="body">
 	         <ul>
-		         @forelse ($subject->get_only_discussions() as $a)
+		         @forelse ($subject->subject_discussions() as $a)
 		         <li class="update-item">
 			         <ul class="{{ ($a->poster->usertype_id == 2) ? 'lect' : ''  }}">
 			             <li class="titlebar">
@@ -171,7 +165,7 @@
 	<dl class="accordion">
 
 	<%= group_list %>
-	
+
 
 	</dl>
 	<br /><br />
@@ -206,23 +200,5 @@
 		</div>
 	</a>
 </li>
-</script>
-<script type="text/template" id="userHoverTmpl">
-<div class="hovercardid-<%= id %>">
-<div class="userTip">
-	<a class="" href="/users/<%= id %>">
-		<div class="clearfix">
-			<div class="imgPrev">
-				<img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}<%= img_url %>" width="25px" height="25px">
-			</div>
-			<div class="cData">
-				<div class="author">
-					<strong><%= name %></strong>
-				</div>
-			</div>
-		</div>
-	</a>
-</div>
-</div>
 </script>
 @endsection
