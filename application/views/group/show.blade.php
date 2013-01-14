@@ -13,7 +13,7 @@
          <li class="header">Lecturer's Announcements</li>
          <li class="body">
             <ul>
-            @forelse ($group->subject->get_only_announcements() as $a)
+            @forelse ($group->subject->subject_announcements() as $a)
                  <li class="update-item">
                      <ul>
                          <li class="titlebar"><a href="/subjects/{{ $group->subject->id }}" class="cls">{{ $group->subject->code }}</a><span class="time">{{ $a->created_at }}</span><span class="poster"><span class="hovercard" data-template="userHoverTmpl">
@@ -54,7 +54,7 @@
          <li class="header">Discussion board<a class="actionOnTitle" id="newPost" href="#">Post New</a></li>
          <li class="body">
              <ul>
-                 @forelse ($group->get_group_discussion() as $a)
+                 @forelse ($group->group_discussions() as $a)
                  <li class="update-item">
                      <ul>
                          <li class="titlebar">
@@ -109,7 +109,7 @@
             @forelse($groups as $g)
             <li class="bullet">
                 <ul><li class="bullet-text group-wrap" data-href="/message/">
-                        <a>{{ $g->name }}</a></li>
+                        <a href="/groups/{{ $g->id }}">{{ $g->name }}</a></li>
                 </ul>
             </li>
             @empty

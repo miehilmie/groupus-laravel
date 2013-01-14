@@ -16,7 +16,7 @@ class Ajax_Subjects_Controller extends Base_Controller {
     	if($subject && $subject->IsEnrolled()) {
             $response = array();
 
-	    	$rule = $subject->get_only_grouprule();
+	    	$rule = $subject->subject_grouprule();
 	    	if(!$rule) {
 	    		$rule = Grouprule::create(array(
 	    			'subject_id' => $subject->id,

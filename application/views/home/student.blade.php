@@ -63,7 +63,7 @@
 			@forelse($groups as $g)
 			<li class="bullet">
 			    <ul><li class="bullet-text group-wrap" data-href="/message/">
-			            <a>{{ $g->name }}</a></li>
+			            <a href="/groups/{{ $g->id }}">{{ $g->name }}</a></li>
 			    </ul>
 			</li>
 			@empty

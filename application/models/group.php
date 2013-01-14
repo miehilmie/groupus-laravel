@@ -23,7 +23,7 @@ class Group extends Basemodel
         return $this->has_many('Grouppost');
     }
 
-    public function get_group_discussion() {
+    public function group_discussions() {
         return $this->groupposts()->order_by('created_at', 'desc')->get();
     }
 

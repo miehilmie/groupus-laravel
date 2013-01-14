@@ -15,7 +15,7 @@ class Groups_Controller extends Base_Controller {
 
         return View::make('group.show')->with(array(
             'group' => $g,
-            'groups' => $u->student->get_only_groups()
+            'groups' => $u->student->student_groups()
 
         ));
     }

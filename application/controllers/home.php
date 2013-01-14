@@ -21,7 +21,7 @@ class Home_Controller extends Base_Controller {
 					'name' => $u->name,
 					'announcements' => $u->announcements(),
 					'updates' => $u->updates(),
-					'groups' => $u->student->get_only_groups()
+					'groups' => $u->student->student_groups()
 				)
 			);
 			break;

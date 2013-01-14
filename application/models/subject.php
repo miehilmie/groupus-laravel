@@ -144,8 +144,8 @@ class Subject extends Basemodel
 			return false;
 		}
 
-		return ($this->grouprules()
+		return $this->grouprules()
 		->where_semester_id($u->university->semester_id)
-		->count() > 0) && $this->subject_grouprule()->enable == true;
+		->count() > 0;
 	}
 }

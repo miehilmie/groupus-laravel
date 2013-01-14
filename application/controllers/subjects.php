@@ -29,14 +29,14 @@ class Subjects_Controller extends Base_Controller {
         $prefix = Input::get('prefix');
         $subject = Subject::find($id);
 
-        // if subject exist, is same faculty with user, not enrolled yet
-        if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
+        // if subject exist, is same faculty with user, and enrolled
+        if($subject && $subject->IsFacultySubject() && $subject->IsEnrolled()) {
             $grouprule = $subject->subject_grouprule();
 
             $grouprule->maxgroups = Input::get('max_groups');
             $grouprule->maxstudents = Input::get('max_students');
             $grouprule->mode = Input::get('mode');
-            $grouprule->enable = (Input::get('enable') == 'on') ? 1 : 0;
+            $grouprule->enable = 1;
             $grouprule->save();
 
             if($groups = Group::where_subject_id($id)
@@ -78,7 +78,7 @@ class Subjects_Controller extends Base_Controller {
             return View::make('subject.student.show')->with(array(
                 'announcements' => array(), // @todo: add announcements
                 'subject'       => $subject,
-                'groups' => array()
+                'groups' => $u->student->student_groups()
             ));
             break;
 
@@ -87,7 +87,6 @@ class Subjects_Controller extends Base_Controller {
             return View::make('subject.lecturer.show')->with(array(
                 'announcements' => array(), // @todo: add announcements
                 'subject'       => $subject,
-                'groups'        => array()
             ));
             break;
         }
@@ -143,8 +142,8 @@ class Subjects_Controller extends Base_Controller {
     public function post_announcements() {
         $id = Input::get('id');
         $redirect = Input::get('redirect');
-
-        if(Subject::IsFacultySubject($id) && !Subject::IsEnrolled($id)) {
+        $subject = Subject::find($id);
+        if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
             return Redirect::to($redirect);
         }
 
@@ -191,7 +190,8 @@ class Subjects_Controller extends Base_Controller {
         $id = Input::get('id');
         $redirect = Input::get('redirect');
 
-        if(Subject::IsFacultySubject($id) && !Subject::IsEnrolled($id)) {
+        $subject = Subject::find($id);
+        if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
             return Redirect::to($redirect);
         }
 

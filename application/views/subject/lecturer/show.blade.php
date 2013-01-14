@@ -10,12 +10,12 @@
 <div class="rSide">
 	<div class="title">User's List</div>
 	<ul class="userList">
-		@foreach($subject->get_only_onlineusers() as $s)
+		@foreach($subject->subject_onlineusers() as $s)
 		<li class="userContainer {{ ($s->usertype_id == 2) ? 'lecturer' : '' }}">
 			<a href="#" title="{{ $s->name }}"><div class="indicator online"></div>{{ $s->name }}</a>
 		</li>
 		@endforeach
-		@foreach($subject->get_only_offlineusers() as $s)
+		@foreach($subject->subject_offlineusers() as $s)
 		<li class="userContainer {{ ($s->usertype_id == 2) ? 'lecturer' : '' }}">
 			<a href="#" title="{{ $s->name }}"><div class="indicator"></div>{{ $s->name }}</a>
 		</li>
@@ -30,7 +30,7 @@
 	     <li class="header">Lecturer's Announcements<a class="actionOnTitle" id="newAnnounce" href="#">New Announcement</a></li>
 	     <li class="body">
 	     	<ul>
-	        @forelse ($subject->get_only_announcements() as $a)
+	        @forelse ($subject->subject_announcements() as $a)
 		         <li class="update-item">
 			         <ul>
 			             <li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><span class="hovercard" data-template="userHoverTmpl">
@@ -81,7 +81,7 @@
 	     <li class="header">Discussion board<a class="actionOnTitle" id="newPost" href="#">Post New</a></li>
 	     <li class="body">
 	         <ul>
-		         @forelse ($subject->get_only_discussions() as $a)
+		         @forelse ($subject->subject_discussions() as $a)
 		         <li class="update-item">
 			         <ul class="{{ ($a->poster->usertype_id == 2) ? 'lect' : ''  }}">
 			             <li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster->id }}" ><?php echo $a->poster->name; ?></a></span></li>
