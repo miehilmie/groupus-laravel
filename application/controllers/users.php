@@ -128,7 +128,6 @@ class Users_Controller extends Base_Controller {
                 $user->student()->insert($student);
 
             break;
-            //@todo: add lecturer field
             // lecturer
             case 2:
                 $lecturer = new Lecturer(array(
