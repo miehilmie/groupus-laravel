@@ -28,17 +28,17 @@ Route::post('subjects/groups', array('as' => 'subjectsgroups', 'before' => 'auth
 // messages
 Route::get('messages', array('as' => 'messages', 'before' => 'auth', 'uses' => 'messages@index'));
 Route::get('messages/sents', array('as' => 'sents', 'before' => 'auth', 'uses' => 'messages@sents'));
-
 Route::get('messages/new/(:num)', array('as' => 'reply_message', 'before' => 'auth', 'uses' => 'messages@new'));
 Route::get('messages/new', array('as' => 'new_message', 'before' => 'auth', 'uses' => 'messages@new'));
-
 Route::get('messages/(:num)', array('as'=> 'message', 'before' => 'auth', 'uses' => 'messages@show'));
 Route::get('messages/sents/(:num)', array('as'=> 'message_sent', 'before' => 'auth', 'uses' => 'messages@sents_show'));
-
 Route::post('messages', array('as' => 'new_message', 'before' => 'auth|csrf', 'uses' => 'messages@create'));
-
 Route::delete('messages', array('before' => 'auth', 'uses' => 'messages@destroy'));
 Route::delete('messages/sents', array('before' => 'auth', 'uses' => 'messages@sents_destroy'));
+
+// groups
+Route::get('groups/(:num)', array('as' => 'group', 'before' => 'auth' , 'uses' => 'groups@show'));
+Route::post('groups/posts', array('as' => 'grouppost', 'before' => 'auth|csrf', 'uses' => 'groups@posts'));
 
 // ===============================> DATA
 
