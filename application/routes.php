@@ -42,10 +42,6 @@ Route::post('groups/posts', array('as' => 'grouppost', 'before' => 'auth|csrf', 
 
 // ===============================> DATA
 
-Route::get('testing', function(){
-	return View::make('testview');
-});
-
 // AJAX route
 Route::get('ajax/universities/(:any)/faculties', array('as' => 'ajax_university_faculties', 'uses' => 'ajax.universities@faculties_index'));
 
@@ -53,6 +49,8 @@ Route::get('ajax/universities/(:any)/faculties', array('as' => 'ajax_university_
 // ajax user Resource
 Route::get('ajax/users', array('as' => 'ajaxusers', 'uses' => 'ajax.users@index'));
 Route::get('ajax/users/(:num)', array('as' => 'ajaxshowuser', 'uses' => 'ajax.users@show'));
+Route::get('ajax/users/search/(:any)', array('as' => 'ajaxsearchuser', 'uses' => 'ajax.users@search'));
+Route::post('ajax/users/search', array('as' => 'ajaxsearchuser', 'uses' => 'ajax.users@search'));
 
 // ajax message Resource
 
@@ -66,17 +64,13 @@ Route::get('ajax/subjects/available', array('as' => 'ajaxsubjects', 'uses' => 'a
 Route::get('ajax/subjects/(:num)/rule', array('as' => 'ajaxsubjectrule', 'uses' => 'ajax.subjects@rule'));
 Route::get('ajax/subjects/(:num)/groups', array('as' => 'ajaxsubjectrule', 'uses' => 'ajax.subjects@groups'));
 
-
-// API -------------------->
-Route::get('hash/(:any)/(:any)', function($u, $p) {
-	$user = User::where_username($u)->first();
-	if($user) {
-		return Hash::check($p, $user->password);
-	}
-	return false;
-});
+Route::post('ajax/chats/toggle', array('as' => 'ajaxchattoggle', 'uses' => 'ajax.chats@toggle'));
+Route::post('ajax/chats/send', array('as' => 'ajaxchatsend', 'uses' => 'ajax.chats@send'));
+Route::post('ajax/chats/open', array('as' => 'ajaxchatopen', 'uses' => 'ajax.chats@openchat'));
+Route::post('ajax/chats/close', array('as' => 'ajaxchatclose', 'uses' => 'ajax.chats@closechat'));
 
 
+Route::get('ajax/chats/update', 'ajax.chats@update');
 /***
 *	Listener
 ***/

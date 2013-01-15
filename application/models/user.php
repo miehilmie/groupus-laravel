@@ -63,7 +63,9 @@ class User extends Basemodel {
 		else
 			return '';
 	}
-
+	public function chats() {
+		return Chat::where_sender_id($this->id)->get();
+	}
 
 	/**
 	 * START

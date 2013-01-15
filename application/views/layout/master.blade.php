@@ -29,6 +29,7 @@
         <div class="footer">
             <span>copyright (c) groupus, 2012 all right reserved</span><br /><small>powered by <a href="http://facebook.com/miehilmie">Hilmi Hassan</a></small>
         </div>
+        @yield('chatbar')
         {{ render('templates') }}
         @yield('pagespecific-templates')
         @yield('jsmaster')

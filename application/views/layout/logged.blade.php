@@ -16,6 +16,8 @@ $user->save();
 @endsection
 
 @section('jsmaster')
+{{ HTML::script('js/views/chat.js') }}
+
 <script type="text/javascript">
     $('.hovercard-item').hover(function() {
         $(this).stop(true, false).show();
@@ -29,4 +31,32 @@ $user->save();
     });
 </script>
 @yield('jslogged')
+@endsection
+
+@section('chatbar')
+<div id="chatbar">
+<div class="chatbarwrapper">
+    <ul class="chatitems clearfix">
+        @foreach($user->chats() as $chat)
+        @if($chat->open == '1')
+        <li>
+            <div id="chatid-{{ $chat->receiver->id }}" class="chat {{ ($chat->toggle) ? 'open' : '' }}">
+                <div class="title clearfix"><a class="chatclose" href="#">X</a><span>{{ $chat->receiver->name }}</span></div>
+                <div class="body">
+                    <ul>
+                    @foreach($chat->messages as $msg)
+                    <li>
+                        <b>{{ ($msg->sender_id == $user->id) ? 'You' : Str::limit($chat->receiver->name, 10); }}:</b> {{ $msg->message }}
+                    </li>
+                    @endforeach
+                    </ul>
+                </div>
+                <div class="message"><input type="text" /></div>
+            </div>
+        </li>
+        @endif
+        @endforeach
+    </ul>
+</div>
+</div>
 @endsection

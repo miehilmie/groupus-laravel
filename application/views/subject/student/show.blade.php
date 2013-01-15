@@ -13,12 +13,12 @@
 	<ul class="userList">
 		@foreach($subject->subject_onlinestudents() as $s)
 		<li class="userContainer">
-			<a href="#" title="{{ $s->name }}"><div class="indicator online"></div>{{ $s->name }}</a>
+			<a class="{{ ($s->id != Auth::user()->id) ? 'openchat' : '' }}" data-id="{{ $s->id }}" href="#" title="{{ $s->name }}"><div class="indicator online"></div>{{ $s->name }}</a>
 		</li>
 		@endforeach
 		@foreach($subject->subject_offlinestudents() as $s)
 		<li class="userContainer">
-			<a href="#" title="{{ $s->name }}"><div class="indicator"></div>{{ $s->name }}</a>
+			<a href="#" class="{{ ($s->id != Auth::user()->id) ? 'openchat' : '' }}" data-id="{{ $s->id }}" title="{{ $s->name }}"><div class="indicator"></div>{{ $s->name }}</a>
 		</li>
 		@endforeach
 	</ul>
