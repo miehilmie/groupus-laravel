@@ -463,12 +463,6 @@ ul.messageContainer .newMsg {
   line-height: 20px;
   padding-left: 15px;
 }
-.attchmnt-ico {
-  background: url('../img/attachment-icon.png') no-repeat 0px 1px;
-  width: 20px;
-  height: 20px;
-  float: left;
-}
 .pop-container {
     background:#000;
     position: absolute;
@@ -554,7 +548,18 @@ ul.messageContainer .newMsg {
     padding: 0;
     border:0;
 }
-
+.attchmnt-ico {
+  background: url('../img/attachment-icon.png') no-repeat 0px 1px;
+  width: 20px;
+  height: 20px;
+  float: left;
+}
+.message-ico {
+  width: 20px;
+  height: 20px;
+  display: block;
+  margin:auto;
+}
 /* ------ END ICONS ----------- */
 
 /* ----- FLASH MESSAGE ------- */
@@ -1616,6 +1621,7 @@ input[type="submit"].btn.btn-mini {
 }
 /* ---------- END FOOTER ------------ */
 .hovercard {
+   color:#133275;
   position: relative;
   cursor: pointer;
 }
@@ -1632,7 +1638,7 @@ input[type="submit"].btn.btn-mini {
   z-index: 99;
 }
 .hovercard .hovercard-item .panel {
-
+  padding:5px 0;
 }
 .ajaxSearchUser {
   position: relative;

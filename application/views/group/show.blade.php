@@ -32,7 +32,7 @@
     </div>
 </a>
 <div class="panel">
-    <a href="/messages/new/{{ $a->poster->user->id }}"><img src="/img/message_ico.png" /></a>
+    <a class="message-ico" href="/messages/new/{{ $a->poster->user->id }}"><img src="/img/message_ico.png" /></a>
 </div>
 </div>
                          </span></span></li>
@@ -78,7 +78,7 @@
     </div>
 </a>
 <div class="panel">
-    <a href="/messages/new/{{ $a->poster->id }}"><img src="/img/message_ico.png" /></a>
+    <a class="message-ico" href="/messages/new/{{ $a->poster->id }}"><img src="/img/message_ico.png" /></a>
 </div>
 </div>
 <!-- HOVERCARD ENDS -->
