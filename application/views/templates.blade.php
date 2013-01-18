@@ -63,6 +63,7 @@
 </script>
 
 <script type="text/template" id="chatBodyTmpl">
+            <div class="chat-jewel"><span style="<%= (jewel === 0) ? 'display:none;' : '' %>"><%= jewel %></span></div>
             <div id="<%= chatid %>" class="chat <%= toggle %>">
                 <div class="title clearfix"><a class="chatclose" href="#">X</a><span><%= receivername %></span></div>
                 <div class="body">
