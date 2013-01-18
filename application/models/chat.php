@@ -15,4 +15,8 @@ class Chat extends Basemodel {
     public function sender() {
         return $this->belongs_to('User', 'sender_id');
     }
+    public function jewel() {
+        return Chatmessage::where('conversation_id', '=', $this->conversation_id)
+            ->where('created_at', '>', $this->last_activity)->count();
+    }
 }

@@ -1706,6 +1706,20 @@ input[type="submit"].btn.btn-mini {
   margin-right: 25px;
   width: 175px;
 }
+#chatbar .chatitems li .chat-jewel {
+  position: absolute;
+  z-index: 99;
+  background: #FF0000;
+  color: #fff;
+  font-size: 9px;
+  left: 5px;
+  top:-35px;
+
+}
+#chatbar .chatitems li .chat-jewel span {
+  display: block;
+  padding:1px 3px;
+}
 #chatbar .chatitems li .chat {
   height: 25px;
   position: absolute;

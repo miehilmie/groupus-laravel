@@ -2,15 +2,9 @@
 
 @section('nav')
 
-<?php
-// record last activity
-$user = Auth::user();
-$user->last_activity = date('Y-m-d H:i:s',time());
-$user->save();
-?>
 <ul class="navbar clearfix">
     <li class="left"><a class="item" href="{{ URL::to_route('home') }}">{{ HTML::image('img/home.png') }}</a>
-    	<span>Welcome, {{ HTML::link('profile', Auth::user()->name) }} !</span></li>
+    	<span>Welcome, {{ HTML::link('profile', $user->name) }} !</span></li>
     <li class="right">{{ HTML::link('setting', 'Account Setting', array('class' => 'item')) }}{{ HTML::link('logout', 'Logout', array('class' => 'item')) }}</li>
 </ul>
 @endsection
@@ -38,8 +32,8 @@ $user->save();
 <div class="chatbarwrapper">
     <ul class="chatitems clearfix">
         @foreach($user->chats() as $chat)
-        @if($chat->open == '1')
         <li>
+            <div class="chat-jewel"><span style="{{ ($chat->toggle == '1' || $chat->jewel() == 0) ? 'display:none;' : '' }}">{{ $chat->jewel() }}</span></div>
             <div id="chatid-{{ $chat->receiver->id }}" class="chat {{ ($chat->toggle) ? 'open' : '' }}">
                 <div class="title clearfix"><a class="chatclose" href="#">X</a><span>{{ $chat->receiver->name }}</span></div>
                 <div class="body">
@@ -54,7 +48,6 @@ $user->save();
                 <div class="message"><input type="text" /></div>
             </div>
         </li>
-        @endif
         @endforeach
     </ul>
 </div>

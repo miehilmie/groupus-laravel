@@ -4,7 +4,12 @@
             var $t = $(this);
             var $p = $t.parents('.chat');
             var $id = $p.attr('id');
-
+            var $jewel = $p.parent().find('.chat-jewel span');
+            if(!$p.hasClass('open')) {
+                var count = $jewel.html();
+                $jewel.html('0');
+                $jewel.hide();
+            }
             $p.toggleClass('open');
             $.ajax({
                 url: '/ajax/chats/toggle',
@@ -42,7 +47,6 @@
             var $p = $t.parents('.chat');
             var $id = $p.attr('id');
 
-            $p.toggleClass('open');
             $.ajax({
                 url: '/ajax/chats/close',
                 type: 'POST',
@@ -56,32 +60,34 @@
 
         };
 
-        var openchatfn = function(id, name, dft) {
+        var openchatfn = function(id, name, dft, jewel) {
             var $id = 'chatid-'+ id;
             var template = _.template($('#chatBodyTmpl').html());
+            var newDom = $('<li/>', {});
             $.ajax({
                 url: '/ajax/chats/open',
                 type: 'POST',
                 dataType: 'json',
-                data: { id: $id },
+                data: { id: $id, dft: !dft },
                 success: function(msg) {
-                    console.log(msg);
                     var chats = '';
                     $.each(msg.msg, function(i,v) {
                         var sendername = 'You';
                         if(v.sender_id == id) {
-                            sendername = name;
+                            sendername = msg.name;
                         }
                         chats += '<li><b>'+sendername+': </b>'+v.message+'</li>';
                     });
-                    var newDom = $('<li/>', {});
                     var toggle = '';
                     if(dft) {
                         toggle = '';
                     }else {
                         toggle = 'open';
                     }
-                    newDom.append(template({toggle: toggle, chatid: $id, receivername: name, chats: chats}));
+                    if(jewel === undefined) {
+                        jewel = 0;
+                    }
+                    newDom.append(template({toggle: toggle, chatid: $id, receivername: name, chats: chats, jewel: jewel}));
                     newDom.find('.chat .title').click(togglechatfn);
                     newDom.find('.chat .title .chatclose').click(closechatfn);
                     newDom.find('.chat .message input').keypress(sendchatfn);
@@ -94,6 +100,7 @@
                     }
                 }
             });
+            return template;
         };
 
         var timestamp = 0;
@@ -108,21 +115,34 @@
                 success: function(data) {
                     $.each(data.o, function(i,v) {
                         var $id = 'chatid-'+v.id;
-                        if($('#'+$id).length !== 0) {
+                        var $chat = $('#'+$id);
+
+                        if($chat.length !== 0) {
                             var msg = '';
                             $.each(v.msgs, function(ii,vv) {
                                 msg += '<li><b>'+v.name+': </b>'+vv.message+'</li>';
                             });
-                            var chatbody = $('#'+$id).find('.body');
+                            var chatbody = $chat.find('.body');
                             chatbody.find('ul').append(msg);
                             if(chatbody.length !== 0) {
                                 var sHeight = chatbody[0].scrollHeight;
                                 chatbody.scrollTop(sHeight);
                             }
+                            // update jewel no
+                            var $jewel = $chat.parent().find('.chat-jewel span');
+                            if(!$chat.hasClass('open')) {
+                                var count = parseInt($jewel.html(), null);
+                                count = (count + parseInt(v.jewel, null));
+                                $jewel.html(count);
+                                $jewel.show();
+                            }
                         }
                         else {
-                            openchatfn(v.id, v.fullname, true);
+                            openchatfn(v.id, v.fullname, true, v.jewel);
+                            // $chat = dom.find('.chat');
+                            // console.log(dom());
                         }
+
 
                     });
                     timestamp = data.timestamp;
