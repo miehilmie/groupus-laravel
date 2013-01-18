@@ -31,21 +31,45 @@ class Subject extends Basemodel
 		return $this->has_many('Group');
 	}
 
-	public static function your_subjects() {
-		return Auth::user()->subjects()
-		->where('semester_id', '=', Auth::user()->university->semester_id)
-		->get();
-	}
-
 	public function subject_discussions() {
-		return $this->discussions()
-		->where('semester_id','=', Auth::user()->university->semester_id)
-		->order_by('created_at', 'desc')->get();
+		$user = Auth::user();
+		$discuss = DB::table('discussions')
+		->join('users','users.id', '=', 'discussions.poster_id')
+		->left_join('attachments', 'attachments.id', '=', 'discussions.attachment_id')
+		->where('discussions.subject_id', '=', $this->id)
+		->where('semester_id','=', $user->university->semester_id)
+		->order_by('discussions.created_at', 'desc')
+		->get(array(
+			'discussions.has_attachment',
+			'users.name as poster_user_name',
+			'users.id as poster_user_id',
+			'users.usertype_id as poster_usertype_id',
+			'users.img_url as poster_user_img_url',
+			'discussions.created_at',
+			'discussions.message',
+			'attachments.filename as attachment_filename'
+		));
+		return $discuss;
 	}
 	public function subject_announcements() {
-		return $this->announcements()
-		->where('semester_id','=', Auth::user()->university->semester_id)
-		->order_by('created_at', 'desc')->get();
+		$user = Auth::user();
+		$ann = DB::table('announcements')
+		->join('lecturers', 'lecturers.id', '=', 'announcements.poster_id')
+		->join('users','users.id', '=', 'lecturers.user_id')
+		->left_join('attachments', 'attachments.id', '=', 'announcements.attachment_id')
+		->where('announcements.subject_id', '=', $this->id)
+		->where('semester_id','=', $user->university->semester_id)
+		->order_by('announcements.created_at', 'desc')
+		->get(array(
+			'announcements.has_attachment',
+			'users.name as poster_user_name',
+			'users.id as poster_user_id',
+			'users.img_url as poster_user_img_url',
+			'announcements.created_at',
+			'announcements.message',
+			'attachments.filename as attachment_filename'
+		));
+		return $ann;
 	}
 
 
@@ -53,38 +77,34 @@ class Subject extends Basemodel
 		if(is_null($u = Auth::user())){
 			return false;
 		}
+    	$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
+        $students = DB::query('SELECT IF(last_activity > \''. $five_minago. '\',\'online\',\'offline\') as status,'
+            .' `users`.* FROM `users` INNER JOIN'
+            .' `enrollments` ON `users`.`id` = `enrollments`.`user_id` INNER JOIN'
+            .' `subjects` ON `subjects`.`id` = `enrollments`.`subject_id`'
+            .' WHERE `enrollments`.`semester_id` = ?'
+            .' AND `subjects`.`id` = ?'
+            .' AND `users`.`usertype_id` = 1'
+            .' ORDER BY `status` DESC, `users`.name ASC',
+            array($u->university->semester_id, $this->id));
 
-		$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
-
-		return $this->users()
-		->where('semester_id', '=', $u->university->semester_id)
-		->where('last_activity','>', $five_minago)
-		->where('usertype_id', '=', 1)
-		->order_by('name', 'asc')->get();
+		return $students;
 	}
 	public function subject_onlineusers() {
 		if(is_null($u = Auth::user())){
 			return false;
 		}
-		$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
+    	$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
+        $students = DB::query('SELECT IF(last_activity > \''. $five_minago. '\',\'online\',\'offline\') as status,'
+            .' `users`.* FROM `users` INNER JOIN'
+            .' `enrollments` ON `users`.`id` = `enrollments`.`user_id` INNER JOIN'
+            .' `subjects` ON `subjects`.`id` = `enrollments`.`subject_id`'
+            .' WHERE `enrollments`.`semester_id` = ?'
+            .' AND `subjects`.`id` = ?'
+            .' ORDER BY `users`.usertype_id DESC, `status` DESC, `users`.name ASC',
+            array($u->university->semester_id, $this->id));
 
-		return $this->users()
-		->where('semester_id', '=', $u->university->semester_id)
-		->where('last_activity','>', $five_minago)
-		->order_by('usertype_id', 'desc')
-		->order_by('name', 'asc')->get();
-	}
-	public function subject_offlinestudents() {
-		if(is_null($u = Auth::user())){
-			return false;
-		}
-		$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
-
-		return $this->users()
-		->where('semester_id', '=', $u->university->semester_id)
-		->where('last_activity','<=', $five_minago)
-		->where('usertype_id', '=', 1)
-		->order_by('name', 'asc')->get();
+		return $students;
 	}
 	public function subject_offlineusers() {
 		if(is_null($u = Auth::user())){

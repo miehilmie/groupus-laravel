@@ -23,16 +23,16 @@
 		{{ Form::token() }}
 		<li><button class="btn btn-niceblue">Send</button>&nbsp;<a href="/messages" class="btn btn-niceblue">Discard</a></li>
 		<li><strong>To: </strong><div class="newMsg">
-			@if(!($user))
+			@if(!($newuser))
 			<div class="ajaxSearchUser">
 				<input type="text" name="searchuser" />
 				<ul class="ajaxSearchUserList"></ul>
 			</div>
-		@else{{ $user->name }}@endif</div></li>
+		@else{{ $newuser->name }}@endif</div></li>
 		<li><strong>Subject: </strong><div class="newMsg"><input type="text" name="msgsubject" /></div></li>
 		<li><textarea name="msgbody" class="msgBody">{{ Input::old('msgbody') }}</textarea></li>
-		@if($user)
-		{{ Form::hidden('msgto', $user->id)}}
+		@if($newuser)
+		{{ Form::hidden('msgto', $newuser->id)}}
 		@endif
 		{{ Form::close() }}
 	</ul>

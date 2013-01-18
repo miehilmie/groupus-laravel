@@ -8,6 +8,10 @@ class Ajax_Chats_Controller extends Base_Controller {
         $conversation = $this->get_conversation($to);
         $my_chat = $conversation->sender_chat();
         $my_chat->toggle = (Input::get('status') == 'true') ? 1 : 0;
+        if((Input::get('status') == 'true')) {
+            $to_chat = $conversation->receiver_chat();
+            $my_chat->last_activity = $to_chat->last_activity;
+        }
         $my_chat->save();
 
         return $my_chat->toggle;
@@ -18,6 +22,8 @@ class Ajax_Chats_Controller extends Base_Controller {
         $conversation = $this->get_conversation($to);
         $my_chat = $conversation->sender_chat();
         $my_chat->open = 0;
+        $to_chat = $conversation->receiver_chat();
+        $my_chat->last_activity = $to_chat->last_activity;
         $my_chat->toggle = 0;
         $my_chat->save();
 
@@ -29,13 +35,15 @@ class Ajax_Chats_Controller extends Base_Controller {
         $conversation = $this->get_conversation($to);
         $my_chat = $conversation->sender_chat();
         $my_chat->open = 1;
-        $my_chat->toggle = 1;
+        $my_chat->toggle = (Input::get('dft') == 'true') ? 1 : 0;
         $my_chat->save();
 
 
         $o = new stdClass();
         $o->msg = json_decode(eloquent_to_json($my_chat->messages));
         $o->belongs_to = $to;
+        $o->name = Str::limit($my_chat->receiver->name, 10);
+
         $o->error = 0;
 
         return json_encode($o);
@@ -51,12 +59,13 @@ class Ajax_Chats_Controller extends Base_Controller {
         $my_chat = $conversation->sender_chat();
         $my_chat->last_activity = $now;
         $my_chat->save();
-
         $to_chat = $conversation->receiver_chat();
-        $to_chat->toggle = ($to_chat->open == 0) ? 0 :  $to_chat->toggle;
+        $to_chat->toggle = ($to_chat->open == '0') ? 0 :  $to_chat->toggle;
+        if($to_chat->toggle == 1) {
+            $to_chat->last_activity = $now;
+        }
         $to_chat->open = 1;
         $to_chat->save();
-
         $msg = Chatmessage::create(array(
             'message'         => Input::get('message'),
             'created_at'      => $now,
@@ -84,12 +93,14 @@ class Ajax_Chats_Controller extends Base_Controller {
         //Query database for data
         $response = new stdClass();
 
+        // initialize
         if(!$time) {
             $response->o = array();
             $response->timestamp = time();
             return json_encode($response);
         }
 
+        // THE LOOP!
         while(!$data and $timeout < 30 and !connection_aborted()){
             $last_time  = date('Y-m-d H:i:s',$time);
             $to_chat = Chat::where('receiver_id', '=', $user->id)
@@ -105,17 +116,29 @@ class Ajax_Chats_Controller extends Base_Controller {
             }else{
                 $response->o = array();
                 foreach ($to_chat as $chat) {
-                    $msgs = $chat->messages()->where('created_at', '>', $last_time)->get();
+                    $msgs = $chat->messages()
+                        ->where('created_at', '>', $last_time)
+                        ->where('sender_id','!=',$user->id)
+                        ->get();
+                    if(count($msgs) == 0) {
+                        continue;
+                    }
+
                     $robj = new stdClass();
                     $robj->id = $chat->sender->id;
                     $robj->fullname = $chat->sender->name;
                     $robj->name = Str::limit($robj->fullname, 10);
                     $robj->msgs = array();
+                    $robj->jewel = 0;
+                    if($chat->conversation->sender_chat()->toggle == 0) {
+                        $robj->jewel = count($msgs);
+                    }
                     foreach ($msgs as $m) {
                         if($m->sender_id !== $user->id){
                             $robj->msgs[] = json_decode(eloquent_to_json($m));
                         }
                     }
+
                     $response->o[] = $robj;
                 }
 

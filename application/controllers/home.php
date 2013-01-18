@@ -18,7 +18,7 @@ class Home_Controller extends Base_Controller {
 			case 1:
 			return View::make('home.student')->with(
 				array(
-					'name' => $u->name,
+					'user' => $u,
 					'announcements' => $u->announcements(),
 					'updates' => $u->updates(),
 					'groups' => $u->student->student_groups()
@@ -29,7 +29,7 @@ class Home_Controller extends Base_Controller {
 			case 2:
 			return View::make('home.lecturer')->with(
 				array(
-					'name' => $u->name,
+					'user' => $u,
 					'announcements' => $u->announcements(),
 					'updates' => $u->updates(),
 					'groups' => array()

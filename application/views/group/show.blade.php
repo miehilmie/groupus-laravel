@@ -7,6 +7,16 @@
 
 @section('right')
 <div class="clearfix">
+<div class="rSide">
+    <div class="title">User's List</div>
+    <ul class="userList">
+        @foreach($group->group_onlinestudents() as $s)
+        <li class="userContainer {{ ($s->usertype_id == 2) ? 'lecturer' : '' }}">
+            <a class="{{ ($s->id != $user->id) ? 'openchat' : '' }}" data-id="{{ $s->id }}" href="#" title="{{ $s->name }}"><div class="indicator {{ $s->status }}"></div>{{ $s->name }}</a>
+        </li>
+        @endforeach
+    </ul>
+</div>
 <div class="hasRight">
     <h2 style="text-align:center;">Welcome To {{ $group->name }}</h2>
     <ul class="student-update">
@@ -17,29 +27,29 @@
                  <li class="update-item">
                      <ul>
                          <li class="titlebar"><a href="/subjects/{{ $group->subject->id }}" class="cls">{{ $group->subject->code }}</a><span class="time">{{ $a->created_at }}</span><span class="poster"><span class="hovercard" data-template="userHoverTmpl">
-                            <?php echo $a->poster->user->name; ?>
+                            <?php echo $a->poster_user_name; ?>
 <div class="hovercard-item">
-<a href="/users/{{ $a->poster->user->id }}">
+<a href="/users/{{ $a->poster_user_id }}">
     <div class="clearfix">
         <div class="imgPrev">
-            <img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster->user->img_url }}" width="25px" height="25px">
+            <img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster_user_img_url }}" width="25px" height="25px">
         </div>
         <div class="cData">
             <div class="author">
-                <strong>{{ $a->poster->user->name }}</strong>
+                <strong>{{ $a->poster_user_name }}</strong>
             </div>
         </div>
     </div>
 </a>
 <div class="panel">
-    <a class="message-ico" href="/messages/new/{{ $a->poster->user->id }}"><img src="/img/message_ico.png" /></a>
+    <a class="message-ico" href="/messages/new/{{ $a->poster_user_id }}"><img src="/img/message_ico.png" /></a>
 </div>
 </div>
                          </span></span></li>
                          <li class="messagebar"><?php echo $a->message; ?></li>
                          <li class="attachmentbar">
                             @if($a->has_attachment)
-                            <div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment->filename }}</a>
+                            <div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment_filename }}</a>
                             @endif
                          </li>
                      </ul>
@@ -58,27 +68,27 @@
                  <li class="update-item">
                      <ul>
                          <li class="titlebar">
-                            <span class="cls"></span>
+                            <a href="/subjects/{{ $group->subject->id }}" class="cls">{{ $group->subject->code }}</a>
                             <span class="time">{{ $a->created_at }}</span>
                             <span class="poster">
-                                <span class="hovercard" data-id="{{ $a->poster->id }}" href="/users/{{ $a->poster->id }}" data-template="userHoverTmpl">
-                                    <?php echo $a->poster->name; ?>
+                                <span class="hovercard" data-id="{{ $a->poster_user_id }}" href="/users/{{ $a->poster_user_id }}" data-template="userHoverTmpl">
+                                    <?php echo $a->poster_user_name; ?>
 <!-- HOVERCARD -->
 <div class="hovercard-item">
-<a href="/users/{{ $a->poster->id }}">
+<a href="/users/{{ $a->poster_user_id }}">
     <div class="clearfix">
         <div class="imgPrev">
-            <img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster->img_url }}" width="25px" height="25px">
+            <img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster_user_img_url }}" width="25px" height="25px">
         </div>
         <div class="cData">
             <div class="author">
-                <strong>{{ $a->poster->name }}</strong>
+                <strong>{{ $a->poster_user_name }}</strong>
             </div>
         </div>
     </div>
 </a>
 <div class="panel">
-    <a class="message-ico" href="/messages/new/{{ $a->poster->id }}"><img src="/img/message_ico.png" /></a>
+    <a class="message-ico" href="/messages/new/{{ $a->poster_user_id }}"><img src="/img/message_ico.png" /></a>
 </div>
 </div>
 <!-- HOVERCARD ENDS -->

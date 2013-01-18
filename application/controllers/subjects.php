@@ -33,10 +33,10 @@ class Subjects_Controller extends Base_Controller {
         if($subject && $subject->IsFacultySubject() && $subject->IsEnrolled()) {
             $grouprule = $subject->subject_grouprule();
 
-            $grouprule->maxgroups = Input::get('max_groups');
+            $grouprule->maxgroups   = Input::get('max_groups');
             $grouprule->maxstudents = Input::get('max_students');
-            $grouprule->mode = Input::get('mode');
-            $grouprule->enable = 1;
+            $grouprule->mode        = Input::get('mode');
+            $grouprule->enable      = 1;
             $grouprule->save();
 
             if($groups = Group::where_subject_id($id)
@@ -52,7 +52,7 @@ class Subjects_Controller extends Base_Controller {
             for($i = 1; $i <= $grouprule->maxgroups; $i++) {
                 Group::create(array(
                     'name' => $prefix.'_'.$i,
-                    'subject_id' => $id,
+                    'subject_id'  => $id,
                     'semester_id' => Auth::user()->university->semester_id
                 ));
             }
@@ -63,7 +63,7 @@ class Subjects_Controller extends Base_Controller {
 
 	public function get_show($id)
     {
-        $u = Auth::user();
+        $user = Auth::user();
         $subject = Subject::find($id);
 
         if($subject && !$subject->IsEnrolled()) {
@@ -71,21 +71,21 @@ class Subjects_Controller extends Base_Controller {
         }
 
 
-        switch($u->usertype_id)
+        switch($user->usertype_id)
         {
             // student
             case 1:
             return View::make('subject.student.show')->with(array(
-                'announcements' => array(), // @todo: add announcements
+                'user' => $user,
                 'subject'       => $subject,
-                'groups' => $u->student->student_groups()
+                'groups'        => $user->student->student_groups()
             ));
             break;
 
             // lecturer
             case 2:
             return View::make('subject.lecturer.show')->with(array(
-                'announcements' => array(), // @todo: add announcements
+                'user' => $user,
                 'subject'       => $subject,
             ));
             break;
@@ -95,8 +95,8 @@ class Subjects_Controller extends Base_Controller {
     public function post_posts() {
         $id = Input::get('id');
         $redirect = Input::get('redirect');
-
-        if(Subject::IsFacultySubject($id) && !Subject::IsEnrolled($id)) {
+        $subject = Subject::find($id);
+        if($subject->IsFacultySubject($id) && !$subject->IsEnrolled($id)) {
             return Redirect::to($redirect);
         }
 

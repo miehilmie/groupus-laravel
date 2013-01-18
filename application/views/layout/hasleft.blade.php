@@ -1,6 +1,9 @@
 @layout('layout.logged')
 
 @section('content')
+<?php
+$usermessages = $user->user_messages();
+?>
 <div class="content-wrapper hasleft">
 <div id="left-content">
 <ul class="section">
@@ -20,7 +23,7 @@
 <li class="bubble-item">
 <ul>
 	<li><div class="subjectComposeShrct"><a id="addNewSubject" href="#">New Subject</a></div></li>
-	@forelse (Subject::your_subjects() as $s)
+	@forelse ($user->user_subjects() as $s)
 	<li class="subj-item">{{  HTML::link_to_route('subject_show', $s->code . '	 ' .$s->name, array($s->id)) }}</li>
 	@empty
 	<li>
@@ -39,7 +42,7 @@
 
 <li class="bullet">
 <ul>
-<li class="jewel-notify">{{ Auth::user()->jewel() }}</li>
+<li class="jewel-notify">{{ $user->user_jewel() }}</li>
 <li class="bullet-text bubbleTrigger" data-href="/message/" data-target="messageFlyout">
 <a>Messages</a>
 </li>
@@ -56,7 +59,7 @@
 			<a class="composeNewMsg" href="#">Compose New</a>
 		</div>
 	</li>
-	@forelse (Directmessage::your_messages() as $m)
+	@forelse ($usermessages as $m)
 	<li>
 		<a class="{{ (!$m->has_read) ? 'unread' : '' }} messageContent" href="/messages/{{ $m->id }}">
 			<div class="clearfix">

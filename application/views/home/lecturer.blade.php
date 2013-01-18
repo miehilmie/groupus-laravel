@@ -8,11 +8,11 @@
 		         @forelse ($announcements as $a)
 	         <li class="update-item">
 		         <ul>
-		             <li class="titlebar"><span class="cls"><a href="/subjects/{{ $a->subject->id}}">{{ $a->subject->code }}</a></span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster->user->id }}" ><?php echo $a->poster->user->name; ?></a></span></li>
+		             <li class="titlebar"><span class="cls"><a href="/subjects/{{ $a->subject_id}}">{{ $a->subject_code }}</a></span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster_user_id }}" ><?php echo $a->poster_user_name; ?></a></span></li>
 		             <li class="messagebar"><?php echo $a->message; ?></li>
 		             <li class="attachmentbar">
 		             	@if($a->has_attachment)
-		             	<div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment->filename }}</a>
+		             	<div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment_filename }}</a>
 		             	@endif
 		             </li>
 		         </ul>
@@ -29,8 +29,8 @@
 	         <ul class="update-item">
 		         @forelse ($updates as $a)
 		         <li class="update-item">
-			         <ul class="{{ ($a->poster->usertype_id == 2) ? 'lect' : ''  }}">
-			             <li class="titlebar"><span class="cls">{{ $a->subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster->id }}" ><?php echo $a->poster->name; ?></a></span></li>
+			         <ul class="{{ ($a->poster_usertype_id == 2) ? 'lect' : ''  }}">
+			             <li class="titlebar"><span class="cls">{{ $a->subject_code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster_user_id }}" ><?php echo $a->poster_user_name; ?></a></span></li>
 			             <li class="messagebar"><?php echo $a->message; ?></li>
 			             <li class="attachmentbar">
 			             	@if($a->has_attachment)

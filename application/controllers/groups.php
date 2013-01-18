@@ -10,13 +10,14 @@ class Groups_Controller extends Base_Controller {
         if($u->usertype_id != 1 || !Group::IsEnrolled($id)) {
             return View::make('error.noauth');
         }
-
-        $g = Group::find($id);
+        $student = $u->student;
+        $g = Group::with('subject')->find($id);
 
         return View::make('group.show')->with(array(
+            'user' => $u,
             'group' => $g,
-            'groups' => $u->student->student_groups()
-
+            'student' => $student,
+            'groups' => $student->student_groups()
         ));
     }
     public function post_posts() {

@@ -184,7 +184,7 @@ class Users_Controller extends Base_Controller {
                     case 1:
                         $ext = array(
                             'cgpa' => 'required',
-                            'dfc' => 'required'
+                            'dfc'  => 'required'
                         );
                         break;
                     case 2:

@@ -1,6 +1,6 @@
 <?php
 
-class SentItem extends Eloquent 
+class SentItem extends Eloquent
 {
 	public function sender()
 	{
@@ -10,14 +10,17 @@ class SentItem extends Eloquent
 	{
 		return $this->belongs_to('User', 'receiver_id');
 	}
-	public static function IsYourMessage($id) {
-		return (static::where_id_and_sender_id($id, Auth::user()->id)->count() > 0);
-	}
+	public function IsYourMessage() {
+		if(is_null($u = Auth::user())){
+			return false;
+		}
 
+		return $this->sender_id == $u->id;
+	}
 	public static function your_messages() {
-		return Auth::user()->sentitems()->order_by('created_at', 'desc')->take(5)->get();
+		return $user->sentitems()->order_by('created_at', 'desc')->take(5)->get();
 	}
 	public static function your_messages_paginated($n = 5) {
-		return Auth::user()->sentitems()->order_by('created_at', 'desc')->paginate($n);
+		return $user->sentitems()->order_by('created_at', 'desc')->paginate($n);
 	}
 }

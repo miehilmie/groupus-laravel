@@ -12,12 +12,7 @@
 	<ul class="userList">
 		@foreach($subject->subject_onlineusers() as $s)
 		<li class="userContainer {{ ($s->usertype_id == 2) ? 'lecturer' : '' }}">
-			<a class="{{ ($s->id != Auth::user()->id) ? 'openchat' : '' }}" data-id="{{ $s->id }}" href="#" title="{{ $s->name }}"><div class="indicator online"></div>{{ $s->name }}</a>
-		</li>
-		@endforeach
-		@foreach($subject->subject_offlineusers() as $s)
-		<li class="userContainer {{ ($s->usertype_id == 2) ? 'lecturer' : '' }}">
-			<a class="{{ ($s->id != Auth::user()->id) ? 'openchat' : '' }}" data-id="{{ $s->id }}" href="#" title="{{ $s->name }}"><div class="indicator"></div>{{ $s->name }}</a>
+			<a class="{{ ($s->id != $user->id) ? 'openchat' : '' }}" data-id="{{ $s->id }}" href="#" title="{{ $s->name }}"><div class="indicator {{ $s->status }}"></div>{{ $s->name }}</a>
 		</li>
 		@endforeach
 	</ul>
@@ -34,22 +29,22 @@
 		         <li class="update-item">
 			         <ul>
 			             <li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><span class="hovercard" data-template="userHoverTmpl">
-			             	<?php echo $a->poster->user->name; ?>
+			             	<?php echo $a->poster_user_name; ?>
 <div class="hovercard-item">
-<a href="/users/{{ $a->poster->user->id }}">
+<a href="/users/{{ $a->poster_user_id }}">
 	<div class="clearfix">
 		<div class="imgPrev">
-			<img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster->user->img_url }}" width="25px" height="25px">
+			<img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster_user_img_url }}" width="25px" height="25px">
 		</div>
 		<div class="cData">
 			<div class="author">
-				<strong>{{ $a->poster->user->name }}</strong>
+				<strong>{{ $a->poster_user_name }}</strong>
 			</div>
 		</div>
 	</div>
 </a>
 <div class="panel">
-	<a class="message-ico" href="/messages/new/{{ $a->poster->user->id }}"><img src="/img/message_ico.png" /></a>
+	<a class="message-ico" href="/messages/new/{{ $a->poster_user_id }}"><img src="/img/message_ico.png" /></a>
 </div>
 </div>
 			             </span></span></li>
@@ -83,8 +78,29 @@
 	         <ul>
 		         @forelse ($subject->subject_discussions() as $a)
 		         <li class="update-item">
-			         <ul class="{{ ($a->poster->usertype_id == 2) ? 'lect' : ''  }}">
-			             <li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster->id }}" ><?php echo $a->poster->name; ?></a></span></li>
+			         <ul class="{{ ($a->poster_usertype_id == 2) ? 'lect' : ''  }}">
+<li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster">
+	<span class="hovercard" data-template="userHoverTmpl">
+	{{ $a->poster_user_name }}
+	<div class="hovercard-item">
+	<a href="/users/{{ $a->poster_user_id }}">
+		<div class="clearfix">
+			<div class="imgPrev">
+				<img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster_user_img_url }}" width="25px" height="25px">
+			</div>
+			<div class="cData">
+				<div class="author">
+					<strong>{{ $a->poster_user_name }}</strong>
+				</div>
+			</div>
+		</div>
+	</a>
+	<div class="panel">
+		<a class="message-ico" href="/messages/new/{{ $a->poster_user_id }}"><img src="/img/message_ico.png" /></a>
+	</div>
+	</div>
+			             </span>
+			         </span></li>
 			             <li class="messagebar"><?php echo $a->message; ?></li>
 			             <li class="attachmentbar">
 			             	@if($a->has_attachment)
