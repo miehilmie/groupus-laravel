@@ -102,6 +102,12 @@ Event::listen('500', function()
 Route::filter('before', function()
 {
 	// Do stuff before every request to your application...
+    // record last activity if logged in
+    if(!is_null($user = Auth::user())) {
+        $user->last_activity = date('Y-m-d H:i:s',time());
+        $user->save();
+    }
+
 });
 
 Route::filter('after', function($response)
