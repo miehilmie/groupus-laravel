@@ -4,6 +4,14 @@
 {{ HTML::script('js/views/signup.js') }}
 @endsection
 
+@section('nav')
+<ul class="navbar clearfix">
+    <li class="left">
+        <a class="item" href="{{ URL::to_route('home') }}">{{ HTML::image('img/home.png') }} LOGIN</a>
+    </li>
+</ul>
+@endsection
+
 @section('content')
 <div class="content-wrapper">
 
