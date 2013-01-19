@@ -90,7 +90,7 @@
                     newDom.append(template({toggle: toggle, chatid: $id, receivername: name, chats: chats, jewel: jewel}));
                     newDom.find('.chat .title').click(togglechatfn);
                     newDom.find('.chat .title .chatclose').click(closechatfn);
-                    newDom.find('.chat .message input').keypress(sendchatfn);
+                    newDom.find('.chat .chatmessage input').keypress(sendchatfn);
 
                     $('.chatitems').append(newDom);
                     var chatbody = newDom.find('.body');
@@ -156,7 +156,7 @@
 
         // initializer
         $('.chat .title').click(togglechatfn);
-        $('.chat .message input').keypress(sendchatfn);
+        $('.chat .chatmessage input').keypress(sendchatfn);
         $('.chat .title .chatclose').click(closechatfn);
 
         var chatbody = $('.chat .body');
