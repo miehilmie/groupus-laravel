@@ -12,7 +12,7 @@ class Subjects_Controller extends Base_Controller {
             $id = Input::get('subject'.$i);
             $subject = Subject::find($id);
             $u = Auth::user();
-            if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
+            if(!$subject || $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
                 $u->subjects()->attach($id,
                     array('semester_id' => $u->university->semester_id)
                 );
@@ -28,9 +28,9 @@ class Subjects_Controller extends Base_Controller {
         $id = Input::get('id');
         $prefix = Input::get('prefix');
         $subject = Subject::find($id);
-
+        $user = Auth::user();
         // if subject exist, is same faculty with user, and enrolled
-        if($subject && $subject->IsFacultySubject() && $subject->IsEnrolled()) {
+        if(!$subject || $subject->IsFacultySubject() && $subject->IsEnrolled()) {
             $grouprule = $subject->subject_grouprule();
 
             $grouprule->maxgroups   = Input::get('max_groups');
@@ -40,7 +40,7 @@ class Subjects_Controller extends Base_Controller {
             $grouprule->save();
 
             if($groups = Group::where_subject_id($id)
-                ->where_semester_id(Auth::user()->university->semester_id)
+                ->where_semester_id($user->university->semester_id)
                 ->get())
             {
                 foreach ($groups as $g) {
@@ -48,14 +48,42 @@ class Subjects_Controller extends Base_Controller {
                     $g->delete();
                 }
             }
-
+            $groups = array();
             for($i = 1; $i <= $grouprule->maxgroups; $i++) {
-                Group::create(array(
+                $groups[] = Group::create(array(
                     'name' => $prefix.'_'.$i,
                     'subject_id'  => $id,
-                    'semester_id' => Auth::user()->university->semester_id
+                    'semester_id' => $user->university->semester_id
                 ));
             }
+            if(Input::get('mode') == 2) {
+                $students = User::join('enrollments', 'users.id', '=', 'enrollments.user_id')
+                    ->join('students', 'users.id', '=', 'students.user_id')
+                    ->where('enrollments.subject_id', '=', $id)
+                    ->where('enrollments.semester_id', '=', $user->university->semester_id)
+                    ->where('users.usertype_id', '=', '1')
+                    ->order_by('cgpa', 'desc')
+                    ->get();
+
+                $n_students = count($students);
+                $max_group = $grouprule->maxgroups;
+                $group_count = array();
+                $index = 0;
+
+                for ($i=0; $i < $max_group; $i++) {
+                    $group_count[$i] = 0;
+                }
+
+                foreach($students as $student) {
+                    $i = $index%$max_group;
+                    if($group_count[$i] >= $grouprule->maxstudents) continue;
+
+                    $groups[$i]->students()->attach($student->id);
+
+                    $index++;
+                }
+            }
+
         }
 
         return Redirect::to($redirect);
@@ -66,7 +94,7 @@ class Subjects_Controller extends Base_Controller {
         $user = Auth::user();
         $subject = Subject::find($id);
 
-        if($subject && !$subject->IsEnrolled()) {
+        if(!$subject || !$subject->IsEnrolled()) {
             return View::make('error.noauth');
         }
 
@@ -96,7 +124,7 @@ class Subjects_Controller extends Base_Controller {
         $id = Input::get('id');
         $redirect = Input::get('redirect');
         $subject = Subject::find($id);
-        if($subject->IsFacultySubject($id) && !$subject->IsEnrolled($id)) {
+        if(!$subject || $subject->IsFacultySubject($id) && !$subject->IsEnrolled($id)) {
             return Redirect::to($redirect);
         }
 
@@ -137,13 +165,13 @@ class Subjects_Controller extends Base_Controller {
 
         $post->save();
 
-        return Redirect::to($redirect);
+        return Redirect::to($redirect)->with('flashmsg', 'You have posted a discussion');
     }
     public function post_announcements() {
         $id = Input::get('id');
         $redirect = Input::get('redirect');
         $subject = Subject::find($id);
-        if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
+        if(!$subject || $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
             return Redirect::to($redirect);
         }
 
@@ -186,14 +214,20 @@ class Subjects_Controller extends Base_Controller {
 
         return Redirect::to($redirect);
     }
+
+    /**
+     * Student join group
+     * @return Redirect
+     */
     public function post_groups() {
         $id = Input::get('id');
         $redirect = Input::get('redirect');
 
         $subject = Subject::find($id);
-        if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
+        if(!$subject || $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
             return Redirect::to($redirect);
         }
+        $grouprule = $subject->subject_grouprule();
 
         $input = Input::all();
         $rules = array(
@@ -201,16 +235,19 @@ class Subjects_Controller extends Base_Controller {
         );
 
         $validation = Validator::make($input, $rules);
+
         if($validation->fails()) {
             return Redirect::to($redirect);
         }
 
         $group = Group::find(Input::get('group_num'));
-
+        if(count($group->students) >= $grouprule->maxstudents) {
+            return Redirect::to($redirect)->with('flashmsg', 'Group is full. Please choose different group');
+        }
         $student = Auth::user()->student;
         $group->students()->attach($student->id);
 
-        return Redirect::to($redirect);
+        return Redirect::to($redirect)->with('flashmsg', 'You have successfully joined a group');
     }
 
 	public function get_edit()

@@ -64,6 +64,6 @@ class Groups_Controller extends Base_Controller {
 
         $post->save();
 
-        return Redirect::to($redirect);
+        return Redirect::to($redirect)->with('flashmsg', 'You have posted a discussion');
     }
 }
