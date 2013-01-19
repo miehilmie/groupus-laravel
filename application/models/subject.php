@@ -106,18 +106,7 @@ class Subject extends Basemodel
 
 		return $students;
 	}
-	public function subject_offlineusers() {
-		if(is_null($u = Auth::user())){
-			return false;
-		}
-		$five_minago = date('Y-m-d H:i:s',(time()- 5*60));
 
-		return $this->users()
-		->where('semester_id', '=', $u->university->semester_id)
-		->where('last_activity','<=', $five_minago)
-		->order_by('usertype_id', 'desc')
-		->order_by('name', 'asc')->get();
-	}
 	public function subject_grouprule() {
 		if(is_null($u = Auth::user())){
 			return false;
