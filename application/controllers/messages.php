@@ -23,8 +23,8 @@ class Messages_Controller extends Base_Controller {
 	public function get_show($id) {
 		$m = Directmessage::find($id);
 
-		if($m && !$m->IsYourMessage()) {
-			return Redirect::to_route('messages');
+		if(!$m || !$m->IsYourMessage()) {
+			return Redirect::to_route('messages')->with('flashmsg', 'An error has occured');
 		}
 		$m->has_read = true;
 		$m->save();
@@ -37,8 +37,8 @@ class Messages_Controller extends Base_Controller {
 	public function get_sents_show($id) {
 		$m = SentItem::find($id);
 
-		if($m && !$m->IsYourMessage()) {
-			return Redirect::to_route('sents');
+		if(!$m || !$m->IsYourMessage()) {
+			return Redirect::to_route('sents')->with('flashmsg', 'An error has occured');
 		}
 		return View::make('message.sent_show')->with(array(
 			'user' => Auth::user(),
@@ -78,32 +78,31 @@ class Messages_Controller extends Base_Controller {
 
 		$message = Directmessage::create($msgData);
 		$message = SentItem::create($msgData);
-		return Redirect::to(Input::get('redirect'));
+		return Redirect::to(Input::get('redirect'))->with('flashmsg', 'You have sent a message');
 
 	}
 
 	public function delete_destroy() {
 		$msg = Directmessage::find(Input::get('id'));
-
-		if($msg && !$msg->IsYourMessage()) {
-			return Redirect::to_route('messages');
+		if(!$msg || !$msg->IsYourMessage()) {
+			return Redirect::to_route('messages')->with('flashmsg', 'An error has occured');
 		}
 
 		$msg->delete();
 
-		return Redirect::to_route('messages');
+		return Redirect::to_route('messages')->with('flashmsg', 'Message deleted');
 
 	}
 
 	public function delete_sents_destroy() {
 		$m = SentItem::find(Input::get('id'));
-		if($m && !$m->IsYourMessage()) {
-			return Redirect::to_route('sents');
+		if(!$m || !$m->IsYourMessage()) {
+			return Redirect::to_route('sents')->with('flashmsg', 'An error has occured');;
 		}
 
 		$m->delete();
 
-		return Redirect::to_route('sents');
+		return Redirect::to_route('sents')->with('flashmsg', 'Message deleted');
 
 	}
 
