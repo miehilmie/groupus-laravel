@@ -83,16 +83,16 @@
 
                     var group_html = '';
 
-                    $.each(m, function(i, v) {
+                    $.each(m.groups, function(i, v) {
                         var user_html = '';
 
                         $.each(v.users, function(i, vo) {
                             user_html += user({id: vo.id, img_url: vo.img_url, name: vo.name });
                         });
-                        group_html += group({group_name: v.name, group_userlist: user_html, group_id: v.id});
+                        group_html += group({group_name: v.name, group_userlist: user_html, group_id: v.id, enable: v.enable});
                     });
 
-                    o.body.html(join_group({ group_list: group_html }));
+                    o.body.html(join_group({ ngroup: m.ngroup, maxstudents: m.maxstudents, group_list: group_html }));
                     var allPanels = $('.accordion > dd').hide();
 
                     $('.accordion > dt > a').click(function() {

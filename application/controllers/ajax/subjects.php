@@ -43,7 +43,9 @@ class Ajax_Subjects_Controller extends Base_Controller {
 
         if($subject && $subject->IsFacultySubject() && $subject->IsEnrolled()) {
             $groups = $subject->subject_groups();
-            $response = array();
+            $rule = $subject->subject_grouprule();
+            $response = new stdClass();
+            $response->groups = array();
             foreach ($groups as $g) {
             	$o = json_decode(eloquent_to_json($g));
             	$students = $g->students;
@@ -55,8 +57,11 @@ class Ajax_Subjects_Controller extends Base_Controller {
             		$users[] = $user;
             	}
             	$o->users = $users;
-            	$response[] = $o;
+                $o->enable = (count($users) >= $rule->maxstudents) ? 'disabled' : '';
+            	$response->groups[] = $o;
             }
+            $response->maxstudents = $rule->maxstudents;
+            $response->ngroup = $rule->maxgroups;
             return json_encode($response);
         }
 

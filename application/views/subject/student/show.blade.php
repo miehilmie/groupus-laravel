@@ -123,6 +123,10 @@
 	<h3> Select Group: </h3>
 	{{ Form::open('/subjects/groups') }}
 	{{ Form::token() }}
+	<table>
+		<tr><td>Number of groups&nbsp;&nbsp;&nbsp;</td><td>:</td><td><%= ngroup %></td></tr>
+		<tr><td>Number of student per group&nbsp;&nbsp;&nbsp;</td><td>:</td><td><%= maxstudents %></td></tr>
+	</table>
 	<dl class="accordion">
 
 	<%= group_list %>
@@ -137,15 +141,17 @@
 	{{ Form::hidden('redirect', URL::current()) }}
 	{{ Form::close() }}
 </script>
+
 <script type="text/template" id="groupTmpl">
 <dt><a href=""><%= group_name %></a></dt>
 	<dd>
 		<ul>
 			<%= group_userlist %>
 		</ul>
-		<div class="clearfix" style="text-align:right;"><input type="radio" name="group_num" value="<%= group_id %>"><span>&nbsp;Join Group</span></div>
+		<div class="clearfix" style="text-align:right;"><input type="radio" name="group_num" value="<%= group_id %>" <%= enable %> ><span class="joinGp <%= enable %>">&nbsp;Join Group</span></div>
 </dd>
 </script>
+
 <script type="text/template" id="userGroupTmpl">
 <li>
 	<a class="userGroupContent" href="/users/<%= id %>">
