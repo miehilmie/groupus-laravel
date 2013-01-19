@@ -25,7 +25,7 @@ class Groups_Controller extends Base_Controller {
         $redirect = Input::get('redirect');
 
         if(!Group::IsEnrolled($id)) {
-            return Redirect::to($redirect);
+            return Redirect::to($redirect)->with('flashmsg', 'You are not authorized to post to the group');
         }
 
         $input = Input::all();
@@ -51,7 +51,7 @@ class Groups_Controller extends Base_Controller {
 
         $validation = Validator::make($input, $rules);
         if($validation->fails()) {
-            return Redirect::to($redirect);
+            return Redirect::to($redirect)->with('flashmsg', 'You need to write something');
         }
 
         $post = new Grouppost(array(

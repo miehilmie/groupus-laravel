@@ -222,7 +222,7 @@ class Users_Controller extends Base_Controller {
                 $u->save();
 
                 return Redirect::to_route('user_setting')
-                    ->with('success', 'Your profile has been updated');
+                    ->with('flashmsg', 'Your profile has been updated');
 
                 break;
             case 2:
@@ -256,7 +256,7 @@ class Users_Controller extends Base_Controller {
                 $u->save();
 
                 return Redirect::to_route('user_setting')
-                    ->with('success', 'Your profile picture has been updated');
+                    ->with('flashmsg', 'Your profile picture has been updated');
 
                 break;
             case 3:
@@ -282,7 +282,7 @@ class Users_Controller extends Base_Controller {
                 $u->save();
 
                 return Redirect::to_route('user_setting')
-                    ->with('success', 'Your password has been updated');
+                    ->with('flashmsg', 'Your password has been updated');
 
                 break;
 
