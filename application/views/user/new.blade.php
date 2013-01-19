@@ -34,7 +34,7 @@
                         <label>Username<span class="required">*</span>: </label>
                     </td>
                     <td>
-                        {{ Form::text('username', Input::old('username')) }}
+                        {{ Form::text('username', Input::old('username')) }}&nbsp;<span class="smallinfo">example@email.com</span>
                     </td>
                 </tr>
                 <tr>
