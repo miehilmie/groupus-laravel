@@ -55,6 +55,7 @@
             }).find('.dismiss').click(function() {
                 $flashmsg.addClass('hidden');
                 clearTimeout($flashmsg.stop().data('timer'));
+                return false;
             });
 
             if(!$flashmsg.hasClass('hidden')) {
