@@ -26,26 +26,12 @@
             @forelse ($group->subject->subject_announcements() as $a)
                  <li class="update-item">
                      <ul>
-                         <li class="titlebar"><a href="/subjects/{{ $group->subject->id }}" class="cls">{{ $group->subject->code }}</a><span class="time">{{ $a->created_at }}</span><span class="poster"><span class="hovercard" data-template="userHoverTmpl">
-                            <?php echo $a->poster_user_name; ?>
-<div class="hovercard-item">
-<a href="/users/{{ $a->poster_user_id }}">
-    <div class="clearfix">
-        <div class="imgPrev">
-            <img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster_user_img_url }}" width="25px" height="25px">
-        </div>
-        <div class="cData">
-            <div class="author">
-                <strong>{{ $a->poster_user_name }}</strong>
-            </div>
-        </div>
-    </div>
-</a>
-<div class="panel">
-    <a class="message-ico" href="/messages/new/{{ $a->poster_user_id }}"><img src="/img/message_ico.png" /></a>
-</div>
-</div>
-                         </span></span></li>
+                         <li class="titlebar"><a href="/subjects/{{ $group->subject->id }}" class="cls">{{ $group->subject->code }}</a><span class="time">{{ $a->created_at }}</span>
+                            <span class="poster">
+                                <span class="hovercard" data-id="{{ $a->poster_user_id }}" href="/users/{{ $a->poster_user_id }}" data-template="userHoverTmpl">
+                                    <?php echo $a->poster_user_name; ?>
+                                </span>
+                            </span></li>
                          <li class="messagebar"><?php echo $a->message; ?></li>
                          <li class="attachmentbar">
                             @if($a->has_attachment)
@@ -73,25 +59,6 @@
                             <span class="poster">
                                 <span class="hovercard" data-id="{{ $a->poster_user_id }}" href="/users/{{ $a->poster_user_id }}" data-template="userHoverTmpl">
                                     <?php echo $a->poster_user_name; ?>
-<!-- HOVERCARD -->
-<div class="hovercard-item">
-<a href="/users/{{ $a->poster_user_id }}">
-    <div class="clearfix">
-        <div class="imgPrev">
-            <img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster_user_img_url }}" width="25px" height="25px">
-        </div>
-        <div class="cData">
-            <div class="author">
-                <strong>{{ $a->poster_user_name }}</strong>
-            </div>
-        </div>
-    </div>
-</a>
-<div class="panel">
-    <a class="message-ico" href="/messages/new/{{ $a->poster_user_id }}"><img src="/img/message_ico.png" /></a>
-</div>
-</div>
-<!-- HOVERCARD ENDS -->
                              </span>
                             </span>
                         </li>

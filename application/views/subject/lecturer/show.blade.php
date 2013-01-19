@@ -28,26 +28,12 @@
 	        @forelse ($subject->subject_announcements() as $a)
 		         <li class="update-item">
 			         <ul>
-			             <li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster"><span class="hovercard" data-template="userHoverTmpl">
-			             	<?php echo $a->poster_user_name; ?>
-<div class="hovercard-item">
-<a href="/users/{{ $a->poster_user_id }}">
-	<div class="clearfix">
-		<div class="imgPrev">
-			<img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster_user_img_url }}" width="25px" height="25px">
-		</div>
-		<div class="cData">
-			<div class="author">
-				<strong>{{ $a->poster_user_name }}</strong>
-			</div>
-		</div>
-	</div>
-</a>
-<div class="panel">
-	<a class="message-ico" href="/messages/new/{{ $a->poster_user_id }}"><img src="/img/message_ico.png" /></a>
-</div>
-</div>
-			             </span></span></li>
+			             <li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span>
+			             	<span class="poster">
+			             		<span class="hovercard" data-id="{{ $a->poster_user_id }}" href="/users/{{ $a->poster_user_id }}" data-template="userHoverTmpl">
+			             			<?php echo $a->poster_user_name; ?>
+			             		</span>
+			             	</span></li>
 			             <li class="messagebar"><?php echo $a->message; ?></li>
 			             <li class="attachmentbar">
 			             	@if($a->has_attachment)
@@ -59,16 +45,6 @@
 		         @empty
 		         	<li class="no-item"><span>You have no announcement yet</span></li>
 		         @endforelse
-	         <?php
-	         /**
-	          * $a as announcement item
-	          * attributes:
-	          * code - subject code
-	          * time - announcement time
-	          * poster - poster
-	          * body - announcement conent
-	          **/
-	         ?>
 	     </ul>
 	     </li>
 	 </ul>
@@ -79,27 +55,10 @@
 		         @forelse ($subject->subject_discussions() as $a)
 		         <li class="update-item">
 			         <ul class="{{ ($a->poster_usertype_id == 2) ? 'lect' : ''  }}">
-<li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster">
-	<span class="hovercard" data-template="userHoverTmpl">
-	{{ $a->poster_user_name }}
-	<div class="hovercard-item">
-	<a href="/users/{{ $a->poster_user_id }}">
-		<div class="clearfix">
-			<div class="imgPrev">
-				<img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}{{ $a->poster_user_img_url }}" width="25px" height="25px">
-			</div>
-			<div class="cData">
-				<div class="author">
-					<strong>{{ $a->poster_user_name }}</strong>
-				</div>
-			</div>
-		</div>
-	</a>
-	<div class="panel">
-		<a class="message-ico" href="/messages/new/{{ $a->poster_user_id }}"><img src="/img/message_ico.png" /></a>
-	</div>
-	</div>
-			             </span>
+						<li class="titlebar"><span class="cls">{{ $subject->code }}</span><span class="time">{{ $a->created_at }}</span><span class="poster">
+				             	<span class="hovercard" data-id="{{ $a->poster_user_id }}" href="/users/{{ $a->poster_user_id }}" data-template="userHoverTmpl">
+			             			<?php echo $a->poster_user_name; ?>
+			             		</span>
 			         </span></li>
 			             <li class="messagebar"><?php echo $a->message; ?></li>
 			             <li class="attachmentbar">

@@ -8,7 +8,12 @@
 		         @forelse ($announcements as $a)
 	         <li class="update-item">
 		         <ul>
-		             <li class="titlebar"><span class="cls"><a href="/subjects/{{ $a->subject_id}}">{{ $a->subject_code }}</a></span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster_user_id }}" ><?php echo $a->poster_user_name; ?></a></span></li>
+		             <li class="titlebar"><span class="cls"><a href="/subjects/{{ $a->subject_id}}">{{ $a->subject_code }}</a></span><span class="time">{{ $a->created_at }}</span>
+		             	<span class="poster">
+							<span class="hovercard" data-id="{{ $a->poster_user_id }}" href="/users/{{ $a->poster_user_id }}" data-template="userHoverTmpl">
+			             			<?php echo $a->poster_user_name; ?>
+			             	</span>
+		             	</span></li>
 		             <li class="messagebar"><?php echo $a->message; ?></li>
 		             <li class="attachmentbar">
 		             	@if($a->has_attachment)
@@ -40,7 +45,12 @@
 		         @forelse ($updates as $a)
 		         <li class="update-item">
 			         <ul class="{{ ($a->poster_usertype_id == 2) ? 'lect' : ''  }}">
-			             <li class="titlebar"><span class="cls"><a href="/subjects/{{ $a->subject_id}}">{{ $a->subject_code }}</a></span><span class="time">{{ $a->created_at }}</span><span class="poster"><a href="/users/{{ $a->poster_user_id }}" ><?php echo $a->poster_user_name; ?></a></span></li>
+			             <li class="titlebar"><span class="cls"><a href="/subjects/{{ $a->subject_id}}">{{ $a->subject_code }}</a></span><span class="time">{{ $a->created_at }}</span>
+			             	<span class="poster">
+			             		<span class="hovercard" data-id="{{ $a->poster_user_id }}" href="/users/{{ $a->poster_user_id }}" data-template="userHoverTmpl">
+			             			<?php echo $a->poster_user_name; ?>
+			             		</span>
+			             	</span></li>
 			             <li class="messagebar"><?php echo $a->message; ?></li>
 			             <li class="attachmentbar">
 			             	@if($a->has_attachment)

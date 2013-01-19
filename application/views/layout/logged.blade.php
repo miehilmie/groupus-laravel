@@ -11,18 +11,10 @@
 
 @section('jsmaster')
 {{ HTML::script('js/views/chat.js') }}
+{{ HTML::script('js/libs/hovercard.js') }}
 
 <script type="text/javascript">
-    $('.hovercard-item').hover(function() {
-        $(this).stop(true, false).show();
-    }, function() {
-        $('.hovercard-item').hide();
-    });
-    $('.hovercard').hover(function() {
-        $(this).find('.hovercard-item').delay(100).show(); // show() doesn't seem to work with delay
-    }, function() {
-        $(this).find('.hovercard-item').delay(100).fadeOut('fast');
-    });
+    $('.hovercard').guHovercard();
 </script>
 @yield('jslogged')
 @endsection
@@ -45,7 +37,7 @@
                     @endforeach
                     </ul>
                 </div>
-                <div class="message"><input type="text" /></div>
+                <div class="chatmessage"><input type="text" /></div>
             </div>
         </li>
         @endforeach

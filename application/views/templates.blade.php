@@ -71,6 +71,30 @@
                     	<%= chats %>
                     </ul>
                 </div>
-                <div class="message"><input type="text" /></div>
+                <div class="chatmessage"><input type="text" /></div>
             </div>
+</script>
+
+<script type="text/template" id="userHoverTmpl">
+<div class="hovercard-inside" id="hovercardid-<%= id %>">
+<a href="/users/<%= id %>">
+    <div class="clearfix">
+        <div class="imgPrev">
+            <img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}<%= img_url %>" width="30px" height="30px">
+        </div>
+        <div class="cData">
+            <div class="author">
+                <strong><%= name %></strong>
+            </div>
+        </div>
+    </div>
+</a>
+<div class="panel">
+    <a class="message-ico" href="/messages/new/<%= id %>"><img src="/img/message_ico.png" /></a>
+</div>
+</div>
+<li class="hovercard-caret">
+<div class="caret-outer" ></div>
+<div class="caret-inner" ></div>
+</li>
 </script>
