@@ -67,7 +67,7 @@ input[type="tel"],
 input[type="color"],
 .uneditable-input {
   display: inline-block;
-  line-height: 20px;
+  line-height: 12px;
   color: #555555;
 
 }
@@ -76,6 +76,7 @@ input,
 textarea,
 .uneditable-input {
   width: 206px;
+  padding: 4px 4px;
 }
 
 textarea {
