@@ -19,7 +19,7 @@ class Subjects_Controller extends Base_Controller {
 
             }
         }
-        return Redirect::to($redirect);
+        return Redirect::to($redirect)->with('flashmsg', 'Subjects have successfully registered');
     }
 
     public function post_settings()
@@ -30,7 +30,7 @@ class Subjects_Controller extends Base_Controller {
         $subject = Subject::find($id);
         $user = Auth::user();
         // if subject exist, is same faculty with user, and enrolled
-        if(!$subject || $subject->IsFacultySubject() && $subject->IsEnrolled()) {
+        if($subject && $subject->IsFacultySubject() && $subject->IsEnrolled()) {
             $grouprule = $subject->subject_grouprule();
 
             $grouprule->maxgroups   = Input::get('max_groups');
@@ -86,7 +86,7 @@ class Subjects_Controller extends Base_Controller {
 
         }
 
-        return Redirect::to($redirect);
+        return Redirect::to($redirect)->with('flashmsg', 'Your setting is saved');
     }
 
 	public function get_show($id)
@@ -104,17 +104,17 @@ class Subjects_Controller extends Base_Controller {
             // student
             case 1:
             return View::make('subject.student.show')->with(array(
-                'user' => $user,
-                'subject'       => $subject,
-                'groups'        => $user->student->student_groups()
+                'user'    => $user,
+                'subject' => $subject,
+                'groups'  => $user->student->student_groups()
             ));
             break;
 
             // lecturer
             case 2:
             return View::make('subject.lecturer.show')->with(array(
-                'user' => $user,
-                'subject'       => $subject,
+                'user'    => $user,
+                'subject' => $subject,
             ));
             break;
         }
@@ -125,7 +125,7 @@ class Subjects_Controller extends Base_Controller {
         $redirect = Input::get('redirect');
         $subject = Subject::find($id);
         if(!$subject || $subject->IsFacultySubject($id) && !$subject->IsEnrolled($id)) {
-            return Redirect::to($redirect);
+            return Redirect::to($redirect)->with('flashmsg', 'An error has occured');
         }
 
         $input = Input::all();
@@ -151,7 +151,7 @@ class Subjects_Controller extends Base_Controller {
 
         $validation = Validator::make($input, $rules);
         if($validation->fails()) {
-            return Redirect::to($redirect);
+            return Redirect::to($redirect)->with('flashmsg', 'You need to type something');
         }
 
         $post = new Discussion(array(
@@ -198,7 +198,7 @@ class Subjects_Controller extends Base_Controller {
 
         $validation = Validator::make($input, $rules);
         if($validation->fails()) {
-            return Redirect::to($redirect);
+            return Redirect::to($redirect)->with('flashmsg', 'You need to type something');
         }
 
         $post = new Announcement(array(
@@ -212,7 +212,7 @@ class Subjects_Controller extends Base_Controller {
 
         $post->save();
 
-        return Redirect::to($redirect);
+        return Redirect::to($redirect)->with('flashmsg', 'You have posted an announcement');
     }
 
     /**
@@ -250,24 +250,5 @@ class Subjects_Controller extends Base_Controller {
         return Redirect::to($redirect)->with('flashmsg', 'You have successfully joined a group');
     }
 
-	public function get_edit()
-    {
-
-    }
-
-	public function get_new()
-    {
-
-    }
-
-	public function put_update()
-    {
-
-    }
-
-	public function delete_destroy()
-    {
-
-    }
 
 }
