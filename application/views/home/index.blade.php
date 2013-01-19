@@ -29,6 +29,11 @@
             <ul class="content-grid clearfix">
                 <li class="systemann-container">
                     <ul class="systemann">
+                        <li class="title">Experience Us! on Android!</li>
+                        <li class="msg"><a href="http://android.groupusmalaysia.com/download/GroupUs_v1_1.apk"><img src="/img/groupus-android.png" /><br />Click This Robot</a><br />To Download our Android app</li>
+                        <li class="postedtime">Posted on : <small>1-January-2013</small></li>
+                    </ul>
+                    <ul class="systemann">
                         <li class="title">Us! News!</li>
                         <li class="msg">Welcome to GroupUs!<br/>We are wishing you Selamat Hari Raya Aidilfitri</li>
                         <li class="postedtime">Posted on : <small>30-October-2012</small></li>
@@ -36,9 +41,11 @@
 
                     <ul class="systemann">
                         <li class="title">We are now on twitter!</li>
-                        <li class="msg">Find us on twitter! <a href="http://twitter.com/groupus">@groupus</a></li>
+                        <li class="msg">Find us on twitter! <a href="http://twitter.com/groupusmy">@groupusmy</a></li>
                         <li class="postedtime">Posted on : <small>1-September-2012</small></li>
                     </ul>
+
+
                 <li class="peopleimg"></li>
             </ul>
 @endsection

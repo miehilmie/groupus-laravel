@@ -35,7 +35,7 @@
                          <li class="messagebar"><?php echo $a->message; ?></li>
                          <li class="attachmentbar">
                             @if($a->has_attachment)
-                            <div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment_filename }}</a>
+                            <div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment_filename }}" rel="nofollow">{{ $a->attachment_filename }}</a>
                             @endif
                          </li>
                      </ul>
@@ -65,7 +65,7 @@
                          <li class="messagebar"><?php echo $a->message; ?></li>
                          <li class="attachmentbar">
                             @if($a->has_attachment)
-                            <div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment->filename }}" rel="nofollow">{{ $a->attachment->filename }}</a>
+                            <div class="attchmnt-ico"></div><a href="{{ Config::get('application.custom_attachment_url') }}{{ $a->attachment_filename }}" rel="nofollow">{{ $a->attachment_filename }}</a>
                             @endif
                          </li>
                      </ul>
