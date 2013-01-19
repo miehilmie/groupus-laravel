@@ -17,6 +17,12 @@
         @yield('jslibs')
     </head>
     <body>
+    <div class="alert-messages {{ (Session::get('flashmsg')) ? '' : 'hidden' }}" id="message-drawer">
+          <div class="message ">
+      <div class="message-inside">
+        <span class="message-text">{{ Session::get('flashmsg') }}</span><a class="dismiss" href="#">×</a>
+      </div>
+    </div></div>
         <div id="header">
             <div id="logopanel">
                 <a href="{{ URL::base(); }}">{{ HTML::image('img/logo.png') }}</a>{{ HTML::image('img/title-logo.png') }}
@@ -33,5 +39,27 @@
         {{ render('templates') }}
         @yield('pagespecific-templates')
         @yield('jsmaster')
+        <script type="text/javascript">
+            var $flashmsg = $('#message-drawer');
+
+            var $timeoutEffect = function() {
+                $flashmsg.fadeTo('slow', 0, function() {
+                    $flashmsg.addClass('hidden');
+                });
+            };
+
+            $flashmsg.hover(function() {
+                clearTimeout($flashmsg.stop().data('timer'));
+            }, function() {
+                $flashmsg.data('timer', setTimeout($timeoutEffect, 2000));
+            }).find('.dismiss').click(function() {
+                $flashmsg.addClass('hidden');
+                clearTimeout($flashmsg.stop().data('timer'));
+            });
+
+            if(!$flashmsg.hasClass('hidden')) {
+                $flashmsg.data('timer', setTimeout($timeoutEffect, 2000));
+            }
+        </script>
     </body>
 </html>
