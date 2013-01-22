@@ -20,7 +20,7 @@ class Create_Table_Groupposts {
 			$table->timestamps();
 			$table->foreign('poster_id')->references('id')->on('users');
 			$table->foreign('group_id')->references('id')->on('groups');
-			$table->foreign('attachment_id')->references('id')->on('attachments');
+			$table->foreign('attachment_id')->references('id')->on('attachments')->on_delete('cascade');
 		});
 	}
 
