@@ -72,6 +72,21 @@ class Subject extends Basemodel
 		return $ann;
 	}
 
+	public function subject_students() {
+		if(is_null($u = Auth::user())){
+			return false;
+		}
+
+        $students = User::join('enrollments', 'users.id', '=', 'enrollments.user_id')
+            ->join('students', 'users.id', '=', 'students.user_id')
+            ->where('enrollments.subject_id', '=', $this->id)
+            ->where('enrollments.semester_id', '=', $u->university->semester_id)
+            ->where('users.usertype_id', '=', '1')
+            ->order_by('cgpa', 'desc')
+            ->get();
+
+       	return $students;
+	}
 
 	public function subject_onlinestudents() {
 		if(is_null($u = Auth::user())){

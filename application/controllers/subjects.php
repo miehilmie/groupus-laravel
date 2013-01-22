@@ -12,18 +12,19 @@ class Subjects_Controller extends Base_Controller {
             $id = Input::get('subject'.$i);
             $subject = Subject::find($id);
             $u = Auth::user();
-            if(!$subject || $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
+            if($subject && $subject->IsFacultySubject() && !$subject->IsEnrolled()) {
                 $u->subjects()->attach($id,
                     array('semester_id' => $u->university->semester_id)
                 );
-
             }
         }
         return Redirect::to($redirect)->with('flashmsg', 'Subjects have successfully registered');
     }
 
+
     public function post_settings()
     {
+
         $redirect = Input::get('redirect');
         $id = Input::get('id');
         $prefix = Input::get('prefix');
@@ -33,11 +34,7 @@ class Subjects_Controller extends Base_Controller {
         if($subject && $subject->IsFacultySubject() && $subject->IsEnrolled()) {
             $grouprule = $subject->subject_grouprule();
 
-            $grouprule->maxgroups   = Input::get('max_groups');
-            $grouprule->maxstudents = Input::get('max_students');
-            $grouprule->mode        = Input::get('mode');
-            $grouprule->enable      = 1;
-            $grouprule->save();
+            $groupmode = Input::get('mode');
 
             if($groups = Group::where_subject_id($id)
                 ->where_semester_id($user->university->semester_id)
@@ -48,8 +45,13 @@ class Subjects_Controller extends Base_Controller {
                     $g->delete();
                 }
             }
+
+            $n_groups = Input::get('max_groups');
+            $maxstudents = Input::get('max_students');
+
             $groups = array();
-            for($i = 1; $i <= $grouprule->maxgroups; $i++) {
+
+            for($i = 1; $i <= $n_groups; $i++) {
                 $groups[] = Group::create(array(
                     'name' => $prefix.'_'.$i,
                     'subject_id'  => $id,
@@ -57,32 +59,97 @@ class Subjects_Controller extends Base_Controller {
                 ));
             }
             if(Input::get('mode') == 2) {
-                $students = User::join('enrollments', 'users.id', '=', 'enrollments.user_id')
-                    ->join('students', 'users.id', '=', 'students.user_id')
-                    ->where('enrollments.subject_id', '=', $id)
-                    ->where('enrollments.semester_id', '=', $user->university->semester_id)
-                    ->where('users.usertype_id', '=', '1')
-                    ->order_by('cgpa', 'desc')
-                    ->get();
 
-                $n_students = count($students);
-                $max_group = $grouprule->maxgroups;
-                $group_count = array();
-                $index = 0;
+                $characteristic = Input::get('characteristic');
+                switch ($characteristic) {
+                    case 0:
+                        $students = User::join('enrollments', 'users.id', '=', 'enrollments.user_id')
+                            ->join('students', 'users.id', '=', 'students.user_id')
+                            ->where('enrollments.subject_id', '=', $id)
+                            ->where('enrollments.semester_id', '=', $user->university->semester_id)
+                            ->where('users.usertype_id', '=', '1')
+                            ->order_by('cgpa', 'desc')
+                            ->get();
 
-                for ($i=0; $i < $max_group; $i++) {
-                    $group_count[$i] = 0;
+                        $n_students = count($students);
+                        $index = 0;
+
+                        foreach($students as $student) {
+                            $i = $index%$n_groups;
+                            $groups[$i]->students()->attach($student->id);
+                            $index++;
+                        }
+
+
+                        break;
+                    case 1:
+                        $students = User::join('enrollments', 'users.id', '=', 'enrollments.user_id')
+                            ->join('students', 'users.id', '=', 'students.user_id')
+                            ->where('enrollments.subject_id', '=', $id)
+                            ->where('enrollments.semester_id', '=', $user->university->semester_id)
+                            ->where('users.usertype_id', '=', '1')
+                            ->order_by('distance_f_c', 'asc')
+                            ->get();
+
+                        $n_students = count($students);
+
+                        $dfcs = null;
+
+                        foreach($students as $student) {
+                            $dfcs[$student->distance_f_c][] = $student;
+                        }
+
+                        // shuffle student on same group of dfc
+
+                        foreach ($dfcs as $k => $temp_students) {
+                            $keys = array_keys($temp_students);
+                            shuffle($keys);
+                            $random = null;
+                            foreach ($keys as $key)
+                                $random[$key] = $temp_students[$key];
+
+                            $dfcs[$k] = $random;
+                        }
+                        $index = 0;
+                        $student_balance = $n_students%$n_groups;
+                        $student_pergroup = ($n_students-$student_balance)/$n_groups;
+                        $student_count = 0;
+                        foreach ($dfcs as $temp_students) {
+                            foreach ($temp_students as $student) {
+                                $groups[$index]->students()->attach($student->id);
+                                $student_count++;
+
+                                if($student_count >= $student_pergroup){
+                                    if($index >= $student_balance || $student_count > $student_pergroup) {
+                                        // reset counter for next group
+                                        $student_count = 0;
+                                        // attach to next group
+                                        $index++;
+                                    }
+                                }
+                            }
+
+                        }
+                        $maxstudents = $student_pergroup;
+                        if($student_balance) {
+                             $maxstudents += 1;
+                        }
+
+                        break;
+
+                    default:
+                        return Response::error('404');
+                        break;
                 }
+                $groupmode += $characteristic;
 
-                foreach($students as $student) {
-                    $i = $index%$max_group;
-                    if($group_count[$i] >= $grouprule->maxstudents) continue;
-
-                    $groups[$i]->students()->attach($student->id);
-
-                    $index++;
-                }
             }
+
+            $grouprule->maxgroups   = $n_groups;
+            $grouprule->maxstudents = $maxstudents;
+            $grouprule->mode        = $groupmode;
+            $grouprule->enable      = 1;
+            $grouprule->save();
 
         }
 
@@ -115,11 +182,13 @@ class Subjects_Controller extends Base_Controller {
             return View::make('subject.lecturer.show')->with(array(
                 'user'    => $user,
                 'subject' => $subject,
+                'hasgroup' => count($subject->subject_groups())
             ));
             break;
         }
 
     }
+
     public function post_posts() {
         $id = Input::get('id');
         $redirect = Input::get('redirect');
