@@ -75,7 +75,7 @@ $usermessages = $user->user_messages();
 							{{ $m->subject }}
 						</span>
 					</div>
-					<abbr title="Tuesday" data-utime="0" class="timestamp">Tues
+					<abbr title="{{ date('l', strtotime($m->created_at)) }}" data-utime="0" class="timestamp">{{ date('D', strtotime($m->created_at)) }}
 					</abbr>
 				</div>
 			</div>
