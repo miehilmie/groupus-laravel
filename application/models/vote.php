@@ -11,6 +11,11 @@ class Vote extends Eloquent {
 	public static function get_average_value($user_id, $type) {
 		return static::where_user_id_and_type($user_id, $type)->avg('value');
 	}
+
+	public static function get_average_value_all($user_id) {
+		return static::where_user_id($user_id)->avg('value');
+	}
+
 	public static function get_vote_count($user_id, $type) {
 		return static::where_user_id_and_type($user_id, $type)->count();
 	}

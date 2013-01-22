@@ -4,7 +4,10 @@
     $('.composeNewMsg').guPopup({
         height: 400,
         width: 800,
-        callback: function(o, $base) {
+        callback: function(options) {
+            var o = options[0];
+            var $base = options[1];
+
             var users = {};
             var template = _.template($('#newMessageTmpl').html());
             o.body.html(template());
@@ -51,7 +54,10 @@
     }),
     $('#addNewSubject').guPopup({
         width: 600,
-        callback: function(o, $base) {
+        callback: function(options) {
+            var o = options[0];
+            var $base = options[1];
+
             var users = {};
             var template = _.template($('#newSubjectTmpl').html());
 

@@ -85,6 +85,11 @@ class Ajax_Chats_Controller extends Base_Controller {
      * @return json
      */
     public function get_update() {
+        // Ignore user aborts and allow the script
+        // to run forever
+        ignore_user_abort(true);
+        set_time_limit(0);
+
         $sleepTime = 1; //Seconds
         $data = 0;
         $timeout = 0;
@@ -100,54 +105,76 @@ class Ajax_Chats_Controller extends Base_Controller {
             return json_encode($response);
         }
 
-        // THE LOOP!
-        while(!$data and $timeout < 30 and !connection_aborted()){
-            $last_time  = date('Y-m-d H:i:s',$time);
+
+        // Run a pointless loop that sometime
+        // hopefully will make us click away from
+        // page or click the "Stop" button.
+        $last_time  = date('Y-m-d H:i:s',$time);
+        while(1)
+        {
+            // Did the connection fail?
+            if((connection_status() != CONNECTION_NORMAL) || $data || $timeout >= 20)
+            {
+                break;
+            }
+
+            // Sleep for 10 seconds
             $to_chat = Chat::where('receiver_id', '=', $user->id)
                 ->where('last_activity', '>', $last_time)
                 ->get();
 
-            if(!count($to_chat)){
-                //No new messages on the chat
-                flush();
-                //Wait for new Messages
-                sleep($sleepTime);
-                $timeout++;
-            }else{
-                $response->o = array();
-                foreach ($to_chat as $chat) {
-                    $msgs = $chat->messages()
-                        ->where('created_at', '>', $last_time)
-                        ->where('sender_id','!=',$user->id)
-                        ->get();
-                    if(count($msgs) == 0) {
-                        continue;
-                    }
+            if(count($to_chat) > 0){
+                $data = true;
+            }
 
-                    $robj = new stdClass();
-                    $robj->id = $chat->sender->id;
-                    $robj->fullname = $chat->sender->name;
-                    $robj->name = Str::limit($robj->fullname, 10);
-                    $robj->msgs = array();
-                    $robj->jewel = 0;
-                    if($chat->conversation->sender_chat()->toggle == 0) {
-                        $robj->jewel = count($msgs);
-                    }
-                    foreach ($msgs as $m) {
-                        if($m->sender_id !== $user->id){
-                            $robj->msgs[] = json_decode(eloquent_to_json($m));
-                        }
-                    }
+            flush();
+            sleep($sleepTime);
+            $timeout++;
 
-                    $response->o[] = $robj;
+        }
+
+        // If this is reached, then the 'break'
+        // was triggered from inside the while loop
+
+        // So here we can log, or perform any other tasks
+        // we need without actually being dependent on the
+        // browser.
+        if(count($to_chat) > 0) {
+            $response->o = array();
+            foreach ($to_chat as $chat) {
+                $msgs = $chat->messages()
+                    ->where('created_at', '>', $last_time)
+                    ->where('sender_id','!=',$user->id)
+                    ->get();
+                if(count($msgs) == 0) {
+                    continue;
                 }
 
-                $response->timestamp = time();
-                $data = true;
+                $robj = new stdClass();
+                $robj->id = $chat->sender->id;
+                $robj->fullname = $chat->sender->name;
+                $robj->name = Str::limit($robj->fullname, 10);
+                $robj->msgs = array();
+                $robj->jewel = 0;
+                if($chat->conversation->sender_chat()->toggle == 0) {
+                    $robj->jewel = count($msgs);
+                }
+                foreach ($msgs as $m) {
+                    if($m->sender_id !== $user->id){
+                        $robj->msgs[] = json_decode(eloquent_to_json($m));
+                    }
+                }
 
-                return json_encode($response);
+                $response->o[] = $robj;
             }
+
+            $response->timestamp = time();
+            $data = true;
+
+            return json_encode($response);
         }
+
+        return Response::error('404');
 
     }
 

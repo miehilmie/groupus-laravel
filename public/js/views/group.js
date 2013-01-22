@@ -2,7 +2,10 @@
     $('#newPost').guPopup({
         width: 700,
         height: 350,
-        callback: function(o, $base) {
+        callback: function(options) {
+            var o = options[0];
+            var $base = options[1];
+
             o.body.html($('#newPostGroupTmpl').html());
         }
     });

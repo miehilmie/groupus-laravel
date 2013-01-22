@@ -37,7 +37,7 @@
     padding:6px 0 0 0;
     font-style: italic;
     font-size: 12px;
-    color:red; 
+    color:red;
     font-weight: bold;
 }
 #remember {
@@ -63,12 +63,12 @@
    width:350px;
    height:450px;
    border: 2px solid #1E3563;
-   padding:15px;
+   padding: 0 15px;
    background:#F3F4F4;
-   float:left; 
+   float:left;
 }
 .systemann {
-    padding:3px 0;
+    padding:15px 0;
     border-bottom: 1px solid #989898;
 }
 .systemann .title {

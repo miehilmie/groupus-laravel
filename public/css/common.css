@@ -348,6 +348,16 @@ textarea::-webkit-input-placeholder {
     cursor: pointer;
     background: url('../img/star.png') no-repeat -44px 0;
 }
+.starsml {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    background: url('../img/star_small.png') no-repeat 0 0;
+}
+.starsml.filled {
+    background: url('../img/star_small.png') no-repeat -11px 0;
+}
+
 .votescount {
     margin-left: 5px;
     font-size:10px;
@@ -462,6 +472,9 @@ ul.messageContainer .newMsg {
   line-height: 20px;
   padding-left: 15px;
 }
+.update-item {
+  border-bottom: 1px solid #E5E5E5;
+}
 .pop-container {
     background:#000;
     position: absolute;
@@ -480,6 +493,10 @@ ul.messageContainer .newMsg {
   width: 100%;
   height: 100%;
   background: url('../img/loading.gif') no-repeat 50% 50%;
+}
+.inner {
+  width: 100%;
+  height: 100%;
 }
 .radiooptions li {
   float: left;
@@ -931,7 +948,7 @@ label[for=lblTerm] {
     height:0;
     margin-left: -12px;
     margin-top: 4px;
-    z-index: 90;
+    z-index: 5;
 }
 .bubble-wrapper .bubble .bubble-item {
     padding:5px;
@@ -1743,7 +1760,7 @@ input[type="submit"].btn.btn-mini {
 }
 #chatbar .chatitems li .chat-jewel {
   position: absolute;
-  z-index: 99;
+  z-index: 10;
   background: #FF0000;
   color: #fff;
   font-size: 9px;
@@ -1812,7 +1829,6 @@ input[type="submit"].btn.btn-mini {
 #chatbar .chatitems li .chat .chatmessage {
   display: block;
 }
-
 .hovercard {
   color:#133275;
   cursor: pointer;
@@ -1826,7 +1842,7 @@ input[type="submit"].btn.btn-mini {
   position: absolute;
   top:-100px;
   left: -100px;
-  z-index: 99;
+  z-index: 7000;
   -webkit-box-shadow: 0 2px 4px rgba(0,0,0,.24);
   -moz-box-shadow: 0 2px 4px rgba(0,0,0,.24);
   box-shadow: 0 2px 4px rgba(0,0,0,.24);
@@ -1868,7 +1884,7 @@ input[type="submit"].btn.btn-mini {
     border-top: 14px solid rgba(0,0,0,.1);
     width: 0;
     height:0;
-    margin-top: 8px;
+    margin-top: 0;
     margin-left: 4px;
     float:left;
 
@@ -1882,5 +1898,5 @@ input[type="submit"].btn.btn-mini {
     height:0;
     margin-top: -14px;
     margin-left: 4px;
-    z-index: 90;
+    z-index: 7000;
 }

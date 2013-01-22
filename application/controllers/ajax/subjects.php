@@ -12,6 +12,7 @@ class Ajax_Subjects_Controller extends Base_Controller {
 
     public function get_rule($id) {
         $subject = Subject::find($id);
+        $user = Auth::user();
 
     	if($subject && $subject->IsEnrolled()) {
             $response = array();
@@ -28,7 +29,8 @@ class Ajax_Subjects_Controller extends Base_Controller {
 
             $response = json_decode(eloquent_to_json($rule));
             $response->has_group = (Group::where_subject_id($subject->id)
-                ->where_semester_id(Auth::user()->university->semester_id)->count() > 0);
+                ->where_semester_id($user->university->semester_id)->count() > 0);
+            $response->n_students = count($subject->subject_students());
 
             return json_encode($response);
 

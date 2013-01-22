@@ -77,24 +77,24 @@
 
 <script type="text/template" id="userHoverTmpl">
 <div class="hovercard-inside" id="hovercardid-<%= id %>">
-<a href="/users/<%= id %>">
     <div class="clearfix">
         <div class="imgPrev">
             <img class="thumb" src="{{ Config::get('application.custom_img_thumbs_url')}}<%= img_url %>" width="30px" height="30px">
         </div>
         <div class="cData">
             <div class="author">
-                <strong><%= name %></strong>
+                <a href="/users/<%= id %>"><strong><%= name %></strong></a><br/>
+                    <% var i; for(i = 0; i < 5; i++) { %>
+                    <% if(i < starvalue) { %>
+                        <span class="starsml filled" data-value="<%= i + 1 %>"></span>
+                    <% } else { %>
+                        <span class="starsml" data-value="<%= i + 1 %>"></span>
+                    <% }} %>
             </div>
         </div>
     </div>
-</a>
 <div class="panel">
     <a class="message-ico" href="/messages/new/<%= id %>"><img src="/img/message_ico.png" /></a>
 </div>
 </div>
-<li class="hovercard-caret">
-<div class="caret-outer" ></div>
-<div class="caret-inner" ></div>
-</li>
 </script>

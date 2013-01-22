@@ -28,15 +28,15 @@ $.fn.guHovercard = function(option){
                            left: '-100px',
                            top: '-100px'
                         }
-                     }).html('<div class="ajxLoading"></div>');
+                     }).html('<div class="inner"><div class="ajxLoading"></div></div><li class="hovercard-caret"><div class="caret-outer" ></div><div class="caret-inner" ></div></li>');
                      $container.append($holder);
                   }
                   a.register();
                   clearTimeout($holder.stop().data('timer'));
 
                   $holder.css({
-                     left: $base.position().left,
-                     top: $base.position().top - 100
+                     left: $base.offset().left,
+                     top: $base.offset().top - 100
                   });
 
                   var check = $('#hovercardid-'+id);
@@ -51,9 +51,10 @@ $.fn.guHovercard = function(option){
                         url: '/ajax/users/'+id,
                         dataType: 'JSON',
                         type: 'GET',
-                        success: function(o) {
-                           $cache = $(template({name: o.name, id: o.id, img_url: o.img_url}));
-                           $holder.html($cache);
+                        success: function(res) {
+                           var o = res.response;
+                           $cache = $(template({name: o.name, id: o.id, img_url: o.img_url, starvalue: res.voteaverage }));
+                           $holder.find('.inner').html($cache);
                         }
                      });
                   }
@@ -64,8 +65,6 @@ $.fn.guHovercard = function(option){
                            top: '-100px'
                         });
                      }, 700));
-                  // $base.removeClass('hovercard-hover-'+id);
-                  // $cache.remove();
                });
 
 
@@ -79,8 +78,6 @@ $.fn.guHovercard = function(option){
                         left: '-100px',
                         top: '-100px'
                      });
-                  // $base.removeClass('hovercard-hover-'+id);
-                  // $cache.remove();
                });
             }
          };
@@ -88,17 +85,3 @@ $.fn.guHovercard = function(option){
      });
 
  };
-
-   //  $('.hovercard').mouseenter(function() {
-   //    var $t = $(this);
-   //    var id = $(this).attr('data-id');
-   //    var templateRef = $(this).attr('data-template');
-   //    var template = _.template($('#'+templateRef).html());
-   //    $(this).css({
-   //       'position' : 'relative',
-   //    }).addClass('hovercard-hover-'+id);
-   //    var $container = $('#hovercard-container');
-   //    var $cache = $container.find('.hovercardid-'+id);
-
-
-

@@ -108,7 +108,7 @@
 
                 var back = $('<div/>', {
                     css: {
-                        'z-index': 99,
+                        'z-index': 10,
                         position: 'fixed',
                         left:0,
                         top:0,
@@ -133,7 +133,9 @@
                     back.remove();
                 });
                 $('body').append(back);
-                callback({ back: back, body: body }, $base);
+                if(typeof(callback) === 'function') {
+                    callback.call(this, [{ back: back, body: body }, $base]);
+                }
 
             }); //  end click -->
 
